@@ -53,25 +53,42 @@ your-project/
 
 ## Dependency Rules / Regras de Dependência
 
-```mermaid
-graph LR
-    subgraph "Main System"
-        A[00_nucleo] --> B[01_core]
-        B --> C[02_shell]
-        B --> D[03_infra]
-        C --> E[04_wiring]
-        D --> E
+graph TD
+    %% Definição dos Nós
+    subgraph "Core System (The Crystal)"
+        N("00_nucleo<br>(Definitions)")
+        C("01_core<br>(Logic)")
     end
-    
-    subgraph "Quarantine Zone"
-        F[_lab]
+
+    subgraph "Adapters (The Edge)"
+        S("02_shell<br>(Interface)")
+        I("03_infra<br>(IO & Data)")
     end
+
+    W("04_wiring<br>(Composition Root)")
+    L("_lab<br>(Quarantine)")
+
+    %% Regras de Dependência (Setas indicam "Depende de")
+    %% O Core depende do Nucleo
+    C --> N
     
-    E -.->|reads| A
-    F x--x|forbidden| B
-    F x--x|forbidden| C
-    F x--x|forbidden| D
-```
+    %% Shell e Infra dependem do Core (Inversão de Dependência)
+    S --> C
+    I --> C
+    
+    %% Wiring conhece todos os adaptadores para ligá-los
+    W --> S
+    W --> I
+    
+    %% Lab é isolado (não é importado por ninguém)
+    %% Mas pode importar libs externas ou o Core para testes
+    L -...-> N
+    
+    %% Estilização (Opcional para ficar bonito no GitHub)
+    style N fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    style C fill:#e8f5e9,stroke:#019b45,stroke-width:2px
+    style W fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
+    style L fill:#ffebee,stroke:#9b0157,stroke-dasharray: 5 5
 
 | Layer | Can Import | Cannot Import |
 |-------|------------|---------------|
