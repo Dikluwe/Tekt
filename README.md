@@ -52,15 +52,17 @@ your-project/
 ---
 
 ## Dependency Rules / Regras de Dependência
-
+```mermaid
 graph TD
     %% Definição dos Nós
-    subgraph "Core System (The Crystal)"
+    subgraph Crystal ["Core System (The Crystal)"]
+        direction TB
         N("00_nucleo<br>(Definitions)")
         C("01_core<br>(Logic)")
     end
 
-    subgraph "Adapters (The Edge)"
+    subgraph Adapters ["Adapters (The Edge)"]
+        direction TB
         S("02_shell<br>(Interface)")
         I("03_infra<br>(IO & Data)")
     end
@@ -68,36 +70,36 @@ graph TD
     W("04_wiring<br>(Composition Root)")
     L("_lab<br>(Quarantine)")
 
-    %% Regras de Dependência (Setas indicam "Depende de")
-    %% O Core depende do Nucleo
+    %% RELAÇÕES (Setas indicam 'Depende de')
+    
+    %% O Core obedece ao Nucleo
     C --> N
     
-    %% Shell e Infra dependem do Core (Inversão de Dependência)
+    %% Adapters obedecem ao Core (Inversão de Dependência)
     S --> C
     I --> C
     
-    %% Wiring conhece todos os adaptadores para ligá-los
+    %% Wiring conhece tudo para montar o sistema
     W --> S
     W --> I
+    W --> C
     
-    %% Lab é isolado (não é importado por ninguém)
-    %% Mas pode importar libs externas ou o Core para testes
-    L -...-> N
+    %% Lab é solto
+    L -...- N
     
-    %% Estilização (Opcional para ficar bonito no GitHub)
-    style N fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    style C fill:#e8f5e9,stroke:#019b45,stroke-width:2px
-    style W fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
-    style L fill:#ffebee,stroke:#9b0157,stroke-dasharray: 5 5
+    %% ESTILOS
+    classDef nucleus fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:black;
+    classDef core fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:black;
+    classDef adapters fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:black;
+    classDef wiring fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:black;
+    classDef lab fill:#ffebee,stroke:#c62828,stroke-dasharray: 5 5,color:black;
 
-| Layer | Can Import | Cannot Import |
-|-------|------------|---------------|
-| `01_core` | `00_nucleo` (specs only) | `02_shell`, `03_infra`, `04_wiring` |
-| `02_shell` | `01_core` | `03_infra` |
-| `03_infra` | `01_core` | `02_shell` |
-| `04_wiring` | All (00-03) | — |
-| `_lab` | External libs only | Any (00-04) |
-
+    class N nucleus;
+    class C core;
+    class S,I adapters;
+    class W wiring;
+    class L lab;
+```
 ---
 
 ## AI Protocol / Protocolo de IA
