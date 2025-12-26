@@ -2,27 +2,32 @@
 
 > Map of architectural layers and their active modules.
 
-## 📂 00_nucleo
-- **[adr]** - [View Map](00_nucleo/adr/_MAP.md)
-- **[contracts]**
-- **[specs]**
+## 📄 Project Files
 
-## 📂 01_core
-- **[algorithms]**
-- **[domain]**
-- **[entities]**
+| File | Purpose |
+|---|---|
+| `LICENSE` | — |
+| `MANIFESTO.md` | The Crystalline Architecture Manifesto |
+| `README.md` | 1. README.md (English Version) |
+| `README.pt.md` | 2. README.pt.md (Versão em Português) |
 
-## 📂 02_shell
-- **[api]**
-- **[cli]**
-- **[ui]**
+## 📂 Architectural Layers
 
-## 📂 03_infra
-- **[database]**
-- **[filesystem]**
-- **[network]**
+### 00_nucleo
+[View Layer Map](00_nucleo/00_nucleo_MAP.md)
 
-## 📂 04_wiring
+### 01_core
+[View Layer Map](01_core/01_core_MAP.md)
 
-## 📂 _lab
+### 02_shell
+[View Layer Map](02_shell/02_shell_MAP.md)
+
+### 03_infra
+[View Layer Map](03_infra/03_infra_MAP.md)
+
+### 04_wiring
+[View Layer Map](04_wiring/04_wiring_MAP.md)
+
+### _lab
+[View Layer Map](_lab/_lab_MAP.md)
 

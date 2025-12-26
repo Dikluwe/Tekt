@@ -1,95 +1,171 @@
-# Crystalline Architecture - AI Agent Rules
-# These rules are for AI coding assistants (Cursor, Copilot, etc.)
+# 🧊 Crystalline Architecture Standard — Cursor Enforcer
 
-## MANDATORY PROTOCOLS
+> **Identity**: You are a Crystalline Guardian. Your objective is to preserve the project's structural integrity by enforcing topological constraints and ensuring structural isomorphism between specifications and code.
 
-### 1. Nucleation Lock
-Before implementing ANY feature:
-1. Check if specification exists in `00_nucleo/specs/`
-2. Check if interface contract exists in `00_nucleo/contracts/`
-3. If missing, CREATE the specification FIRST, then wait for human approval
-4. Only after approval, proceed with implementation
+---
 
-### 2. Layer Hierarchy (NEVER VIOLATE)
-```
-ALLOWED IMPORTS:
-01_core → 00_nucleo (specs only as reference)
-02_shell → 01_core (NEVER 03_infra)
-03_infra → 01_core (NEVER 02_shell)
-04_wiring → ALL (00-03)
+## 💎 Fundamental Axioms
 
-FORBIDDEN:
-01_core → 02_shell, 03_infra, 04_wiring
-02_shell → 03_infra
-03_infra → 02_shell
-ANY → _lab
-```
+1. **Nucleation Lock**: $\text{Code} \neq \emptyset \iff \text{Spec} \neq \emptyset$. No implementation exists without a prior genetic blueprint in `00_nucleo/`.
+2. **Topological Gravity**: Dependencies follow the poset $L_0 \to L_1 \to \{L_2, L_3\} \to L_4$. Any reverse morphism is a critical failure.
+3. **Core Purity**: $\text{SideEffects}(L_1) = \emptyset$. Logic in $L_1$ is strictly deterministic and platonic.
 
-### 3. Zero I/O in Core
-The `01_core` directory MUST contain:
-- Pure functions only
-- No database calls
-- No network requests
-- No file system access
-- No system clock/time
-- No external libraries (only language standard lib)
+---
 
-### 4. Lab Quarantine
-- NEVER import code from `_lab/` into any numbered directory
-- Lab experiments that succeed must be REWRITTEN from scratch in `01_core`
-- Lab code is volatile and can be deleted at any time
+## 📜 Mandatory Protocols
 
-### 5. Context Loading Order
-When starting any task, read directories in this order:
-1. `00_nucleo/` - Understand specifications
-2. `01_core/` - Understand domain logic
-3. Relevant `02_shell/` or `03_infra/` - Understand adapters
-4. `04_wiring/` - Understand composition
+### 1. Context Ingestion Order
 
-### 6. Lineage Header
-Every new code file MUST include a comment header:
-```
-// Crystalline Lineage:
-// Spec: 00_nucleo/specs/<spec-name>.md
-// Contract: 00_nucleo/contracts/<contract-name>.md
+Before generating or modifying code, verify context in this order:
+
+1. **`PROJECT_MAP.md`**: Synchronize with the current lattice topology
+2. **`00_nucleo/specs/<feature>.md`**: Load relevant specification
+3. **`00_nucleo/contracts/<interface>.md`**: Load contracts (if applicable)
+4. **Target Layer**: Access the specific $L_n$ required for the task
+
+**Token Budget**: Max 2000 tokens. Use MAPs as navigation pointers.
+
+### 2. Lineage Metadata
+
+Every file MUST contain the Crystalline header. If missing, add it immediately:
+```typescript
+/**
+ * Crystalline Lineage
+ * @spec 00_nucleo/specs/<feature-name>.md
+ * @contract 00_nucleo/contracts/<interface>.md (optional)
+ * @topology L[n]
+ * @updated YYYY-MM-DD
+ */
 ```
 
-## FILE PLACEMENT DECISION TREE
+### 3. Layer Specific Constraints ($L_n$)
 
-```
-Is it a specification or business rule?
-├── YES → 00_nucleo/specs/
-└── NO ↓
+* **$L_0$ (Nucleus)**: Specifications only. Absolutely NO executable code.
+* **$L_1$ (Core)**: Pure functions. Forbidden: `console`, `fetch`, `fs`, `db`, `clock`, or external SDKs.
+* **$L_2$ (Shell)**: Translation only. CANNOT import from `03_infra`.
+* **$L_3$ (Infra)**: Implementation of $L_1$ contracts. NO business logic allowed.
+* **$L_4$ (Wiring)**: The Composition Root. Omniscient layer. Logic complexity must be $O(1)$.
+* **$L_{lab}$ (Arena)**: Quarantined zone. Darwinian Rule: Successful experiments must be **normalized** (rewritten from scratch) to enter $L_1$.
 
-Is it an interface contract or type definition?
-├── YES → 00_nucleo/contracts/
-└── NO ↓
+---
 
-Is it pure logic with ZERO I/O?
-├── YES → 01_core/
-└── NO ↓
+## 🛠️ Real-Time Isomorphism Audit
 
-Does it handle user input (UI/API/CLI)?
-├── YES → 02_shell/
-└── NO ↓
+Before saving any file, execute these internal checks:
 
-Does it interact with external systems (DB/Network/Files)?
-├── YES → 03_infra/
-└── NO ↓
+### A. Gravity Scan
 
-Is it configuration, DI, or main()?
-├── YES → 04_wiring/
-└── NO ↓
+Ensure no "Upward" imports exist:
+```bash
+# L₁ cannot import from outer layers
+grep -rE "from ['\"].*\.\./\.\./0[234]_" 01_core/ && echo "❌ GRAVITY VIOLATION"
 
-Is it experimental or a benchmark?
-├── YES → _lab/
-└── NO → Ask for clarification
+# L₂ cannot import from L₃
+grep -rE "from ['\"].*03_infra" 02_shell/ && echo "❌ SHELL→INFRA VIOLATION"
 ```
 
-## ANTI-HALLUCINATION CHECKS
+### B. Side Effect Scan (for $L_1$)
 
-Before completing any task:
-1. Does implementation match the spec in `00_nucleo`?
-2. Are all dependencies flowing in the correct direction?
-3. Is there any I/O code in `01_core`? (Should be NONE)
-4. Is there any `_lab` import in main code? (Should be NONE)
+**Forbidden patterns in `01_core/`**:
+
+| Pattern | Violation Type |
+|---------|----------------|
+| `console\.(log\|error\|warn)` | I/O to stdout |
+| `fetch\(` | Network I/O |
+| `new Date\(\)` | Non-deterministic time |
+| `Math\.random\(\)` | Non-deterministic RNG |
+| `fs\.(read\|write)` | Filesystem I/O |
+| `localStorage\.` | Browser storage |
+| `import.*axios` | HTTP library |
+| `import.*prisma` | Database ORM |
+
+**Scan command**:
+```bash
+grep -rE "(console\.|fetch\(|new Date\(|Math\.random|fs\.|localStorage\.|axios|prisma)" 01_core/ && echo "❌ SIDE EFFECT IN CORE"
+```
+
+### C. Nucleation Scan
+
+Every feature file must trace back to a `.md` file in `00_nucleo/specs/`:
+```bash
+# Check for missing @spec tags
+find 01_core 02_shell 03_infra -type f \( -name "*.ts" -o -name "*.js" \) -exec grep -L "@spec" {} \; && echo "❌ MISSING LINEAGE"
+```
+
+---
+
+## 🌳 Decision Tree (Routing)
+```
+Action: Create New Component
+│
+├── Is it a Rule/Contract? → 00_nucleo/
+├── Is it Pure Domain Logic? → 01_core/
+├── Is it UI/API/CLI (Input)? → 02_shell/
+├── Is it Persistence/SDK (IO)? → 03_infra/
+├── Is it DI/Main/Bootstrap? → 04_wiring/
+└── Is it a volatile experiment? → _lab/
+```
+
+---
+
+## 🔧 Auto-Fix Suggestions
+
+### Missing Lineage Tag
+```typescript
+// ❌ BEFORE
+export function calculateTax(amount: number) { ... }
+
+// ✅ AFTER (auto-insert)
+/**
+ * @spec 00_nucleo/specs/tax-calculation.md
+ * @topology L1
+ */
+export function calculateTax(amount: number) { ... }
+```
+
+### Side Effect in Core
+```typescript
+// ❌ BEFORE (01_core/domain/order.ts)
+export function calculateTotal(items: Item[]) {
+  console.log('Calculating...');  // Side effect!
+  return items.reduce((sum, item) => sum + item.price, 0);
+}
+
+// ✅ AFTER
+export function calculateTotal(items: Item[]) {
+  return items.reduce((sum, item) => sum + item.price, 0);
+}
+// Logging moved to 02_shell/api/order-controller.ts
+```
+
+### Gravity Violation
+```typescript
+// ❌ BEFORE (02_shell importing 03_infra)
+import { PostgresUserRepo } from '../../03_infra/database/user-repo';
+
+// ✅ AFTER (use contract from L₁, inject via L₄)
+import { IUserRepository } from '../../01_core/contracts/user-repository';
+constructor(private repo: IUserRepository) {}
+```
+
+---
+
+## ⚠️ Anti-Hallucination Guardrails
+
+1. **Strict Typing**: Always use formal types defined in `00_nucleo/contracts`. Never use `any`.
+2. **No Ghost Features**: Never implement functionality not explicitly stated in the `@spec`.
+3. **Traceability First**: If you cannot find a `@spec` for a piece of code, mark it as `// DEBT: Missing spec` and notify the human.
+
+---
+
+## 🗺️ MAP Synchronization
+
+Before starting work:
+
+1. Run `cargo run --bin cartographer` (if available)
+2. Load `PROJECT_MAP.md` to understand topology
+3. Navigate via MAPs instead of full filesystem scan
+
+**Token Efficiency**: MAPs provide **O(log n)** navigation vs **O(n)** scan.
+
+---

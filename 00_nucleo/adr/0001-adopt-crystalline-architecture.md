@@ -1,54 +1,68 @@
-# ADR-0001: Adopt Crystalline Architecture
-# ADR-0001: Adotar Arquitetura Cristalina
+# ⚖️ ADR-0001: Adopt Crystalline Architecture Standard
 
-## Status / Estado
+> **State Transformation Log**: This document records the foundational mutation of the project's topology, establishing the axioms required to combat structural entropy.
+
+---
+
+## 💎 Formalism ($\mathcal{L}_{adr}$)
+
+* **Initial State Definition**: Let $S_0$ be the project's inception. This ADR defines the transition $\Delta_{init}$ that establishes the Crystalline Lattice.
+* **Axiomatic Basis**: The architecture is modeled as a Directed Acyclic Graph (DAG) where $L_0 = \inf$ (the infimum of the dependency poset).
+* **Entropy Constraint**: We define a maximum entropy threshold for production code, enforced by the Nucleation Lock: $Code \neq \emptyset \iff Spec \neq \emptyset$.
+
+---
+
+## Status
 
 `ACCEPTED`
 
-## Date / Data
+## Date
 
 2024-01-01
 
-## Context / Contexto
+---
 
-> **EN**: Modern software development increasingly relies on AI-assisted code generation. However, AI models tend to generate functional but structurally inconsistent code, leading to "AI Entropy" — projects that work but become unmaintainable over time.
+## Context
 
-> **PT**: O desenvolvimento de software moderno depende cada vez mais de geração de código assistida por IA. No entanto, modelos de IA tendem a gerar código funcional mas estruturalmente inconsistente, levando à "Entropia de IA" — projetos que funcionam mas se tornam impossíveis de manter ao longo do tempo.
+Modern software development increasingly relies on AI-assisted code generation. However, large language models (LLMs) tend to generate functional but structurally inconsistent code. This leads to **"AI Entropy"**—a state where projects remain executionally functional but become topologically unmaintainable due to leaking abstractions and cross-layer contamination.
 
-## Decision / Decisão
+---
 
-> **EN**: We adopt the Crystalline Architecture as our structural standard. This includes:
-> 1. A strict folder hierarchy (00-04 + _lab)
-> 2. Mandatory specification-first development
-> 3. Zero I/O in the core layer
-> 4. Quarantine rules for experimental code
-> 5. AI protocol files (.cursorrules, .agentrules)
+## Decision
 
-> **PT**: Adotamos a Arquitetura Cristalina como nosso padrão estrutural. Isso inclui:
-> 1. Uma hierarquia de pastas estrita (00-04 + _lab)
-> 2. Desenvolvimento obrigatório com especificação primeiro
-> 3. Zero I/O na camada core
-> 4. Regras de quarentena para código experimental
-> 5. Arquivos de protocolo de IA (.cursorrules, .agentrules)
+We adopt the **Crystalline Architecture** as the universal structural standard for this project. This decision enforces the following constraints:
 
-## Consequences / Consequências
+1. **Topological Partitioning**: Implementation of a strict 5-layer folder hierarchy ($L_0$ to $L_4$) plus a quarantined experimental zone (`_lab`).
+2. **Nucleation Lock**: Mandatory "Specification-First" development. No production code is allowed without a prior genetic blueprint in `00_nucleo/`.
+3. **Core Purity**: Absolute Zero I/O restriction within the `01_core` layer to ensure deterministic business logic.
+4. **Darwinian Promotion**: Experimental code in `_lab` must be normalized (rewritten from scratch) before being promoted to the main lattice.
+5. **Agent Governance**: Deployment of AI protocol files (`.cursorrules`, `.agentrules`) to act as the "Enforcers" of these formalisms.
 
-### Positive / Positivas
-- Consistent structure across all projects / Estrutura consistente em todos os projetos
-- AI-generated code follows predictable patterns / Código gerado por IA segue padrões previsíveis
-- Clear separation of concerns / Separação clara de responsabilidades
-- Traceability from specification to implementation / Rastreabilidade da especificação à implementação
+---
 
-### Negative / Negativas
-- Initial learning curve / Curva de aprendizado inicial
-- More upfront planning required / Mais planejamento antecipado necessário
-- May feel restrictive for small projects / Pode parecer restritivo para projetos pequenos
+## Consequences
 
-### Neutral / Neutras
-- Requires team alignment on conventions / Requer alinhamento do time em convenções
+### ✅ Positive (Entropy Reduction)
 
-## References / Referências
+* **Structural Isomorphism**: AI-generated code now follows predictable, mathematically grounded patterns.
+* **Gravity Enforcement**: Dependencies are unidirectionally aligned, preventing circular complexity.
+* **Genetic Traceability**: Every implementation file contains a header tracing its lineage back to a formal specification.
 
-- [MANIFESTO.md](../../MANIFESTO.md)
-- [Clean Architecture - Robert C. Martin](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
-- [Hexagonal Architecture - Alistair Cockburn](https://alistair.cockburn.us/hexagonal-architecture/)
+### ❌ Negative (Added Complexity)
+
+* **High Initial Friction**: Requires a steeper learning curve to understand the mathematical axioms of the layers.
+* **Upfront Cost**: Significant planning time is required in $L_0$ before the first implementation token is generated.
+
+### ⚙️ Neutral
+
+* **Rigidity**: The architecture is intentionally inflexible to prevent "creative" but high-entropy solutions.
+* **Tooling Dependency**: Relies on the `cartographer.rs` tool to maintain the context maps.
+
+---
+
+## References
+
+* **Project Manifesto**: [[link suspeito removido]]
+* **Industry Mapping**: [Clean Architecture (Martin), Hexagonal Architecture (Cockburn), DDD (Evans)].
+
+---

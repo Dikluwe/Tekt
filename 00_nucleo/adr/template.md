@@ -1,54 +1,76 @@
-# ADR Template / Template de ADR
+# ⚖️ ADR Template: Architectural Decision Record
 
-Use this template for Architecture Decision Records.
+> **State Transformation Log**: This document records a significant mutation in the project's topology, providing the rationale for the evolution of the Crystal.
 
 ---
 
-# ADR-NNNN: [Title / Título]
+## 💎 Formalism ($\mathcal{L}_{adr}$)
 
-## Status / Estado
+* **State Mutation**: Let $S_t$ be the current state of the architecture. An ADR defines the transition $\Delta$ such that:
+$$S_{t+1} = S_t + \Delta$$
+* **Axiomatic Consistency**: The decision must not violate the core invariants defined in `00_nucleo/README.md`.
+* **Causality**: Every decision must be traceable to a specific context or constraint $C$.
 
-`PROPOSED` | `ACCEPTED` | `DEPRECATED` | `SUPERSEDED by ADR-XXXX`
+---
 
-## Date / Data
+## ADR-NNNN: [Title]
+
+### Status
+
+`PROPOSED` | `ACCEPTED` | `DEPRECATED` | `SUPERSEDED BY ADR-XXXX`
+
+### Date
 
 YYYY-MM-DD
 
-## Context / Contexto
+---
 
-> **EN**: What is the issue that we're seeing that is motivating this decision or change?  
-> **PT**: Qual é o problema que estamos vendo que está motivando esta decisão ou mudança?
+## Context
 
-[Describe the context here / Descreva o contexto aqui]
+> What is the specific issue or constraint motivating this change? Describe the high-entropy state we are trying to crystallize.
 
-## Decision / Decisão
+[Describe the context here]
 
-> **EN**: What is the change that we're proposing and/or doing?  
-> **PT**: Qual é a mudança que estamos propondo e/ou fazendo?
+---
 
-[Describe the decision here / Descreva a decisão aqui]
+## Decision
 
-## Consequences / Consequências
+> What is the proposed change? Describe how this decision modifies the system's topology or rules.
 
-> **EN**: What becomes easier or more difficult to do because of this change?  
-> **PT**: O que se torna mais fácil ou mais difícil de fazer por causa desta mudança?
+[Describe the decision here]
 
-### Positive / Positivas
-- [List positive consequences / Liste consequências positivas]
+---
 
-### Negative / Negativas
-- [List negative consequences / Liste consequências negativas]
+## Consequences
 
-### Neutral / Neutras
-- [List neutral consequences / Liste consequências neutras]
+> How does this mutation affect the project's gravity and technical debt?
 
-## Alternatives Considered / Alternativas Consideradas
+### ✅ Positive (Entropy Reduction)
+
+* [e.g., Simplifies  logic $L_1$]
+* [e.g., Hardens  isolation $L_3$]
+
+### ❌ Negative (Added Complexity)
+
+* [e.g., Increases boilerplate in $L_4$]
+
+### ⚙️ Neutral
+
+* [List any trade-offs that don't directly impact structural integrity]
+
+---
+
+## Alternatives Considered
 
 | Alternative | Pros | Cons |
-|-------------|------|------|
-| [Option 1] | [...] | [...] |
-| [Option 2] | [...] | [...] |
+| --- | --- | --- |
+| **Option A** | [Brief Benefit] | [Major Drawback] |
+| **Option B** | [Brief Benefit] | [Major Drawback] |
 
-## References / Referências
+---
 
-- [Link to relevant documentation / Link para documentação relevante]
+## References
+
+* **Specification**: [Link to 00_nucleo/specs/file.md]
+* **Discussion**: [Link to Issue/PR]
+* **External**: [Relevant blog posts or papers]

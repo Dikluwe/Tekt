@@ -1,75 +1,68 @@
-# /02_shell — The Surface / A Superfície
+### 1. README.md (English Version)
 
-> **EN**: The Crystal's Face. Everything externally touchable.  
-> **PT**: A Face do Cristal. Tudo que é tocável externamente.
+# /02_shell — The Surface
 
----
+> **The Crystal's Face.** Everything externally touchable.
 
-## Purpose / Propósito
+## Purpose
 
-| EN | PT |
-|----|-----|
-| This directory contains **Primary Adapters**: components that receive input from the outside world and translate it into calls to the core domain. | Este diretório contém **Adaptadores Primários**: componentes que recebem entrada do mundo externo e traduzem em chamadas para o domínio core. |
+This directory contains **Primary Adapters**: components that receive input from the outside world (Users, HTTP Requests, CLI Commands) and translate it into calls to the core domain.
 
 ---
 
-## What Lives Here / O Que Vive Aqui
+## 💎 Mathematical Formalism ($\mathcal{L}_2$)
 
-- 🖥️ **UI Components** — React, Vue, Svelte, vanilla HTML/JS
-- 🌐 **API Controllers** — REST endpoints, GraphQL resolvers
-- ⌨️ **CLI Interfaces** — Command-line handlers
-- 📱 **Mobile Views** — React Native, Flutter UI
+To maintain the integrity of the core while interacting with high-entropy environments, the Shell follows the **Translation Morphism**:
 
----
-
-## Directory Structure / Estrutura de Diretórios
-
-```
-02_shell/
-├── ui/          # User interface components
-├── api/         # REST/GraphQL controllers
-└── cli/         # Command-line interfaces
-```
+* **Interface Projection**: Let $W$ be the World (External Data) and $C$ be the Core Domain. The Shell is a mapping function $f: W \to C$.
+* **Type Safety**: The shell must ensure that for every external input $x \in W$, the transformation $f(x)$ results in a valid domain object $y \in L_1$.
+* **Decoupling Invariant**: The Shell is forbidden from interacting with the Infrastructure layer $L_3$.
+$$\text{dep}(L_2) \cap L_3 = \emptyset$$
+* **Composition**: The Shell interacts with $L_1$ but is composed by $L_4$ (Wiring).
 
 ---
 
-## Dependency Rules / Regras de Dependência
+## What Lives Here
+
+* 🖥️ **UI Components**: React, Vue, Svelte, or Vanilla JS views.
+* 🌐 **API Controllers**: REST endpoints and GraphQL resolvers.
+* ⌨️ **CLI Interfaces**: Command-line argument handlers.
+
+## Dependency Rules
 
 > [!IMPORTANT]
-> **CAN import / PODE importar**: `01_core`  
-> **CANNOT import / NÃO PODE importar**: `03_infra`
+> **CAN import**: `01_core` (to use domain logic).
+> **CANNOT import**: `03_infra` (to prevent direct database/network coupling).
 
-```
-✅ 02_shell → 01_core     (use domain logic)
-❌ 02_shell → 03_infra    (FORBIDDEN - use 04_wiring for DI)
-```
+* ✅ `02_shell`  `01_core`
+* ❌ `02_shell`  `03_infra` (Infrastructure must be injected via `04_wiring`).
 
----
+## AI Protocol (Auditoria de Isomorfismo)
 
-## The Shell Never Knows Infrastructure / A Shell Nunca Conhece Infraestrutura
-
-| EN | PT |
-|----|-----|
-| Shell components should NEVER directly access databases, make network calls, or interact with the file system. They receive pre-configured services through dependency injection. | Componentes da Shell NUNCA devem acessar bancos de dados diretamente, fazer chamadas de rede ou interagir com o sistema de arquivos. Eles recebem serviços pré-configurados através de injeção de dependência. |
+1. **Input Validation**: AI must ensure all external data is validated before touching .
+2. **Stateless UI**: UI components should be as functional as possible, delegating logic to the Core.
+3. **No Direct I/O**: AI must not generate `fetch` or `sql` calls inside this directory.
 
 ---
 
-## Example / Exemplo
+### Exemplo / Example
 
 ```typescript
 /**
- * Crystalline Lineage / Linhagem Cristalina
+ * Crystalline Lineage
  * @spec 00_nucleo/specs/user-registration.md
  */
 
-// ✅ CORRECT - Imports from core / CORRETO - Importa do core
-import { validateEmail } from '../../01_core/domain/validation';
+// ✅ CORRECT - Maps external interaction to Core logic
+import { validateUser } from '../../01_core/domain/user-logic';
 
-// ❌ WRONG - Direct infra import / ERRADO - Import direto de infra
-// import { Database } from '../../03_infra/database'; // FORBIDDEN!
+// ❌ WRONG - Direct Infrastructure access
+// import { db } from '../../03_infra/persistence'; // FORBIDDEN!
 
-export function UserRegistrationForm({ userService }) {
-  // userService is injected via 04_wiring
-  // userService é injetado via 04_wiring
+export function RegistrationController(req, res) {
+  // Logic flows from Shell to Core
+  const isValid = validateUser(req.body);
+  // Implementation continues...
 }
+
 ```

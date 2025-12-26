@@ -1,86 +1,70 @@
-# /03_infra — The Support / O Suporte
+### 1. README.md (English Version)
 
-> **EN**: The Physical World. The "Dirty" layer that talks to external systems.  
-> **PT**: O Mundo Físico. A camada "Suja" que fala com sistemas externos.
+# /03_infra — The Foundation
 
----
+> **The Crystal's Support.** Controlled side effects and external persistence.
 
-## Purpose / Propósito
+## Purpose
 
-| EN | PT |
-|----|-----|
-| This directory contains **Secondary Adapters**: implementations of interfaces defined in `01_core` that interact with the physical world. | Este diretório contém **Adaptadores Secundários**: implementações de interfaces definidas em `01_core` que interagem com o mundo físico. |
+This directory contains **Secondary Adapters**: implementations of the interfaces defined in the Core. It handles the "dirty" work of interacting with the physical world (Databases, External APIs, File Systems).
 
 ---
 
-## What Lives Here / O Que Vive Aqui
+## 💎 Mathematical Formalism ($\mathcal{L}_3$)
 
-- 🗃️ **Database Adapters** — PostgreSQL, MongoDB, Redis clients
-- 🌐 **Network Clients** — HTTP clients, WebSocket connections
-- 📁 **File System** — File readers/writers, storage services
-- 🔌 **External APIs** — Third-party service integrations
-- 🖥️ **Hardware Drivers** — GPU, sensors, peripherals
+Unlike the Core, the Infrastructure layer acknowledges the existence of state and side effects, but subjects them to **Interface Realization**:
 
----
-
-## Directory Structure / Estrutura de Diretórios
-
-```
-03_infra/
-├── database/       # Database adapters
-├── filesystem/     # File system operations
-└── network/        # Network clients and APIs
-```
+* **Effect Realization**: Let $I \subset L_1$ be a set of abstract interfaces. Infrastructure provides a set of concrete implementations $M$ such that there is a realization morphism $r: M \to I$.
+* **Side-Effect Encapsulation**: Let $\mathcal{E}$ be the set of side effects. While $\text{SideEffects}(L_3) \neq \emptyset$, these effects must be contained within the boundaries of the implementation, never leaking their internal types to $L_1$.
+* **Dependency Inversion**: $L_3$  depends on $L_1$ to know *what* to implement, but $L_1$ never knows *how* $L_3$ works.
+$$L_3 \implies L_1$$
 
 ---
 
-## Dependency Rules / Regras de Dependência
+## What Lives Here
+
+* 🗄️ **Repositories**: SQL/NoSQL database implementations.
+* ☁️ **External Clients**: SDKs for AWS, Stripe, SendGrid, etc.
+* 📂 **Storage**: File system drivers.
+* 📡 **Gateways**: Wrappers for external microservices.
+
+## Dependency Rules
 
 > [!IMPORTANT]
-> **CAN import / PODE importar**: `01_core`  
-> **CANNOT import / NÃO PODE importar**: `02_shell`
+> **CAN import**: `01_core` (to implement its interfaces).
+> **CANNOT import**: `02_shell`, `04_wiring`.
 
-```
-✅ 03_infra → 01_core     (implement interfaces from core)
-❌ 03_infra → 02_shell    (FORBIDDEN - never import UI)
-```
+* ✅ `03_infra`  `01_core` (Implementing Domain Interfaces)
+* ❌ `03_infra`  `02_shell` (Infrastructure never talks to the UI)
 
----
+## AI Protocol (Isomorphism Audit)
 
-## Dependency Inversion Principle / Princípio de Inversão de Dependência
-
-| EN | PT |
-|----|-----|
-| Infra implements interfaces defined in Core. Core defines WHAT it needs; Infra defines HOW to provide it. | Infra implementa interfaces definidas no Core. Core define O QUE precisa; Infra define COMO fornecer. |
-
-```
-01_core: interface IUserRepository { findById(id): User }
-03_infra: class PostgresUserRepository implements IUserRepository { ... }
-```
+1. **Contract Adherence**: AI must verify that every class in $L_3$ strictly follows an interface from $L_1$ or $L_0$.
+2. **Implementation Only**: This layer should contain logic for "how to talk to the tool," not "business logic."
+3. **Error Translation**: AI must map infrastructure errors (HTTP 500, SQL Timeout) to Domain Errors defined in $L_1$.
 
 ---
 
-## Example / Exemplo
+### Exemplo / Example
 
 ```typescript
 /**
- * Crystalline Lineage / Linhagem Cristalina
- * @spec 00_nucleo/specs/user-persistence.md
- * @contract 00_nucleo/contracts/user-repository.md
+ * Crystalline Lineage
+ * @spec 00_nucleo/contracts/user-repository.md
  */
 
-// ✅ CORRECT - Implements interface from core
-import { IUserRepository, User } from '../../01_core/domain/user';
+// ✅ CORRECT - Implements an interface from Core
+import { UserRepository } from '../../01_core/domain/interfaces';
+import { Database } from './db-client';
 
-export class PostgresUserRepository implements IUserRepository {
-  constructor(private pool: Pool) {}
-  
-  async findById(id: string): Promise<User | null> {
-    const result = await this.pool.query(
-      'SELECT * FROM users WHERE id = $1',
-      [id]
-    );
-    return result.rows[0] ? this.toEntity(result.rows[0]) : null;
+export class SqlUserRepository implements UserRepository {
+  // Logic restricted to data persistence
+  async save(user) {
+    return await Database.insert('users', user);
   }
 }
+
+// ❌ WRONG - Business logic leaked into infra
+// if (user.age < 18) throw Error(); // THIS BELONGS IN 01_CORE!
+
 ```

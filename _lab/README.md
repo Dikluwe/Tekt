@@ -1,90 +1,48 @@
-# /_lab — The Arena / A Rinha
+### 1. README.md (English Version)
 
-> **EN**: Controlled Chaos. The quarantined experimentation zone.  
-> **PT**: O Caos Controlado. A zona de experimentação em quarentena.
+# /_lab — The Arena
 
----
+> **Controlled Chaos.** The quarantined experimentation zone.
 
-## Purpose / Propósito
+## Purpose
 
-| EN | PT |
-|----|-----|
-| This directory is a **sandbox** for experiments, benchmarks, and proofs of concept. Code here is volatile and can be deleted at any time. | Este diretório é um **sandbox** para experimentos, benchmarks e provas de conceito. Código aqui é volátil e pode ser deletado a qualquer momento. |
+This directory is a **sandbox** for experiments, benchmarks, and proofs of concept. Code here is volatile, high-entropy, and can be deleted at any time.
 
 ---
 
-## The Quarantine Rule / A Regra de Quarentena
+## 💎 Mathematical Formalism ($\mathcal{L}_{lab}$)
+
+The Lab is defined as a **High Entropy Zone** where structural constraints are suspended to allow for exploration:
+
+* **Entropy Maximization**: Unlike the Core, the Lab allows $H \to \max$. There are no invariants for code quality or I/O isolation.
+* **Absolute Isolation**: The main system $S = \{L_0, L_1, L_2, L_3, L_4\}$ is a closed set relative to the Lab.
+$$\text{dep}(S) \cap \text{Lab} = \emptyset$$
+* **Darwinian Selection (Normalization)**: The transition from Lab ($x$) to Core ($x'$) is not a direct mapping but a **Normalization Function** $N(x) = x'$, where all technical debt is stripped and the logic is re-axiomatized.
+
+---
+
+## The Quarantine Rule
 
 > [!CAUTION]
-> **ABSOLUTE QUARANTINE / QUARENTENA ABSOLUTA**
->
+> **ABSOLUTE QUARANTINE**
 > The main system (00-04) **NEVER** imports anything from `_lab`.
->
-> O sistema principal (00-04) **NUNCA** importa nada de `_lab`.
+
+## Lifecycle: The Darwinian Path
+
+1. **Experiment**: Write messy code to explore possibilities.
+2. **Benchmark**: Measure and compare different approaches mathematically.
+3. **Decide**: Select the most efficient approach (The Winner).
+4. **Crystallize**: **REWRITE FROM SCRATCH** in `01_core`. Direct copy-pasting is a violation of structural integrity.
+5. **Delete**: Purge the experiment to maintain a clean lattice.
 
 ---
 
-## What Lives Here / O Que Vive Aqui
+## Freedom Zone (The "No-Lock" Zone)
 
-- 🧪 **Experiments** — Try new approaches freely
-- 📊 **Benchmarks** — Performance comparisons
-- 🎯 **Spikes** — Quick exploration of unknowns
-- 🔬 **Proofs of Concept** — Validate ideas before committing
+This is the ONLY place where the **Nucleation Lock** is suspended:
 
----
-
-## Lifecycle / Ciclo de Vida
-
-```
-1. EXPERIMENT      → Write messy code to explore
-2. BENCHMARK       → Measure and compare approaches
-3. DECIDE          → Choose winning approach
-4. CRYSTALLIZE     → Rewrite from scratch in 01_core
-5. DELETE          → Remove lab experiment
-```
-
-> [!IMPORTANT]
-> A winning algorithm in Lab must be **REWRITTEN FROM SCRATCH** when promoted to `01_core`. Direct copy is prohibited.
->
-> Um algoritmo vencedor no Lab deve ser **REESCRITO DO ZERO** ao ser promovido para `01_core`. Cópia direta é proibida.
+* ✅ AI can generate code without a prior spec in `00_nucleo`.
+* ✅ I/O operations, external libraries, and hardcoded values are allowed.
+* ✅ Messy, non-standard code is encouraged for speed.
 
 ---
-
-## Why Rewrite? / Por Que Reescrever?
-
-| EN | PT |
-|----|-----|
-| Lab code is optimized for **exploration speed**, not **production quality**. It may have shortcuts, missing error handling, or dependencies that violate the Zero I/O rule. Rewriting ensures the promoted code meets production standards. | Código de lab é otimizado para **velocidade de exploração**, não **qualidade de produção**. Pode ter atalhos, tratamento de erro faltando ou dependências que violam a regra de Zero I/O. Reescrever garante que o código promovido atenda padrões de produção. |
-
----
-
-## File Naming Convention / Convenção de Nomes
-
-Use prefixes to indicate experiment status:
-
-```
-_lab/
-├── WIP_experiment_name/     # Work in progress
-├── TESTED_algorithm_v2/     # Tested, pending decision
-├── WINNER_fast_sort/        # Winner, ready to crystallize
-└── ARCHIVED_old_approach/   # Kept for reference
-```
-
----
-
-## Freedom Zone / Zona de Liberdade
-
-| Allowed / Permitido | 
-|---------------------|
-| ✅ Any external library |
-| ✅ I/O operations |
-| ✅ Messy code |
-| ✅ Copy-paste from internet |
-| ✅ AI-generated code without spec |
-| ✅ Hardcoded values |
-| ✅ No tests |
-
-> [!NOTE]
-> This is the ONLY place where AI can generate code without a prior specification in `00_nucleo`.
->
-> Este é o ÚNICO lugar onde a IA pode gerar código sem uma especificação prévia em `00_nucleo`.

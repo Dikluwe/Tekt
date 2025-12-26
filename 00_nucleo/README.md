@@ -1,68 +1,59 @@
-# /00_nucleo — The Seed / A Semente
+### 1. README.md (English)
 
-> **EN**: The Source of Truth. Ground zero of crystallization.  
-> **PT**: A Fonte da Verdade. Ponto zero da cristalização.
+# /00_nucleo — The Seed
 
----
+> **The Source of Truth.** Ground zero of crystallization.
 
-## Purpose / Propósito
+## Purpose
 
-| EN | PT |
-|----|-----|
-| This directory contains the **genetic material** of the project: specifications, business rules, architecture decisions, and interface contracts. | Este diretório contém o **material genético** do projeto: especificações, regras de negócio, decisões de arquitetura e contratos de interface. |
+This directory contains the **genetic material** of the project: specifications, business rules, architecture decisions, and interface contracts.
 
 ---
 
-## The Nucleation Lock / A Trava de Nucleação
+## 💎 Mathematical Formalism ($\mathcal{L}_0$)
+
+To ensure structural integrity and minimize entropy, the Nucleus follows these formal constraints:
+
+* **Axiomatization**: Let $S$ be the set of Specifications $s \in \{specs, contracts, adr\}$.
+* **The Nucleation Invariant**: The existence of any implementation file $c \in \{01, 02, 03, 04\}$ requires a prior mapping to a specification $s$.
+$$\forall c \in C, \exists s \in S : P(c, s)$$
+
+* **Infimum Property**: $00\_nucleo$ is the infimum of the dependency poset $(X, \le)$. No layer may exist below it.
+* **Structural Isomorphism**: The implementation must be an isomorphic representation of the structure defined in the contracts.
+
+---
+
+## The Nucleation Lock
 
 > [!CAUTION]
-> **No specification here = No code can be written**
->
-> **Sem especificação aqui = Nenhum código pode ser escrito**
+> **No specification here = No code can be written.**
 
-Before ANY feature is implemented in `01_core` through `04_wiring`, a corresponding document MUST exist in this directory.
+Before ANY feature is implemented in layers `01_core` through `04_wiring`, a corresponding document MUST exist in this directory.
 
-Antes de QUALQUER funcionalidade ser implementada de `01_core` até `04_wiring`, um documento correspondente DEVE existir neste diretório.
-
----
-
-## Directory Structure / Estrutura de Diretórios
+## Directory Structure
 
 ```
 00_nucleo/
-├── specs/           # Feature specifications / Especificações de features
-├── contracts/       # Interface contracts & types / Contratos de interface e tipos
+├── specs/           # Feature specifications
+├── contracts/       # Interface contracts & types
 └── adr/             # Architecture Decision Records
 ```
 
-### /specs
-- Feature specifications / Especificações de funcionalidades
-- Business rules / Regras de negócio
-- User stories / Histórias de usuário
+* **specs/**: Feature specifications, business rules, and user stories.
+* **contracts/**: Interface contracts, TypeScript types, and API schemas.
+* **adr/**: Architecture Decision Records (Format: `NNNN-title-with-dashes.md`).
 
-### /contracts
-- TypeScript interfaces / Interfaces TypeScript
-- API schemas (OpenAPI, GraphQL) / Schemas de API
-- Data transfer object definitions / Definições de DTOs
+## Rules
 
-### /adr
-- Architecture Decision Records
-- Records of significant architectural choices / Registro de escolhas arquiteturais significativas
-- Format: `NNNN-title-with-dashes.md`
+1. **Read-First**: AI must read this directory before any code generation to align with the "genetic material".
+2. **Human Approval**: All specifications require manual validation to prevent "hallucinated" requirements.
+3. **Traceability**: Every code file must trace back to a specific document in this directory.
+4. **Immutability**: Approved specifications are immutable; changes require a new ADR ($\Delta s \iff \exists adr_{new}$).
 
----
+## Template Links
 
-## Rules / Regras
-
-1. **Read-First** — AI must read this directory before any generation
-2. **Human Approval** — All specs require human validation
-3. **Traceability** — Every code file must trace to a document here
-4. **Immutability** — Approved specs should not change without ADR
+* [ADR Template](./adr/template.md)
+* [Spec Template](./specs/.template.md)
+* [Contract Template](./contracts/.template.md)
 
 ---
-
-## Template Links / Links de Templates
-
-- [ADR Template](./adr/template.md)
-- [Spec Template](./specs/.template.md)
-- [Contract Template](./contracts/.template.md)

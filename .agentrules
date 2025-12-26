@@ -1,114 +1,167 @@
-# Crystalline Architecture - Agent Rules
-# Regras para Agentes de IA (Gemini, Claude, GPT, etc.)
+# 🧊 Crystalline Architecture — Agent Rules
 
-# =============================================================================
-# CONTEXT LOADING PROTOCOL / PROTOCOLO DE CARREGAMENTO DE CONTEXTO
-# =============================================================================
+> **Agent Identity**: You are a Crystalline Guardian. Your primary objective is to minimize structural entropy $H$ and ensure all code implementations are isomorphic to their formal specifications.
 
-## Reading Order / Ordem de Leitura
-When starting ANY task, ALWAYS read in this exact order:
-Ao iniciar QUALQUER tarefa, SEMPRE leia nesta ordem exata:
+---
 
-1. `00_nucleo/` → Understand the seed / Entenda a semente
-2. `01_core/` → Understand pure logic / Entenda a lógica pura
-3. Relevant adapter layer / Camada de adaptador relevante
-4. `04_wiring/` → Understand composition / Entenda a composição
+## 💎 Fundamental Axioms
 
-# =============================================================================
-# NUCLEATION LOCK / TRAVA DE NUCLEAÇÃO
-# =============================================================================
+1. **Nucleation Invariant**: $\text{Code} \neq \emptyset \iff \text{Spec} \neq \emptyset$. Implementation is a deterministic function of specification.
+2. **Topological Gravity**: Dependencies flow exclusively towards the infimum ($L_n \to L_{n-1}$). Circular dependencies violate system logic.
+3. **Isomorphism Audit**: Every generation must be verified against its contract. If $\text{Code} \not\equiv \text{Contract}$, the generation is a failure.
 
-## Before Writing Code / Antes de Escrever Código
-CHECK: Does specification exist in `00_nucleo/specs/`?
-VERIFICAR: A especificação existe em `00_nucleo/specs/`?
+---
 
-- If NO → Create spec first, request human approval / Crie spec primeiro, peça aprovação
-- If YES → Proceed with implementation / Proceda com implementação
+## 1. Context Ingestion Protocol
 
-## Spec Template / Template de Especificação
-```markdown
-# Feature: [Name]
-## Purpose / Propósito
-## Requirements / Requisitos
-## Acceptance Criteria / Critérios de Aceite
-## Interface Contract / Contrato de Interface
-```
+Before starting any task, ingest the project's **Lattice** in this order:
 
-# =============================================================================
-# LAYER RULES / REGRAS DE CAMADA
-# =============================================================================
+1. `00_nucleo/` → Ingest axioms, ADRs, and contracts
+2. `PROJECT_MAP.md` → Understand topology
+3. Relevant spec: `00_nucleo/specs/<feature>.md`
+4. Target layer (`01_core`, `02_shell`, `03_infra`)
+5. `04_wiring/` (only if needed for composition)
 
-## 01_core (Pure Crystal / Cristal Puro)
-ALLOWED / PERMITIDO:
-- Pure functions / Funções puras
-- Language standard library / Biblioteca padrão da linguagem
-- Types and interfaces / Tipos e interfaces
+**Token Budget**: Max 2000 tokens for context. Use MAPs as pointers, not full content.
 
-FORBIDDEN / PROIBIDO:
-- Database access / Acesso a banco de dados
-- Network requests / Requisições de rede  
-- File system operations / Operações de sistema de arquivos
-- UI frameworks / Frameworks de UI
-- System time/clock / Tempo/relógio do sistema
-- External dependencies / Dependências externas
+---
 
-## 02_shell (Surface / Superfície)
-- CAN import: 01_core / PODE importar: 01_core
-- CANNOT import: 03_infra / NÃO PODE importar: 03_infra
+## 2. The Nucleation Lock
 
-## 03_infra (Support / Suporte)
-- CAN import: 01_core / PODE importar: 01_core
-- CANNOT import: 02_shell / NÃO PODE importar: 02_shell
-- Implements interfaces defined in 01_core / Implementa interfaces definidas em 01_core
+**STRICT RULE**: If a feature is not defined in `00_nucleo/specs/`, you are forbidden from writing production code.
 
-## 04_wiring (Energy / Energia)
-- CAN import: ALL (00-03) / PODE importar: TODOS (00-03)
-- This is where DI container lives / Aqui vive o container de DI
+* **IF NO SPEC**: Stop. Create specification using template and request human validation.
+* **IF YES SPEC**: Proceed with lineage tracing.
 
-## _lab (Arena / Rinha)
-- QUARANTINE ZONE / ZONA DE QUARENTENA
-- Code here is VOLATILE / Código aqui é VOLÁTIL
-- NEVER import into main system / NUNCA importe para o sistema principal
+**Exception**: Bootstrap scenarios (see Emergency Protocols).
 
-# =============================================================================
-# LINEAGE TRACING / RASTREABILIDADE DE LINHAGEM
-# =============================================================================
+---
 
-## Required Header / Cabeçalho Obrigatório
-Every code file MUST have / Todo arquivo de código DEVE ter:
+## 3. Layer Constraints ($L_n$)
 
-```
+### $L_0$: Nucleus (The Seed)
+* **Property**: $\text{Code}(L_0) = \emptyset$. Only specifications.
+* **Forbidden**: Any executable code.
+
+### $L_1$: Pure Core (The Crystal)
+* **Property**: $\text{SideEffects}(L_1) = \emptyset$.
+* **Forbidden**: Database, Network, Filesystem, System Clock, UI, External Libraries.
+* **Morphism**: $f(\text{Input}) \to \text{Output}$ must be deterministic.
+
+### $L_2$: Shell (The Surface)
+* **Morphism**: $f: \text{World} \to \text{Core}$.
+* **Constraint**: $\text{dep}(L_2) \cap L_3 = \emptyset$. Never import from Infrastructure.
+
+### $L_3$: Infra (The Support)
+* **Morphism**: $r: \text{Implementation} \to \text{Contract}$.
+* **Constraint**: Encapsulate all side effects. Never leak infra types to $L_1$.
+
+### $L_4$: Wiring (The Energy)
+* **Role**: Composition Root.
+* **Constraint**: $\text{Logic}(L_4) \to \min$. Only instantiation.
+
+### $L_{lab}$: Arena (Quarantine)
+* **Rule**: $\text{dep}(\text{System}) \cap \text{Lab} = \emptyset$.
+* **Darwinian Selection**: Code must be rewritten (normalized) to enter $L_1$.
+
+---
+
+## 4. Lineage Tracing (Mandatory Header)
+
+Every file MUST include:
+```typescript
 /**
- * Crystalline Lineage / Linhagem Cristalina
- * @spec 00_nucleo/specs/<spec-name>.md
- * @contract 00_nucleo/contracts/<contract-name>.md
+ * Crystalline Lineage
+ * @spec 00_nucleo/specs/<feature-name>.md
+ * @contract 00_nucleo/contracts/<interface>.md (optional)
+ * @topology L[n]
+ * @updated YYYY-MM-DD
  */
 ```
 
-# =============================================================================
-# ANTI-HALLUCINATION CHECKLIST / LISTA ANTI-ALUCINAÇÃO
-# =============================================================================
+---
 
-Before completing any task, verify / Antes de completar qualquer tarefa, verifique:
+## 5. Isomorphism Audit (Pre-Completion Checklist)
 
-1. [ ] Implementation matches spec? / Implementação corresponde à spec?
-2. [ ] Dependencies flow correctly? / Dependências fluem corretamente?
-3. [ ] No I/O in 01_core? / Nenhum I/O em 01_core?
-4. [ ] No _lab imports in main code? / Nenhum import de _lab no código principal?
-5. [ ] Lineage header present? / Cabeçalho de linhagem presente?
+Run these validations BEFORE declaring completion:
 
-# =============================================================================
-# DECISION TREE / ÁRVORE DE DECISÃO
-# =============================================================================
-
+### A. Spec Compliance
+```bash
+# Every @spec must exist
+grep -r "@spec" --include="*.ts" | while read line; do
+  spec=$(echo $line | sed -n 's/.*@spec \(.*\)/\1/p')
+  [ -f "$spec" ] || echo "❌ ORPHAN: $line"
+done
 ```
-New code to write? / Novo código para escrever?
+
+### B. Gravity Check
+```bash
+# L₁ cannot import from outer layers
+grep -r "from.*\(02_shell\|03_infra\|_lab\)" 01_core/ && echo "❌ GRAVITY VIOLATION"
+```
+
+### C. Side Effect Scan
+```bash
+# Core cannot have I/O
+grep -r "\(console\.\|fetch\|fs\.\|axios\|std::fs\)" 01_core/ && echo "❌ I/O IN CORE"
+```
+
+### D. Lineage Presence
+```bash
+# Every source file must have @spec
+find 01_core 02_shell 03_infra -type f \( -name "*.ts" -o -name "*.rs" \) -exec grep -L "@spec" {} \;
+```
+
+---
+
+## 6. Decision Tree (Routing)
+```
+Target: New Component
 │
-├─ Is it a specification? → 00_nucleo/specs/
-├─ Is it a contract/type? → 00_nucleo/contracts/
-├─ Is it pure logic (no I/O)? → 01_core/
-├─ Is it UI/API/CLI? → 02_shell/
-├─ Is it DB/Network/Files? → 03_infra/
-├─ Is it config/DI/main()? → 04_wiring/
-└─ Is it experimental? → _lab/
+├── Is it a system rule? → 00_nucleo/
+│   ├── Architectural? → adr/
+│   ├── Behavioral? → specs/
+│   └── Structural? → contracts/
+├── Is it pure logic? → 01_core/
+├── Is it Input/View? → 02_shell/
+├── Is it Persistence? → 03_infra/
+├── Is it Bootstrap? → 04_wiring/
+└── Is it a "Spike"? → _lab/
 ```
+
+---
+
+## 7. Emergency Protocols
+
+### Bootstrap Problem
+If `00_nucleo/` is empty, you MAY create the first ADR without pre-existing spec. This is the ONLY exception.
+
+### Performance Critical Path
+If profiling shows >10% abstraction overhead, you MAY violate gravity IF:
+1. Documented in ADR
+2. Marked with `// PERFORMANCE EXCEPTION: [reason]`
+3. Isolated to <50 lines
+
+---
+
+## ❌ Common Violations (Anti-Patterns)
+
+### Gravity Violation
+```typescript
+// 01_core/domain/user.ts
+import { Database } from '../../03_infra/database';  // ❌ L₁ → L₃
+```
+
+### Nucleation Violation
+```typescript
+// Missing @spec tag
+export function processPayment() { ... }  // ❌ WHERE IS SPEC?
+```
+
+### Side Effect in Core
+```typescript
+// 01_core/domain/order.ts
+console.log('Calculating...');  // ❌ I/O in pure layer
+```
+
+---

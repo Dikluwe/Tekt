@@ -1,93 +1,75 @@
-# /01_core — Pure Crystal / O Cristal Puro
+### 1. README.md (English Version)
 
-> **EN**: Platonic Logic. The heart of pure business rules.  
-> **PT**: A Lógica Platônica. O coração das regras de negócio puras.
+# /01_core — Pure Crystal
 
----
+> **Platonic Logic.** The heart of pure business rules.
 
-## Purpose / Propósito
+## Purpose
 
-| EN | PT |
-|----|-----|
-| This directory contains **pure domain logic**: entities, algorithms, mathematical functions, and business rules with **absolutely no I/O**. | Este diretório contém **lógica de domínio pura**: entidades, algoritmos, funções matemáticas e regras de negócio com **absolutamente nenhum I/O**. |
+This directory contains **pure domain logic**: entities, algorithms, mathematical functions, and business rules with **absolutely no I/O**.
 
 ---
 
-## The Zero I/O Rule / A Regra de Zero I/O
+## 💎 Mathematical Formalism ($\mathcal{L}_1$)
+
+To ensure a deterministic core, this layer is defined as a collection of **Pure Morphisms**:
+
+* **Purity ($\mathcal{P}$)**: Every function $f$ in $L_1$ must be a pure function.
+$$\forall x \in X, \forall t \in T : f(x, t) = f(x)$$
+(The output depends solely on the input, independent of the system time  or external state).
+* **Side-Effect Isolation**: The set of side effects $\mathcal{E}$ for any operation in this layer must be empty.
+$$\text{SideEffects}(L_1) = \emptyset$$
+* **Stateless Determinism**: For any state $S$ and input $I$, the transition function $\delta$ must be a deterministic mapping: $\delta: S \times I \to S'$.
+
+---
+
+## The Zero I/O Rule
 
 > [!CAUTION]
-> **ABSOLUTE RESTRICTION / RESTRIÇÃO ABSOLUTA**
->
-> Code in this directory MUST NOT:
-> - Access databases / Acessar bancos de dados
-> - Make network requests / Fazer requisições de rede
-> - Read/write files / Ler/escrever arquivos
-> - Access system clock / Acessar relógio do sistema
-> - Use UI frameworks / Usar frameworks de UI
-> - Import external libraries / Importar bibliotecas externas
+> **ABSOLUTE RESTRICTION**
+> Code in this directory **MUST NOT**:
+> * Access databases or network requests.
+> * Read/write files or access the system clock.
+> * Import external libraries (except the language standard library).
+> 
+> 
 
----
+## Allowed
 
-## Allowed / Permitido
+✅ **Pure functions** and immutable data structures.
+✅ **Domain Entities** and Business Rule validation.
+✅ **Interfaces** (Abstract definitions) for external dependencies.
+✅ **Mathematical algorithms** and stateless computations.
 
-✅ Language standard library only / Apenas biblioteca padrão da linguagem  
-✅ Pure functions / Funções puras  
-✅ Immutable data structures / Estruturas de dados imutáveis  
-✅ Interfaces for external dependencies / Interfaces para dependências externas  
-✅ Business rule validation / Validação de regras de negócio  
-✅ Mathematical algorithms / Algoritmos matemáticos  
-
----
-
-## Directory Structure / Estrutura de Diretórios
+## Directory Structure
 
 ```
 01_core/
-├── entities/        # Domain entities / Entidades de domínio
-├── algorithms/      # Pure algorithms / Algoritmos puros
-└── domain/          # Business rules / Regras de negócio
+├── entities/        # Domain entities (Models, Value Objects)
+├── algorithms/      # Pure algorithms (Math, Sorting, Transforms)
+└── domain/          # Business rules (Validators, Pure Services)
+
 ```
 
-### /entities
-- Domain models / Modelos de domínio
-- Value objects / Objetos de valor
-- Aggregates / Agregados
+## Dependency Rule
 
-### /algorithms
-- Pure mathematical functions / Funções matemáticas puras
-- Sorting, searching, transformations / Ordenação, busca, transformações
-- Stateless computations / Computações sem estado
-
-### /domain
-- Business rule validators / Validadores de regras de negócio
-- Domain services (pure) / Serviços de domínio (puros)
-- Use case logic (without I/O) / Lógica de casos de uso (sem I/O)
+* **Can Import**: `00_nucleo` (to implement contracts and specs).
+* **Forbidden**: `02_shell`, `03_infra`, `04_wiring`, `_lab`.
 
 ---
 
-## Dependency Rule / Regra de Dependência
-
-```
-01_core can import:    00_nucleo (specs as reference)
-01_core CANNOT import: 02_shell, 03_infra, 04_wiring, _lab
-```
-
----
-
-## Example / Exemplo
-
-```typescript
 /**
- * Crystalline Lineage / Linhagem Cristalina
+ * Crystalline Lineage
  * @spec 00_nucleo/specs/user-validation.md
  */
 
-// ✅ CORRECT - Pure function / CORRETO - Função pura
+// ✅ CORRECT - Pure Morphism f: string -> boolean
 export function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
-// ❌ WRONG - Uses external dependency / ERRADO - Usa dependência externa
-// import axios from 'axios'; // FORBIDDEN!
-```
+// ❌ WRONG - Side Effect Violation (External I/O)
+// import { db } from '../03_infra/db';
+
+---

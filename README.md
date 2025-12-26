@@ -1,60 +1,73 @@
+### 1. README.md (English Version)
+
 # Crystalline Architecture Standard
-# Padrão de Arquitetura Cristalina
 
 <div align="center">
 
-**A structural framework for AI-assisted software development**  
-**Um framework estrutural para desenvolvimento de software assistido por IA**
-
-[![Version](https://img.shields.io/badge/version-1.0-blue.svg)](./MANIFESTO.md)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](./LICENSE)
+**A structural framework for AI-assisted software development**
 
 </div>
 
 ---
 
-## Quick Start / Início Rápido
+## 💎 Mathematical Foundation
+
+The Crystalline Standard treats software architecture as a **Topological Space** governed by strict laws to minimize structural entropy $H$.
+
+* **System Topology ($\mathcal{T}$)**: The project is a Directed Acyclic Graph (DAG) where nodes are layers $L_n$ and edges are dependency morphisms.
+* **Dependency Poset**: The system follows a partial order: $L_0 \to L_1 \to \{L_2, L_3\} \to L_4$ where $L_0$ (Nucleus) is the absolute **infimum** ($\inf$).
+* **Entropy Control**: We enforce the **Nucleation Invariant**:$Code \neq \emptyset \iff Spec \neq \emptyset$.
+
+---
+
+## Quick Start
 
 ```bash
-# Clone as template / Clone como template
+# Clone as template
 git clone https://github.com/your-org/crystalline-architecture-standard.git my-project
 
-# Or copy structure / Ou copie a estrutura
+# Or copy structure
 cp -r crystalline-architecture-standard/0* my-project/
 cp -r crystalline-architecture-standard/_lab my-project/
+
 ```
 
 ---
 
-## The Lattice / O Retículo
+## The Lattice
+
+The physical structure acts as a "hardware constraint" for AI logic generation.
 
 ```
 your-project/
-├── 00_nucleo/     # 📋 Specifications, ADRs, Contracts
-├── 01_core/       # 💎 Pure logic, zero I/O
+├── 00_nucleo/     # 📋 Specifications, ADRs, Contracts (The Seed)
+├── 01_core/       # 💎 Pure logic, zero I/O (The Crystal)
 ├── 02_shell/      # 🖥️  UI, API, CLI (Primary Adapters)
 ├── 03_infra/      # 🔌 Database, Network (Secondary Adapters)
-├── 04_wiring/     # ⚡ Dependency Injection, main()
-└── _lab/          # 🧪 Experiments (quarantined)
+├── 04_wiring/     # ⚡ Dependency Injection, main() (The Composition)
+└── _lab/          # 🧪 Experiments (Quarantine)
+
 ```
 
 ---
 
-## Core Principles / Princípios Fundamentais
+## Core Principles
 
-| # | Principle / Princípio | Description / Descrição |
-|---|----------------------|-------------------------|
-| 1 | **Nucleation** | Specifications before code / Especificações antes do código |
-| 2 | **Containment** | Folder structure as physical barrier / Estrutura de pastas como barreira física |
-| 3 | **Gravity** | Dependencies flow outward only / Dependências fluem apenas para fora |
-| 4 | **Darwinism** | Lab code never enters production directly / Código do lab nunca entra direto em produção |
+| # | Principle | Formal Property | Description |
+| --- | --- | --- | --- |
+| 1 | **Nucleation** | **Axiomatization** | Specifications before code. No spec = No code. |
+| 2 | **Containment** | **Topological Boundary** | Folder structure as a physical barrier. |
+| 3 | **Gravity** | **Directed Equality** | Dependencies flow outward only ($L_n \to L_{n-1}$). |
+| 4 | **Darwinism** | **Isolation** | Lab code never enters production without refactoring. |
 
 ---
 
-## Dependency Rules / Regras de Dependência
+---
+
+## Dependency Rules
 ```mermaid
 graph TD
-    %% Definição dos Nós
+    %% Node Definitions
     subgraph Crystal ["Core System (The Crystal)"]
         direction TB
         N("00_nucleo<br>(Definitions)")
@@ -70,21 +83,13 @@ graph TD
     W("04_wiring<br>(Composition Root)")
     L("_lab<br>(Quarantine)")
 
-    %% RELAÇÕES (Setas indicam 'Depende de')
-    
-    %% O Core obedece ao Nucleo
+    %% Relations (Arrows indicate 'Depends On')
     C --> N
-    
-    %% Adapters obedecem ao Core (Inversão de Dependência)
     S --> C
     I --> C
-    
-    %% Wiring conhece tudo para montar o sistema
     W --> S
     W --> I
     W --> C
-    
-    %% Lab é solto
     L -...- N
     
     %% ESTILOS
@@ -102,18 +107,14 @@ graph TD
 ```
 ---
 
-## AI Protocol / Protocolo de IA
+## AI Protocol
 
-For AI agents (Cursor, Copilot, Gemini, Claude):
+To maintain **Structural Isomorphism** between specification and implementation:
 
-Para agentes de IA (Cursor, Copilot, Gemini, Claude):
-
-1. **Read First** — Always read `00_nucleo/` before generating code
-2. **Nucleation Lock** — No code without specification
-3. **Lineage Tracing** — Every file must trace to a spec
-4. **Isomorphism Audit** — Verify implementation matches spec
-
-See [.cursorrules](./.cursorrules) and [.agentrules](./.agentrules) for machine-readable protocols.
+1. **Read First**: AI must ingest `00_nucleo/` to load the project's "genetic code".
+2. **Nucleation Lock**: Implementation is a function of specification: $f(Spec) \to Code$.
+3. **Lineage Tracing**: Every file must have a traceable morphism to a spec in `00_nucleo`.
+4. **Isomorphism Audit**: Verify if implementation mirrors the contract structure $1:1$.
 
 ---
 
@@ -121,7 +122,7 @@ See [.cursorrules](./.cursorrules) and [.agentrules](./.agentrules) for machine-
 
 | Document | Description |
 |----------|-------------|
-| [MANIFESTO.md](./MANIFESTO.md) | Complete philosophy and rules / Filosofia e regras completas |
+| [MANIFESTO.md](./MANIFESTO.md) | Complete philosophy and rules |
 | [00_nucleo/README.md](./00_nucleo/README.md) | Nucleus layer guide |
 | [01_core/README.md](./01_core/README.md) | Core layer guide |
 | [02_shell/README.md](./02_shell/README.md) | Shell layer guide |
@@ -131,10 +132,10 @@ See [.cursorrules](./.cursorrules) and [.agentrules](./.agentrules) for machine-
 
 ---
 
-## Industry Standard Mapping / Mapeamento para Padrões
+## Industry Mapping
 
 | Crystalline | Clean Architecture | Hexagonal | DDD |
-|-------------|-------------------|-----------|-----|
+| --- | --- | --- | --- |
 | `00_nucleo` | — | — | Ubiquitous Language |
 | `01_core` | Entities | Application Core | Domain Layer |
 | `02_shell` | Interface Adapters | Primary Adapters | Application Layer |
@@ -142,9 +143,3 @@ See [.cursorrules](./.cursorrules) and [.agentrules](./.agentrules) for machine-
 | `04_wiring` | Main | — | Composition Root |
 
 ---
-
-## License / Licença
-
-MIT License — Use freely in any project.
-
-MIT License — Use livremente em qualquer projeto.

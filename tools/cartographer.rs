@@ -1,60 +1,210 @@
-/// tools/cartographer.rs
-/// Versão Inteligente: Encontra a raiz do projeto automaticamente.
-
 use std::env;
 use std::fs;
 use std::io;
 use std::path::{Path, PathBuf};
 
 fn main() -> io::Result<()> {
-    // 1. Encontra a raiz do projeto (onde está o .git)
     let root = find_project_root().expect("❌ Não foi possível encontrar a raiz do projeto (.git)");
     println!("📍 Project Root found at: {}", root.display());
 
-    // 2. Define as camadas
     let layers = vec!["00_nucleo", "01_core", "02_shell", "03_infra", "04_wiring", "_lab"];
 
     let mut global_map = String::from("# 🗺️ Project Atlas (Crystalline)\n\n");
     global_map.push_str("> Map of architectural layers and their active modules.\n\n");
 
+    // Lista arquivos na raiz do projeto
+    let root_files = list_project_root_files(&root)?;
+    if !root_files.is_empty() {
+        global_map.push_str("## 📄 Project Files\n\n");
+        global_map.push_str("| File | Purpose |\n|---|---|\n");
+        for (name, desc) in &root_files {
+            global_map.push_str(&format!("| `{}` | {} |\n", name, desc));
+        }
+        global_map.push_str("\n");
+    }
+
+    // Lista as camadas
+    global_map.push_str("## 📂 Architectural Layers\n\n");
+
     for layer in &layers {
         let layer_path = root.join(layer);
 
         if layer_path.exists() {
-            global_map.push_str(&format!("## 📂 {}\n", layer));
-
-            // Varre subpastas
-            let entries = fs::read_dir(&layer_path)?;
-            let mut subdirs: Vec<_> = entries.map(|e| e.unwrap().path()).collect();
-            subdirs.sort();
-
-            for sub in subdirs {
-                if sub.is_dir() {
-                    let sub_name = sub.file_name().unwrap().to_string_lossy();
-                    // Ignora pastas irrelevantes
-                    if sub_name.starts_with(".") || sub_name == "target" || sub_name == "templates" { continue; }
-
-                    // Gera o mapa local
-                    let generated = generate_module_map(&sub)?;
-
-                    // Calcula caminho relativo para o link funcionar no Markdown
-                    let rel_path = format!("{}/{}", layer, sub_name);
-
-                    if generated {
-                        global_map.push_str(&format!("- **[{}]** - [View Map]({}/_MAP.md)\n", sub_name, rel_path));
-                    } else {
-                        global_map.push_str(&format!("- **[{}]**\n", sub_name));
-                    }
-                }
-            }
-            global_map.push_str("\n");
+            global_map.push_str(&format!("### {}\n", layer));
+            generate_layer_map(&layer_path, layer)?;
+            global_map.push_str(&format!("[View Layer Map]({}/{})\n\n",
+                                         layer, format!("{}_MAP.md", layer)));
         }
     }
 
-    // Salva o mapa global na RAIZ encontrada
     fs::write(root.join("PROJECT_MAP.md"), global_map)?;
     println!("✅ Atlas updated: {}/PROJECT_MAP.md", root.display());
     Ok(())
+}
+
+/// Lista arquivos na raiz do projeto
+fn list_project_root_files(root: &Path) -> io::Result<Vec<(String, String)>> {
+    let mut files = Vec::new();
+
+    let entries = fs::read_dir(root)?;
+    let mut paths: Vec<_> = entries
+    .filter_map(|r| r.ok())
+    .map(|e| e.path())
+    .filter(|p| p.is_file())
+    .collect();
+    paths.sort();
+
+    for path in paths {
+        let name = path.file_name().unwrap().to_string_lossy().to_string();
+
+        // Ignora arquivos gerados, ocultos e específicos do sistema
+        if name == "PROJECT_MAP.md"
+            || name.starts_with(".")
+            || name == "Cargo.lock"
+            || name.ends_with(".o")
+            || name.ends_with(".exe") {
+                continue;
+            }
+
+            let desc = extract_doc_comment(&path)
+            .unwrap_or_else(|| "—".to_string());
+
+        files.push((name, desc));
+    }
+
+    Ok(files)
+}
+
+fn generate_layer_map(layer_path: &Path, layer_name: &str) -> io::Result<()> {
+    let mut layer_map = format!("# 🗺️ Layer: {}\n\n", layer_name);
+    layer_map.push_str("> Modules in this architectural layer.\n\n");
+
+    // Lista arquivos na raiz da camada
+    let root_files = list_layer_root_files(layer_path)?;
+    if !root_files.is_empty() {
+        layer_map.push_str("## 📄 Layer Files\n\n");
+        layer_map.push_str("| File | Purpose |\n|---|---|\n");
+        for (name, desc) in &root_files {
+            layer_map.push_str(&format!("| `{}` | {} |\n", name, desc));
+        }
+        layer_map.push_str("\n");
+    }
+
+    // Lista os módulos (subdiretórios)
+    let entries = fs::read_dir(&layer_path)?;
+    let mut subdirs: Vec<_> = entries
+    .filter_map(|e| e.ok())
+    .map(|e| e.path())
+    .filter(|p| p.is_dir())
+    .collect();
+    subdirs.sort();
+
+    let mut has_modules = false;
+
+    if !subdirs.is_empty() {
+        layer_map.push_str("## 📂 Modules\n\n");
+    }
+
+    for subdir in subdirs {
+        let module_name = subdir.file_name().unwrap().to_string_lossy();
+
+        if module_name.starts_with(".") || module_name == "target" || module_name == "node_modules" {
+            continue;
+        }
+
+        has_modules = true;
+
+        let module_has_files = generate_module_map(&subdir, &module_name)?;
+
+        if module_has_files {
+            layer_map.push_str(&format!(
+                "- **[{}]** - [View Map]({}/{})\n",
+                                        module_name,
+                                        module_name,
+                                        format!("{}_MAP.md", module_name)
+            ));
+        } else {
+            layer_map.push_str(&format!("- **[{}]** *(empty)*\n", module_name));
+        }
+    }
+
+    if !has_modules && root_files.is_empty() {
+        layer_map.push_str("*No content yet / Nenhum conteúdo ainda*\n");
+    }
+
+    let map_path = layer_path.join(format!("{}_MAP.md", layer_name));
+    fs::write(map_path, layer_map)?;
+    println!("   📄 Layer map generated: {}/{}_MAP.md", layer_name, layer_name);
+
+    Ok(())
+}
+
+fn list_layer_root_files(layer_path: &Path) -> io::Result<Vec<(String, String)>> {
+    let mut files = Vec::new();
+
+    let entries = fs::read_dir(layer_path)?;
+    let mut paths: Vec<_> = entries
+    .filter_map(|r| r.ok())
+    .map(|e| e.path())
+    .filter(|p| p.is_file())
+    .collect();
+    paths.sort();
+
+    for path in paths {
+        let name = path.file_name().unwrap().to_string_lossy().to_string();
+
+        if name.ends_with("_MAP.md") || name.starts_with(".") {
+            continue;
+        }
+
+        let desc = extract_doc_comment(&path)
+        .unwrap_or_else(|| "—".to_string());
+
+        files.push((name, desc));
+    }
+
+    Ok(files)
+}
+
+fn generate_module_map(dir: &Path, module_name: &str) -> io::Result<bool> {
+    let mut content = format!("# 🗺️ Module: {}\n\n", module_name);
+    content.push_str("| File | Purpose |\n|---|---|\n");
+
+    let entries = fs::read_dir(dir)?;
+    let mut paths: Vec<_> = entries
+    .filter_map(|r| r.ok())
+    .map(|e| e.path())
+    .filter(|p| p.is_file())
+    .collect();
+    paths.sort();
+
+    let mut file_count = 0;
+
+    for path in paths {
+        let name = path.file_name().unwrap().to_string_lossy();
+
+        if name.ends_with("_MAP.md") || name.starts_with(".") {
+            continue;
+        }
+
+        let desc = extract_doc_comment(&path)
+        .unwrap_or_else(|| "—".to_string());
+
+        content.push_str(&format!("| `{}` | {} |\n", name, desc));
+        file_count += 1;
+    }
+
+    if file_count > 0 {
+        let map_file = dir.join(format!("{}_MAP.md", module_name));
+        fs::write(map_file, content)?;
+        println!("      📝 Module map: {}/{}_MAP.md ({} files)",
+                 dir.file_name().unwrap().to_string_lossy(),
+                 module_name,
+                 file_count);
+        return Ok(true);
+    }
+
+    Ok(false)
 }
 
 fn find_project_root() -> io::Result<PathBuf> {
@@ -69,52 +219,65 @@ fn find_project_root() -> io::Result<PathBuf> {
     }
 }
 
-fn generate_module_map(dir: &Path) -> io::Result<bool> {
-    let dir_name = dir.file_name().unwrap().to_string_lossy();
-    let mut content = format!("# 🗺️ Context: {}\n\n| File | Purpose |\n|---|---|\n", dir_name);
-    let mut has_relevant_files = false;
-
-    let entries = fs::read_dir(dir)?;
-    let mut paths: Vec<_> = entries.map(|r| r.unwrap().path()).collect();
-    paths.sort();
-
-    for path in paths {
-        let name = path.file_name().unwrap().to_string_lossy();
-
-        if name == "_MAP.md" || name.starts_with(".") || name == "Cargo.toml" { continue; }
-
-        if path.is_file() {
-            if let Some(desc) = extract_doc_comment(&path) {
-                content.push_str(&format!("| `{}` | {} |\n", name, desc));
-                has_relevant_files = true;
-            }
-        }
-    }
-
-    if has_relevant_files {
-        fs::write(dir.join("_MAP.md"), content)?;
-        println!("   📝 Sub-map generated: {}", dir.display());
-        return Ok(true);
-    }
-
-    // Limpeza: Se a pasta ficou vazia de código relevante, apaga o mapa antigo
-    let _ = fs::remove_file(dir.join("_MAP.md"));
-    Ok(false)
-}
-
 fn extract_doc_comment(path: &Path) -> Option<String> {
-    let ext = path.extension().unwrap_or_default().to_string_lossy();
-    // Tenta ler o arquivo (ignora se for binário/imagem)
-    if let Ok(content) = fs::read_to_string(path) {
-        for line in content.lines() {
-            let t = line.trim();
-            match ext.as_ref() {
-                "rs" => if t.starts_with("//!") { return Some(t.replace("//!", "").trim().to_string()) },
-                "md" if !t.starts_with("#") => return Some(t.to_string()),
-                _ => {}
+    let ext = path.extension()?.to_string_lossy();
+    let content = fs::read_to_string(path).ok()?;
+
+    match ext.as_ref() {
+        "md" => {
+            for line in content.lines().take(20) {
+                let trimmed = line.trim();
+
+                if trimmed.is_empty() {
+                    continue;
+                }
+
+                if trimmed.starts_with("#") {
+                    let title = trimmed.trim_start_matches('#').trim();
+                    if title.contains(" / ") {
+                        let clean = title.split(" / ").next().unwrap_or(title);
+                        return Some(clean.trim().to_string());
+                    }
+                    return Some(title.to_string());
+                }
+
+                if !trimmed.starts_with(">") && !trimmed.starts_with("-") && !trimmed.starts_with("*") {
+                    let first_sentence = trimmed.split('.').next().unwrap_or(trimmed);
+                    return Some(first_sentence.trim().to_string());
+                }
             }
+            Some("Documentation".to_string())
         }
-        return Some("-".to_string());
+        "rs" => {
+            for line in content.lines().take(10) {
+                let trimmed = line.trim();
+                if trimmed.is_empty() {
+                    continue;
+                }
+                if trimmed.starts_with("//!") {
+                    return Some(trimmed.replace("//!", "").trim().to_string());
+                }
+                if trimmed.starts_with("///") {
+                    return Some(trimmed.replace("///", "").trim().to_string());
+                }
+                if trimmed.starts_with("//") {
+                    return Some(trimmed.replace("//", "").trim().to_string());
+                }
+            }
+            None
+        }
+        "ts" | "js" => {
+            for line in content.lines().take(10) {
+                let trimmed = line.trim();
+                if trimmed.is_empty() {
+                    continue;
+                }
+                if trimmed.starts_with("//") {
+                    return Some(trimmed.replace("//", "").trim().to_string());
+                }
+            }
+            None
+        }
+        _ => None
     }
-    None
 }
