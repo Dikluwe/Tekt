@@ -1,4 +1,5 @@
-# Crystalline Architecture Standard
+# Tekt 
+## Crystalline Architecture Standard
 
 <div align="center">
 
