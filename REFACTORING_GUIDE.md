@@ -66,25 +66,25 @@ Cole este **Prompt de Engenharia Reversa Tekt**:
 > 
 > A sua Spec (Markdown) DEVE conter:
 > 1. **Objetivo Central:** O que este arquivo antigo tentava fazer?
-> 2. **Lógica Pura Extraída (O futuro L1):** Liste os algoritmos, regras de validação e transformações matemáticas que acontecem ali. Isto guiará o núcleo duro sem dependências.
-> 3. **Efeitos Colaterais Identificados (Futuros Contratos L0 / Implementações L3):** Onde o código antigo bate no banco de dados? Chama a rede? Lê o File System? Interage com uma Lib externa pesada? *Liste exaustivamente.*
+> 2. **Atomização da Lógica Pura (Para o futuro L1):** Não copie o blocão legado! Destrinche o arquivo antigo. Quebre a lógica matemática, validações e algoritmos em suas **menores unidades possíveis (Funções Atômicas)**. Na Tekt, o núcleo deve ser granular e unitariamente testável.
+> 3. **Efeitos Colaterais Identificados (Para os futuros Contratos L3):** Onde o código antigo bate no banco de dados? Chama a rede? Lê o File System? Interage com uma Lib externa pesada? *Liste exaustivamente.*
 > 4. **Glossário / Assinaturas (Opcional):** Documente as estruturas de dados (`structs`, `types`) principais que trafegam nessa feature.
 >
 > Apenas crie este arquivo de Spec no `L0` e os contratos `.ts`/`.rs` correspondentes no `00_nucleo/contracts/` se notar dependências I/O. Pare quando finalizar o L0. Marque `x` na checklist L0 do `LEGACY_MAP.md` e aguarde minhas instruções para o passo da Clivagem."
 
 ---
 
-## 💎 Passo 3: A Clivagem (O Nascimento de `L1` e `L3`)
-Com os Markdown e Interfaces prontas no `L0` (e só agora lidos e perfeitamente entendidos pelo LLM), a refatoração segura começou. A IA agora fará o seu trabalho seguindo a Spec, sem precisar deduzir "por que o arquivo legado puxava o banco de dados dentro do regex parser".
+## 💎 Passo 3: A Clivagem (O Nascimento de `L1` e `L3` Atômicos)
+Com os Markdown e Interfaces prontas no `L0` (e só agora lidos e perfeitamente entendidos pelo LLM), a refatoração segura começou. A IA agora fará o seu trabalho seguindo a Spec, sem precisar deduzir os gargalos do código velho.
 
 Envie o segundo **Prompt Executivo**:
 > "As specs estão formadas no `00_nucleo`. Leia-as.
 > Agora ative as regras da Tekt para esse módulo:
-> 1. Escreva a Lógica Pura (Sem I/O) matemática e algoritmos no `01_core/`. Eles devem implementar as interfaces de L0.
-> 2. Qualquer regra que faça leitura/escrita física ou libs pesadas, implemente nas classes do `03_infra/`.
-> 3. Crie os controladores de superfície no `02_shell/`.
+> 1. Escreva a Lógica Pura (Sem I/O) no `01_core/`. **REGRA DE OURO: ATOMIZAÇÃO.** Implemente funções minúsculas e de propósito único. Nada de funções blocadas de 100 linhas. Eles devem ser a mecânica fina que o L2 usará.
+> 2. Qualquer regra de I/O identificada, implemente nas classes do `03_infra/`.
+> 3. Crie os controladores/orquestradores de superfície no `02_shell/`.
 > 4. Faça o Wiring final na sua composição.
-> Ao terminar, confirme se a L0 e o Cabeçalho de Tipologia estão em todos os arquivos gerados. Eu irei deletar o código legado do módulo anterior e ligar a chave do L4."
+> Ao terminar, confirme se a L0 e o Cabeçalho de Tipologia estão preenchidos. Eu ligarei a nova chave do L4."
 
 ---
 
