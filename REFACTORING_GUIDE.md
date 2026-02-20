@@ -119,3 +119,13 @@ Cole este **Prompt de Integração (Wiring Parcial)**:
 > O objetivo é manter a Quarentena intocada enquanto o L4 estrangula o fluxo e orquestra a transição híbrida. Me avise quando o cargo compilar este novo Wiring com sucesso."
 
 Sempre que a IA finalizar este passo, rode os testes focados neste novo ponto de entrada. Se compilou e rodou, a simbiose foi um sucesso. Siga para clonar o próximo alvo no seu `LEGACY_MAP.md`.
+
+### 🛑 E se a compilação falhar no Passo 4? (A Regra do Rollback)
+Se houverem erros de tipagem, dependência cíclica ou ausência de métodos que o legado esperava: **NÃO TENTE CONSERTAR FAZENDO GAMBIARRAS NO L4!**
+
+O `04_wiring` é passivo. Se a peça nova não encaixou na peça velha, significa que **A Engenharia Reversa (Passo 2) falhou**. A IA não extraiu um Invariante correto ou esqueceu de mapear um Efeito Colateral na Spec (`L0`).
+A ação correta é:
+1. Desfaça o Wiring.
+2. Volte ao `00_nucleo/specs`. Atualize a Especificação para contemplar a falha descoberta.
+3. Peça para a IA readaptar o `L1` ou `L3` com base na nova Spec.
+4. Tente o Wiring novamente.
