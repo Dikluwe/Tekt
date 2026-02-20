@@ -52,6 +52,10 @@ Estes arquivos contêm comandos **absolutos e imperativos** que proíbem o seu L
 Nós preparamos um tutorial mecânico prático de como a IA (e você) navegam desde a especificação até a inicialização.
 👉 **[Leia o guia prático: COMO IMPLEMENTAR (HOW_TO_IMPLEMENT.md)](./HOW_TO_IMPLEMENT.md)**
 
+### 4. Ou Refatore um Projeto Existente (Modo Demolição)
+Se você quer migrar um repositório gigantesco ou caótico para a Tekt (ex: Typst), você **não pode** mandar a IA reescrever tudo de uma vez. Nós criamos um processo cirúrgico de refatoração com **Prompts de Engenharia Reversa**.
+👉 **[Leia o guia de Migração de Legados (REFACTORING_GUIDE.md)](./REFACTORING_GUIDE.md)**
+
 
 ---
 
