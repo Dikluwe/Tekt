@@ -96,3 +96,18 @@ Se o LLM não conseguir isolar uma chamada nativa porque é "cara demais em mem�
 *   Assine o arquivo gerado com a instrução explícita de exceção e deixe o `L3` encostar no `L1`.
 
 Refatorar uma vez e deixá-la purificada no Core (`L1`) pagará dividendos exponenciais no futuro porque, quando a base do sistema estiver reescrita na nova malha isolada, você e seu agente poderão escrever *Features* 5x mais rápidos sem medo de regressão sistêmica cruzada.
+
+---
+
+## 🔗 Passo 4: O Wiring Parcial (Testando o Novo com o Antigo)
+**Pergunta Crítica:** *"Se eu refatorar APENAS o `typst-cli`, eu posso compilar o código novo junto com o código antigo (que ainda está no `L20/crates`) para garantir que o projeto não quebrou?"*
+
+**Resposta:** **Sim. Absolutamente.** É para isso que o L4 existe. O segredo da estratégia de estrangulamento (Strangler Fig Pattern) cristalizado é o **Wiring Parcial**.
+
+Você não precisa e não deve esperar refatorar 300 arquivos para tentar rodar `cargo test`. 
+
+1. **A Função da Casca Velha:** O código antigo no `20_lab` vai continuar querendo chamar os métodos velhos.
+2. **A "Cola" no L4:** Na camada `04_wiring`, você cria os pontos de entrada ou os *adapters*. Onde o resto do sistema Legado (`L20`) precisava do módulo de CLI antigo, o L4 injetará a **nova casca do L2** que consome o **L1 refatorado**.
+3. **Rust `Cargo.toml`:** O cargo na raiz enxerga tudo. O módulo novo no L1/L2/L3 fica sendo um *crate* local (ou módulo limpo) que o código antigo do `20_lab/crates/typst/` agora importa. 
+
+Sempre que a IA finalizar o Passo 3 (A Clivagem), rode seus testes. Se compilou, o pedaço refatorado enxertou no pedaço podre com sucesso através da sutura do L4. Siga para o próximo arquivo do `LEGACY_MAP.md`.
