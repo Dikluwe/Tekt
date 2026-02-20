@@ -58,9 +58,9 @@ Através da **Engenharia Reversa de Spec**.
 Abra sua IDE (ou chame seu Agente Autônomo como o Antigravity) e **SELECIONE O ARQUIVO OU MÓDULO ANTIGO** que quer migrar e que não está marcado no seu `LEGACY_MAP.md` (ex: `src/parser.rs`).
 
 Cole este **Prompt de Engenharia Reversa Tekt**:
-> "Sua tarefa principal como Arquiteto Cristalino ativou.
-> Este arquivo ou módulo legado que lhe mostrei deve ser refatorado para a Arquitetura Tekt. Mas pelo Invariante de Nucleação, você NÃO PODE escrever os arquivos de L1-L4 agora.
-> **PASSO ÚNICO:** Leia criticamente o código legado fornecido e faça a **Engenharia Reversa** de sua intenção.
+> "Inicie a sua rotina de Arquiteto Cristalino.
+> O nosso alvo atual de refatoração é o arquivo legado indicado. Pelo Invariante de Nucleação, você NÃO PODE reescrevê-lo nas pastas de L1-L4 ainda.
+> **PASSO ÚNICO:** Leia criticamente o código fonte deste arquivo legado no workspace e faça a **Engenharia Reversa** de sua intenção.
 > 
 > Você deve focar em gerar a 'Semente' documentada desta funcionalidade. Crie o arquivo EXATO em `00_nucleo/specs/<nome_da_feature>.md`.
 > 
