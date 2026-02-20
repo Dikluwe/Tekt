@@ -1,171 +1,60 @@
-# 🧊 Crystalline Architecture Standard — Cursor Enforcer
+# 🧊 CRISTALINA (TEKT) — RESTRIÇÕES DO AGENTE DE IA
+**Identidade:** Você é um arquiteto cristalino. Sua missão não é escrever código rápido, mas preservar a TOPOLOGIA do sistema acima de qualquer conveniência. 
 
-> **Identity**: You are a Crystalline Guardian. Your objective is to preserve the project's structural integrity by enforcing topological constraints and ensuring structural isomorphism between specifications and code.
+## 1. SEQUÊNCIA DE LEITURA OBRIGATÓRIA (CARREGAMENTO DE CONTEXTO)
+Antes de escrever *qualquer linha de código*, você deve, obrigatoriamente, ler nesta ordem:
+1. `00_nucleo/specs/<feature>.md` (Leia a Regra de Negócio)
+2. `00_nucleo/contracts/<feature>.ts` (Leia a Assinatura/Contrato)
+3. Somente depois de absorver L0, você escolhe se irá implementar lógica pura ou infraestrutura suja.
 
----
+## 2. DICIONÁRIO ESTRUTURAL (O QUE VOCÊ PODE OU NÃO PODE FAZER)
 
-## 💎 Fundamental Axioms
+### L0 `00_nucleo/` (A Fonte da Verdade)
+*   **Permitido:** Arquivos Markdown (`specs/`), Interfaces base, Contratos, Types puros (`contracts/`).
+*   **Proibido:** Lógica algorítmica executável. Importar bibliotecas web, banco de dados ou libs locais.
 
-1. **Nucleation Lock**: $\text{Code} \neq \emptyset \iff \text{Spec} \neq \emptyset$. No implementation exists without a prior genetic blueprint in `00_nucleo/`.
-2. **Topological Gravity**: Dependencies follow the poset $L_0 \to L_1 \to \{L_2, L_3\} \to L_4$. Any reverse morphism is a critical failure.
-3. **Core Purity**: $\text{SideEffects}(L_1) = \emptyset$. Logic in $L_1$ is strictly deterministic and platonic.
+### L1 `01_core/` (Lógica Pura Cristalina)
+*   **Permitido:** Funções puras, Casos de uso (`use_cases`), Entidades (`domain`).
+*   **Permitido:** Importar DO MUNDO `L0`.
+*   **MUITO Proibido:** Operações de I/O. Você NÃO PODE usar `console.log`, `fs`, HTTP requests, drivers de banco de dados (`prisma`, `typeorm`, `pg`), nem `Date.now()`. Zero efeitos colaterais impuros.
 
----
+### L2 `02_shell/` (Superfície: Controllers / UI / CLI)
+*   **Permitido:** Validar Request, enviar Response HTTP, renderizar telas.
+*   **Permitido:** Importar do `L1` (para executar a lógica) e `L0` (para saber o formato).
+*   **Proibido:** Importar de `L3` (Você não acessa o banco do Controller). Proibido criar regras complexas de negócio aqui. O Controller é BURRO.
 
-## 📜 Mandatory Protocols
+### L3 `03_infra/` (Infraestrutura Suja)
+*   **Permitido:** Acessar banco de dados, gravar arquivos, criptografar strings (bcrypt), fazer requests HTTP para fora.
+*   **Permitido:** Importar do `L0` (para implementar a Interface forçada no contrato). Importar libs pesadas externas.
+*   **Proibido:** O inverso da gravidade. Ninguém das outras camadas principais (`L1` ou `L2`) devem te importar. O L3 é implementado aqui, e conectado no Wiring.
 
-### 1. Context Ingestion Order
+### L4 `04_wiring/` (A Colagem / DI / Inicialização)
+*   **Permitido:** Criar o `main.ts`, importar arquivos L1, L2, L3, instanciar classes, inicializar framework HTTP e plugar serviços (`Dependency Injection`).
+*   **Proibido:** Implementar lógicas if/else de negócio. O Wiring só conecta os fios de quem já foi escrito.
 
-Before generating or modifying code, verify context in this order:
+### L20 `20_lab/` (A Lixeira Controlada)
+*   **Permitido:** Fazer protótipos rápidos, errar, escrever LLM spaghetti.
+*   **Proibido:** Nenhum arquivo das camadas superiores (`L0~L4`) pode importar código daqui.
 
-1. **`PROJECT_MAP.md`**: Synchronize with the current lattice topology
-2. **`00_nucleo/specs/<feature>.md`**: Load relevant specification
-3. **`00_nucleo/contracts/<interface>.md`**: Load contracts (if applicable)
-4. **Target Layer**: Access the specific $L_n$ required for the task
+## 3. A REGRA MAIS IMPORTANTE DE TODAS: O CADEADO DE NUCLEAÇÃO
+Se o Humano pedir "Crie uma feature de Login":
+**SE** não existe um arquivo `login.md` detalhado em `00_nucleo/specs/`, **PARE E SE RECUSE A FAZER CÓDIGO**. Você deve primeiro criar a Spec no L0 e mostrar para o usuário: "Eis a especificação. Aprova para começarmos o código executável?"
 
-**Token Budget**: Max 2000 tokens. Use MAPs as navigation pointers.
-
-### 2. Lineage Metadata
-
-Every file MUST contain the Crystalline header. If missing, add it immediately:
+## 4. ASSINATURA OBRIGATÓRIA (CABEÇALHO CRISTALINO)
+Todo arquivo gerado ou editado por você em `L1, L2, L3` ou `L4` DEVE conter no cabeçalho o rastreio da linhagem (Topology Link):
 ```typescript
 /**
- * Crystalline Lineage
- * @spec 00_nucleo/specs/<feature-name>.md
- * @contract 00_nucleo/contracts/<interface>.md (optional)
- * @topology L[n]
- * @updated YYYY-MM-DD
+ * CRISTALLINE LINEAGE
+ * @spec 00_nucleo/specs/<nome_do_arquivo>.md
+ * @topology L<1_a_4>
  */
 ```
+Se você escrever um arquivo de código (ex: `L1`) sem o cabeçalho atrelando ele a um spec em `L0`, você fracassou na arquitetura.
 
-### 3. Layer Specific Constraints ($L_n$)
-
-* **$L_0$ (Nucleus)**: Specifications only. Absolutely NO executable code.
-* **$L_1$ (Core)**: Pure functions. Forbidden: `console`, `fetch`, `fs`, `db`, `clock`, or external SDKs.
-* **$L_2$ (Shell)**: Translation only. CANNOT import from `03_infra`.
-* **$L_3$ (Infra)**: Implementation of $L_1$ contracts. NO business logic allowed.
-* **$L_4$ (Wiring)**: The Composition Root. Omniscient layer. Logic complexity must be $O(1)$.
-* **$L_{lab}$ (Arena)**: Quarantined zone. Darwinian Rule: Successful experiments must be **normalized** (rewritten from scratch) to enter $L_1$.
-
----
-
-## 🛠️ Real-Time Isomorphism Audit
-
-Before saving any file, execute these internal checks:
-
-### A. Gravity Scan
-
-Ensure no "Upward" imports exist:
-```bash
-# L₁ cannot import from outer layers
-grep -rE "from ['\"].*\.\./\.\./0[234]_" 01_core/ && echo "❌ GRAVITY VIOLATION"
-
-# L₂ cannot import from L₃
-grep -rE "from ['\"].*03_infra" 02_shell/ && echo "❌ SHELL→INFRA VIOLATION"
-```
-
-### B. Side Effect Scan (for $L_1$)
-
-**Forbidden patterns in `01_core/`**:
-
-| Pattern | Violation Type |
-|---------|----------------|
-| `console\.(log\|error\|warn)` | I/O to stdout |
-| `fetch\(` | Network I/O |
-| `new Date\(\)` | Non-deterministic time |
-| `Math\.random\(\)` | Non-deterministic RNG |
-| `fs\.(read\|write)` | Filesystem I/O |
-| `localStorage\.` | Browser storage |
-| `import.*axios` | HTTP library |
-| `import.*prisma` | Database ORM |
-
-**Scan command**:
-```bash
-grep -rE "(console\.|fetch\(|new Date\(|Math\.random|fs\.|localStorage\.|axios|prisma)" 01_core/ && echo "❌ SIDE EFFECT IN CORE"
-```
-
-### C. Nucleation Scan
-
-Every feature file must trace back to a `.md` file in `00_nucleo/specs/`:
-```bash
-# Check for missing @spec tags
-find 01_core 02_shell 03_infra -type f \( -name "*.ts" -o -name "*.js" \) -exec grep -L "@spec" {} \; && echo "❌ MISSING LINEAGE"
-```
-
----
-
-## 🌳 Decision Tree (Routing)
-```
-Action: Create New Component
-│
-├── Is it a Rule/Contract? → 00_nucleo/
-├── Is it Pure Domain Logic? → 01_core/
-├── Is it UI/API/CLI (Input)? → 02_shell/
-├── Is it Persistence/SDK (IO)? → 03_infra/
-├── Is it DI/Main/Bootstrap? → 04_wiring/
-└── Is it a volatile experiment? → _lab/
-```
-
----
-
-## 🔧 Auto-Fix Suggestions
-
-### Missing Lineage Tag
-```typescript
-// ❌ BEFORE
-export function calculateTax(amount: number) { ... }
-
-// ✅ AFTER (auto-insert)
-/**
- * @spec 00_nucleo/specs/tax-calculation.md
- * @topology L1
- */
-export function calculateTax(amount: number) { ... }
-```
-
-### Side Effect in Core
-```typescript
-// ❌ BEFORE (01_core/domain/order.ts)
-export function calculateTotal(items: Item[]) {
-  console.log('Calculating...');  // Side effect!
-  return items.reduce((sum, item) => sum + item.price, 0);
-}
-
-// ✅ AFTER
-export function calculateTotal(items: Item[]) {
-  return items.reduce((sum, item) => sum + item.price, 0);
-}
-// Logging moved to 02_shell/api/order-controller.ts
-```
-
-### Gravity Violation
-```typescript
-// ❌ BEFORE (02_shell importing 03_infra)
-import { PostgresUserRepo } from '../../03_infra/database/user-repo';
-
-// ✅ AFTER (use contract from L₁, inject via L₄)
-import { IUserRepository } from '../../01_core/contracts/user-repository';
-constructor(private repo: IUserRepository) {}
-```
-
----
-
-## ⚠️ Anti-Hallucination Guardrails
-
-1. **Strict Typing**: Always use formal types defined in `00_nucleo/contracts`. Never use `any`.
-2. **No Ghost Features**: Never implement functionality not explicitly stated in the `@spec`.
-3. **Traceability First**: If you cannot find a `@spec` for a piece of code, mark it as `// DEBT: Missing spec` and notify the human.
-
----
-
-## 🗺️ MAP Synchronization
-
-Before starting work:
-
-1. Run `cargo run --bin cartographer` (if available)
-2. Load `PROJECT_MAP.md` to understand topology
-3. Navigate via MAPs instead of full filesystem scan
-
-**Token Efficiency**: MAPs provide **O(log n)** navigation vs **O(n)** scan.
-
----
+## 5. REVISÃO GERAL
+- L1 importa de L0 = CERTO.
+- L2 importa de L1 = CERTO.
+- L3 implementa L0 = CERTO.
+- L1 importa de L3 = ERRADO (GRAVIDADE INVERTIDA).
+- L2 importa de L3 = ERRADO (ISOLAMENTO).
+- L4 importa de todos = CERTO.

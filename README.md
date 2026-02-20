@@ -40,11 +40,8 @@ cd my-project
 
 ### 2. Initialize Structure
 
-```bash
-# Generate navigation maps
-cargo run --bin cartographer
-# Output: PROJECT_MAP.md, layer MAPs, module MAPs
-```
+*(Step removed: Structure is now verified dynamically, without static maps)*
+
 
 ### 3. Create Your First Feature
 
@@ -119,13 +116,8 @@ const authController = new AuthController(authService);
 ```
 
 ### 4. Validate Structure
+*(Validation tools under refactoring for the new paradigm)*
 
-```bash
-npm run crystalline:lint
-# ✅ Nucleation: OK (all files have @spec)
-# ✅ Gravity: OK (no reverse dependencies)
-# ✅ Purity: OK (no I/O in 01_core)
-```
 
 ---
 
@@ -140,7 +132,13 @@ your-project/
 ├── 02_shell/      # 🖥️  UI, API, CLI (Primary Adapters)
 ├── 03_infra/      # 🔌 Database, Network (Secondary Adapters)
 ├── 04_wiring/     # ⚡ Dependency Injection, main() (⊤ The Composition)
-└── _lab/          # 🧪 Experiments (Quarantine)
+├── 10_bedrock/    # 🏗️  Project Infra (Docker, Nix) - [Orbital Lattice]
+├── 11_tools/      # 🛠️  Analysis Tools (Linter, AI Context) - [Orbital Lattice]
+├── 12_docs/       # 📚 Documentation (Site, Manuals) - [Orbital Lattice]
+├── 13_assets/     # 📦 Binary Assets (Models, Media) - [Orbital Lattice]
+└── 20_lab/        # 🧪 Experimental Arena (Quarantine) - [Experimental Lattice]
+
+
 ```
 
 ---
@@ -173,7 +171,8 @@ graph TD
     end
 
     W("04_wiring<br>(Composition Root) ⊤")
-    L("_lab<br>(Quarantine)")
+    L("20_lab<br>(Experimental Arena)")
+
 
     %% Dependencies (arrows point toward what is depended upon)
     C --> N
@@ -210,7 +209,9 @@ graph TD
   - 🟢 Green: Pure logic (deterministic)
   - 🟠 Orange: I/O boundaries
   - 🟣 Purple: Composition layer
+  - 🌑 Grey: Orbital layers (Support)
   - 🔴 Red: Quarantine zone
+
 
 **Dependency Rule**: Arrows point **toward** dependencies. Reverse arrows violate gravity.
 
@@ -225,9 +226,10 @@ graph TD
 ```
 Task: "Implement payment processing"
 
-Step 1: Read PROJECT_MAP.md
+Step 1: Read directory structure (Intrinsic Topology)
         ↓
-Step 2: Navigate to 00_nucleo_MAP.md
+Step 2: Navigate to 00_nucleo/specs/
+
         ↓
 Step 3: Check if 00_nucleo/specs/payment-processing.md exists
         ├─ YES → Read spec, proceed with implementation
@@ -282,7 +284,8 @@ Before saving any file, verify:
 |----------|-------------|
 | [**MANIFESTO.md**](./MANIFESTO.md) | Constitutional document with mathematical foundations |
 | [**MANIFESTO.pt.md**](./MANIFESTO.pt.md) | Versão em português |
-| [**PROJECT_MAP.md**](./PROJECT_MAP.md) | Navigation map (auto-generated) |
+
+
 
 ### Layer Guides
 
@@ -293,7 +296,8 @@ Before saving any file, verify:
 | L₂ | [02_shell/README.md](./02_shell/README.md) | Adapter patterns |
 | L₃ | [03_infra/README.md](./03_infra/README.md) | Infrastructure setup |
 | L₄ | [04_wiring/README.md](./04_wiring/README.md) | DI configuration |
-| Lab | [_lab/README.md](./_lab/README.md) | Experiment protocols |
+| L₂₀ | [20_lab/README.md](./20_lab/README.md) | Experiment protocols |
+
 
 ### AI Configuration
 
@@ -326,41 +330,10 @@ Before saving any file, verify:
 
 ---
 
-## Tools
+### Verification Tools
 
-### Cartographer (Fractal Maps Generator)
+*Under development: Adapting `ai-coders-context` for Syntactic Transparency validation.*
 
-Generates hierarchical navigation maps:
-
-```bash
-cargo run --bin cartographer
-# Creates: PROJECT_MAP.md, 00_nucleo/00_nucleo_MAP.md, etc.
-```
-
-### Crystalline Linter
-
-Validates architectural invariants:
-
-```bash
-npm run crystalline:lint
-# Checks: nucleation, gravity, purity, isomorphism
-```
-
-### CI/CD Integration
-
-Add to `.github/workflows/crystalline-ci.yml`:
-
-```yaml
-name: Crystalline Integrity Check
-on: [push, pull_request]
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Validate Structure
-        run: npm run crystalline:lint
-```
 
 ---
 

@@ -1,167 +1,60 @@
-# 🧊 Crystalline Architecture — Agent Rules
+# 🧊 CRISTALINA (TEKT) — RESTRIÇÕES DO AGENTE DE IA
+**Identidade:** Você é um arquiteto cristalino. Sua missão não é escrever código rápido, mas preservar a TOPOLOGIA do sistema acima de qualquer conveniência. 
 
-> **Agent Identity**: You are a Crystalline Guardian. Your primary objective is to minimize structural entropy $H$ and ensure all code implementations are isomorphic to their formal specifications.
+## 1. SEQUÊNCIA DE LEITURA OBRIGATÓRIA (CARREGAMENTO DE CONTEXTO)
+Antes de escrever *qualquer linha de código*, você deve, obrigatoriamente, ler nesta ordem:
+1. `00_nucleo/specs/<feature>.md` (Leia a Regra de Negócio)
+2. `00_nucleo/contracts/<feature>.ts` (Leia a Assinatura/Contrato)
+3. Somente depois de absorver L0, você escolhe se irá implementar lógica pura ou infraestrutura suja.
 
----
+## 2. DICIONÁRIO ESTRUTURAL (O QUE VOCÊ PODE OU NÃO PODE FAZER)
 
-## 💎 Fundamental Axioms
+### L0 `00_nucleo/` (A Fonte da Verdade)
+*   **Permitido:** Arquivos Markdown (`specs/`), Interfaces base, Contratos, Types puros (`contracts/`).
+*   **Proibido:** Lógica algorítmica executável. Importar bibliotecas web, banco de dados ou libs locais.
 
-1. **Nucleation Invariant**: $\text{Code} \neq \emptyset \iff \text{Spec} \neq \emptyset$. Implementation is a deterministic function of specification.
-2. **Topological Gravity**: Dependencies flow exclusively towards the infimum ($L_n \to L_{n-1}$). Circular dependencies violate system logic.
-3. **Isomorphism Audit**: Every generation must be verified against its contract. If $\text{Code} \not\equiv \text{Contract}$, the generation is a failure.
+### L1 `01_core/` (Lógica Pura Cristalina)
+*   **Permitido:** Funções puras, Casos de uso (`use_cases`), Entidades (`domain`).
+*   **Permitido:** Importar DO MUNDO `L0`.
+*   **MUITO Proibido:** Operações de I/O. Você NÃO PODE usar `console.log`, `fs`, HTTP requests, drivers de banco de dados (`prisma`, `typeorm`, `pg`), nem `Date.now()`. Zero efeitos colaterais impuros.
 
----
+### L2 `02_shell/` (Superfície: Controllers / UI / CLI)
+*   **Permitido:** Validar Request, enviar Response HTTP, renderizar telas.
+*   **Permitido:** Importar do `L1` (para executar a lógica) e `L0` (para saber o formato).
+*   **Proibido:** Importar de `L3` (Você não acessa o banco do Controller). Proibido criar regras complexas de negócio aqui. O Controller é BURRO.
 
-## 1. Context Ingestion Protocol
+### L3 `03_infra/` (Infraestrutura Suja)
+*   **Permitido:** Acessar banco de dados, gravar arquivos, criptografar strings (bcrypt), fazer requests HTTP para fora.
+*   **Permitido:** Importar do `L0` (para implementar a Interface forçada no contrato). Importar libs pesadas externas.
+*   **Proibido:** O inverso da gravidade. Ninguém das outras camadas principais (`L1` ou `L2`) devem te importar. O L3 é implementado aqui, e conectado no Wiring.
 
-Before starting any task, ingest the project's **Lattice** in this order:
+### L4 `04_wiring/` (A Colagem / DI / Inicialização)
+*   **Permitido:** Criar o `main.ts`, importar arquivos L1, L2, L3, instanciar classes, inicializar framework HTTP e plugar serviços (`Dependency Injection`).
+*   **Proibido:** Implementar lógicas if/else de negócio. O Wiring só conecta os fios de quem já foi escrito.
 
-1. `00_nucleo/` → Ingest axioms, ADRs, and contracts
-2. `PROJECT_MAP.md` → Understand topology
-3. Relevant spec: `00_nucleo/specs/<feature>.md`
-4. Target layer (`01_core`, `02_shell`, `03_infra`)
-5. `04_wiring/` (only if needed for composition)
+### L20 `20_lab/` (A Lixeira Controlada)
+*   **Permitido:** Fazer protótipos rápidos, errar, escrever LLM spaghetti.
+*   **Proibido:** Nenhum arquivo das camadas superiores (`L0~L4`) pode importar código daqui.
 
-**Token Budget**: Max 2000 tokens for context. Use MAPs as pointers, not full content.
+## 3. A REGRA MAIS IMPORTANTE DE TODAS: O CADEADO DE NUCLEAÇÃO
+Se o Humano pedir "Crie uma feature de Login":
+**SE** não existe um arquivo `login.md` detalhado em `00_nucleo/specs/`, **PARE E SE RECUSE A FAZER CÓDIGO**. Você deve primeiro criar a Spec no L0 e mostrar para o usuário: "Eis a especificação. Aprova para começarmos o código executável?"
 
----
-
-## 2. The Nucleation Lock
-
-**STRICT RULE**: If a feature is not defined in `00_nucleo/specs/`, you are forbidden from writing production code.
-
-* **IF NO SPEC**: Stop. Create specification using template and request human validation.
-* **IF YES SPEC**: Proceed with lineage tracing.
-
-**Exception**: Bootstrap scenarios (see Emergency Protocols).
-
----
-
-## 3. Layer Constraints ($L_n$)
-
-### $L_0$: Nucleus (The Seed)
-* **Property**: $\text{Code}(L_0) = \emptyset$. Only specifications.
-* **Forbidden**: Any executable code.
-
-### $L_1$: Pure Core (The Crystal)
-* **Property**: $\text{SideEffects}(L_1) = \emptyset$.
-* **Forbidden**: Database, Network, Filesystem, System Clock, UI, External Libraries.
-* **Morphism**: $f(\text{Input}) \to \text{Output}$ must be deterministic.
-
-### $L_2$: Shell (The Surface)
-* **Morphism**: $f: \text{World} \to \text{Core}$.
-* **Constraint**: $\text{dep}(L_2) \cap L_3 = \emptyset$. Never import from Infrastructure.
-
-### $L_3$: Infra (The Support)
-* **Morphism**: $r: \text{Implementation} \to \text{Contract}$.
-* **Constraint**: Encapsulate all side effects. Never leak infra types to $L_1$.
-
-### $L_4$: Wiring (The Energy)
-* **Role**: Composition Root.
-* **Constraint**: $\text{Logic}(L_4) \to \min$. Only instantiation.
-
-### $L_{lab}$: Arena (Quarantine)
-* **Rule**: $\text{dep}(\text{System}) \cap \text{Lab} = \emptyset$.
-* **Darwinian Selection**: Code must be rewritten (normalized) to enter $L_1$.
-
----
-
-## 4. Lineage Tracing (Mandatory Header)
-
-Every file MUST include:
+## 4. ASSINATURA OBRIGATÓRIA (CABEÇALHO CRISTALINO)
+Todo arquivo gerado ou editado por você em `L1, L2, L3` ou `L4` DEVE conter no cabeçalho o rastreio da linhagem (Topology Link):
 ```typescript
 /**
- * Crystalline Lineage
- * @spec 00_nucleo/specs/<feature-name>.md
- * @contract 00_nucleo/contracts/<interface>.md (optional)
- * @topology L[n]
- * @updated YYYY-MM-DD
+ * CRISTALLINE LINEAGE
+ * @spec 00_nucleo/specs/<nome_do_arquivo>.md
+ * @topology L<1_a_4>
  */
 ```
+Se você escrever um arquivo de código (ex: `L1`) sem o cabeçalho atrelando ele a um spec em `L0`, você fracassou na arquitetura.
 
----
-
-## 5. Isomorphism Audit (Pre-Completion Checklist)
-
-Run these validations BEFORE declaring completion:
-
-### A. Spec Compliance
-```bash
-# Every @spec must exist
-grep -r "@spec" --include="*.ts" | while read line; do
-  spec=$(echo $line | sed -n 's/.*@spec \(.*\)/\1/p')
-  [ -f "$spec" ] || echo "❌ ORPHAN: $line"
-done
-```
-
-### B. Gravity Check
-```bash
-# L₁ cannot import from outer layers
-grep -r "from.*\(02_shell\|03_infra\|_lab\)" 01_core/ && echo "❌ GRAVITY VIOLATION"
-```
-
-### C. Side Effect Scan
-```bash
-# Core cannot have I/O
-grep -r "\(console\.\|fetch\|fs\.\|axios\|std::fs\)" 01_core/ && echo "❌ I/O IN CORE"
-```
-
-### D. Lineage Presence
-```bash
-# Every source file must have @spec
-find 01_core 02_shell 03_infra -type f \( -name "*.ts" -o -name "*.rs" \) -exec grep -L "@spec" {} \;
-```
-
----
-
-## 6. Decision Tree (Routing)
-```
-Target: New Component
-│
-├── Is it a system rule? → 00_nucleo/
-│   ├── Architectural? → adr/
-│   ├── Behavioral? → specs/
-│   └── Structural? → contracts/
-├── Is it pure logic? → 01_core/
-├── Is it Input/View? → 02_shell/
-├── Is it Persistence? → 03_infra/
-├── Is it Bootstrap? → 04_wiring/
-└── Is it a "Spike"? → _lab/
-```
-
----
-
-## 7. Emergency Protocols
-
-### Bootstrap Problem
-If `00_nucleo/` is empty, you MAY create the first ADR without pre-existing spec. This is the ONLY exception.
-
-### Performance Critical Path
-If profiling shows >10% abstraction overhead, you MAY violate gravity IF:
-1. Documented in ADR
-2. Marked with `// PERFORMANCE EXCEPTION: [reason]`
-3. Isolated to <50 lines
-
----
-
-## ❌ Common Violations (Anti-Patterns)
-
-### Gravity Violation
-```typescript
-// 01_core/domain/user.ts
-import { Database } from '../../03_infra/database';  // ❌ L₁ → L₃
-```
-
-### Nucleation Violation
-```typescript
-// Missing @spec tag
-export function processPayment() { ... }  // ❌ WHERE IS SPEC?
-```
-
-### Side Effect in Core
-```typescript
-// 01_core/domain/order.ts
-console.log('Calculating...');  // ❌ I/O in pure layer
-```
-
----
+## 5. REVISÃO GERAL
+- L1 importa de L0 = CERTO.
+- L2 importa de L1 = CERTO.
+- L3 implementa L0 = CERTO.
+- L1 importa de L3 = ERRADO (GRAVIDADE INVERTIDA).
+- L2 importa de L3 = ERRADO (ISOLAMENTO).
+- L4 importa de todos = CERTO.

@@ -20,7 +20,10 @@ Aqui está a versão refatorada seguindo o padrão da **Crystalline Architecture
 
 ## Status
 
-`ACCEPTED`
+`DEPRECATED` (Superseded by Axiom VI: Syntactic Transparency)
+
+> **Note**: Static mapping files (`_MAP.md`) and the `cartographer` tool have been discontinued. Structure is now derived dynamically from the AST (Syntactic Transparency).
+
 
 ## Date
 
