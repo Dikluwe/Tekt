@@ -31,11 +31,8 @@ Cole este **Prompt de Mapeamento**:
 > "Sua primeira tarefa não é alterar código, mas mapear o legado. 
 > Analise a pasta selecionada (ex: `20_lab/crates/typst-syntax/src`). 
 > Crie no diretório raiz do nosso projeto um novo arquivo `LEGACY_MAP.md`. Nele, liste em formato de Markdown checkboxes todos os arquivos `.rs` achados nessa pasta. 
-> Mas **ATENÇÃO**, abaixo de CADA arquivo `.rs` listado, você deve indentar 4 subj-checkboxes vazias exatas: 
+> Mas **ATENÇÃO**, abaixo de CADA arquivo `.rs` listado, você deve adicionar UMA única sub-checkbox indentada informando o status da Engenharia Reversa inicial: 
 > `  - *↳ [ ] L0 (Spec Criada)*`
-> `  - *↳ [ ] L1 (Mecânica Pura Extraída)*`
-> `  - *↳ [ ] L2/L3 (I/O e Superfície Isoladas)*`
-> `  - *↳ [ ] L4 (Wiring Configurado)*`
 > Apenas crie este arquivo de checklist e pare."
 
 **Exemplo de como ficará o seu `LEGACY_MAP.md`:**
@@ -45,13 +42,12 @@ Cole este **Prompt de Mapeamento**:
 ## Módulo: Parser
 - [ ] `20_lab/crates/typst-syntax/src/parser.rs` 
   - *↳ [ ] L0 (Spec Criada)*
-  - *↳ [ ] L1 (Mecânica Pura Extraída)*
-  - *↳ [ ] L2/L3 (I/O e Superfície Isoladas)*
-  - *↳ [ ] L4 (Wiring Configurado)*
 - [ ] `20_lab/crates/typst-syntax/src/lexer.rs`
+  - *↳ [ ] L0 (Spec Criada)*
 - [ ] `20_lab/crates/typst-syntax/src/span.rs`
+  - *↳ [ ] L0 (Spec Criada)*
 ```
-*(Nota: O agente de IA deve ser instruído a marcar com um `x` cada etapa concluída neste mapa antes de passar para o próximo arquivo do legado).*
+*(Nota: O agente de IA deve ser instruído a marcar com um `x` a criação do L0 de cada arquivo. Uma vez que o L0 nasça, o humano/IA expandem o checklist daquele arquivo específico com os passos de implementação L1->L4).*
 
 ---
 
