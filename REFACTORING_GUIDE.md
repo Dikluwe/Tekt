@@ -106,8 +106,11 @@ Refatorar uma vez e deixá-la purificada no Core (`L1`) pagará dividendos expon
 
 Você não precisa e não deve esperar refatorar 300 arquivos para tentar rodar `cargo test`. 
 
-1. **A Função da Casca Velha:** O código antigo no `20_lab` vai continuar querendo chamar os métodos velhos.
-2. **A "Cola" no L4:** Na camada `04_wiring`, você cria os pontos de entrada ou os *adapters*. Onde o resto do sistema Legado (`L20`) precisava do módulo de CLI antigo, o L4 injetará a **nova casca do L2** que consome o **L1 refatorado**.
-3. **Rust `Cargo.toml`:** O cargo na raiz enxerga tudo. O módulo novo no L1/L2/L3 fica sendo um *crate* local (ou módulo limpo) que o código antigo do `20_lab/crates/typst/` agora importa. 
+Cole este **Prompt de Integração (Wiring Parcial)**:
+> "A Clivagem Tekt foi um sucesso. Temos L1, L2, L3 e L4 isolados.
+> O nosso projeto agora tem uma dualidade: O código antigo intacto mora na pasta da Quarentena (`L20`), enquanto nosso módulo novo reside nas pastas `01` a `04`.
+> **PASSO ÚNICO:** Vá até o código do Legado no `L20` que dependia deste arquivo que acabamos de apagar/substituir. Altere os `imports` e as chamadas do _código legado_ para que eles invoquem o nosso novo **Adapter/Porta** criado no `04_wiring` ou `02_shell`.
+> O objetivo é fazer o compilador e os testes do projeto antigo (`cargo test` na raiz do workspace) voltarem a passar, consumindo a nossa nova infraestrutura cristalina. Crie Mocks L3 temporários apenas se o código legado exigir I/O que ainda não expusemos.
+> Me avise quando o projeto inteiro voltar a compilar com sucesso e marque os testes executados."
 
-Sempre que a IA finalizar o Passo 3 (A Clivagem), rode seus testes. Se compilou, o pedaço refatorado enxertou no pedaço podre com sucesso através da sutura do L4. Siga para o próximo arquivo do `LEGACY_MAP.md`.
+Sempre que a IA finalizar este passo, rode seus testes localmente. Se compilou, o pedaço refatorado enxertou no pedaço podre com sucesso através da sutura do L4. Siga feliz para o próximo arquivo do `LEGACY_MAP.md`.
