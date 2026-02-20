@@ -100,7 +100,8 @@ Ciclos de dependência são considerados degenerações topológicas e são proi
 
 Nem todo código pertence ao mesmo regime estrutural.
 
-Componentes experimentais, instáveis ou exploratórios devem existir em **estratos isolados**, separados do sistema principal por fronteiras explícitas.
+Componentes experimentais, instáveis ou exploratórios devem existir em **estratos isolados ($L_{20}$) **, separados do sistema principal por fronteiras explícitas.
+
 
 Para que um componente atravesse essa fronteira, ele deve ser **normalizado**: reescrito de modo a satisfazer integralmente os invariantes do regime estável.
 
@@ -119,6 +120,17 @@ Os invariantes arquiteturais têm precedência absoluta sobre:
 Qualquer modificação que preserve funcionalidade mas viole invariantes é considerada **regressão estrutural**, ainda que reduza linhas de código ou melhore métricas locais.
 
 A estabilidade do sistema é determinada pela preservação contínua de seus invariantes, não pela ausência momentânea de falhas observáveis.
+
+---
+
+#### Axioma VI — Transparência Sintática
+
+A arquitetura deve ser auditável por máquinas. Um sistema cuja estrutura só pode ser compreendida através de documentação externa ou diagramas manuais é opaco e propenso à entropia oculta.
+
+Na Arquitetura Cristalina, exigimos **Transparência Sintática**: um agente cego ao contexto humano, armado apenas com um analisador de sintaxe (parser), deve ser capaz de reconstruir o diagrama exato das camadas e validar todos os invariantes apenas lendo os arquivos fonte.
+
+Se a estrutura precisa ser explicada, ela falhou. A estrutura deve ser computável.
+
 
 A Arquitetura Cristalina pode ser descrita de forma consistente através de uma estrutura categórica mínima, utilizada aqui como **ferramenta de organização formal**, não como aparato matemático completo.
 
@@ -197,7 +209,8 @@ O diagrama abaixo representa a **ordem parcial**  do sistema, onde os morfismos 
 
 Cada estrato representa um **regime estrutural distinto**, caracterizado por nível de estabilidade, permissividade e entropia aceitável. A posição de um componente no lattice não é estética nem organizacional: ela determina **o que o componente pode conhecer, de quem pode depender e como pode evoluir**.
 
-A estrutura canônica é definida pelos seguintes estratos, ordenados do mais estável ao mais variável.
+A estrutura canônica é definida pelos seguintes estratos, ordenados do mais estável ao mais variável, culminando na Arena Experimental ($L_{20}$).
+
 
 ---
 
@@ -298,6 +311,21 @@ Propriedade: A Fiação é o ponto de convergência de toda a autoridade estrutu
 
 ---
 
+#### ( L_{10+} ) — Lattice Orbital (Suporte)
+
+Para além do cristal do produto ($L_0-L_4$), existe o ecossistema que o sustenta. Estas camadas orbitam o núcleo, fornecendo o ambiente de fabricação e validação.
+
+*   **($L_{10}$) — Bedrock (Alicerce)**: Infraestrutura de projeto (Docker, Nix, CI/CD).
+*   **($L_{11}$) — Tools (Ferramentas)**: Agentes de automação, linters e analisadores (ex: `ai-coders-context`).
+*   **($L_{12}$) — Docs**: Artefatos de documentação gerados ou externos.
+*   **($L_{13}$) — Assets (Armazém)**: Arquivos estáticos, binários grandes e mídia bruta.
+
+
+**Axioma da Gravidade Orbital**:
+As camadas orbitais ($L_{10+}$) **podem** depender do produto ($L_{0-4}$) para análise e execução.
+O produto ($L_{0-4}$) **JAMAIS** pode depender das camadas orbitais. O software deve ser compilável e executável sem a presença de suas ferramentas de análise.
+
+
 ### Propriedades Globais do Lattice
 
 * O lattice é **finito, discreto e acíclico**
@@ -363,7 +391,8 @@ Dessa forma, o controle da entropia não é um processo reativo, mas uma proprie
 | ** (Casca)** | Adaptadores de Interface | Adaptadores Primários | Camada de Aplicação |
 | ** (Infra)** | Frameworks e Drivers | Adaptadores Secundários | Infraestrutura |
 | ** (Fiação)** | Main | — | Raiz de Composição (Composition Root) |
-| ** (Arena)** | — | — | Spikes / POCs |
+| **($L_{20}$) (Arena)** | — | — | Spikes / POCs |
+
 
 ---
 

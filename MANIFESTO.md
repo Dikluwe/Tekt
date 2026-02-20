@@ -97,7 +97,8 @@ Dependency cycles are considered topological degenerations and are prohibited.
 
 Not all code belongs to the same structural regime.
 
-Experimental, unstable, or exploratory components must exist in **isolated strata**, separated from the main system by explicit boundaries.
+Experimental, unstable, or exploratory components must exist in **isolated strata ($L_{20}$)**, separated from the main system by explicit boundaries.
+
 
 For a component to cross this boundary, it must be **normalized**: rewritten to fully satisfy the invariants of the stable regime.
 
@@ -116,6 +117,17 @@ Architectural invariants have absolute precedence over:
 Any modification that preserves functionality but violates invariants is considered a **structural regression**, even if it reduces lines of code or improves local metrics.
 
 System stability is determined by the continuous preservation of its invariants, not by the momentary absence of observable failures.
+
+---
+
+#### Axiom VI — Syntactic Transparency
+
+The architecture must be machine-auditable. A system whose structure can only be understood through external documentation or manual diagrams is opaque and prone to hidden entropy.
+
+In Crystalline Architecture, we require **Syntactic Transparency**: an agent blind to human context, armed only with a syntax parser, must be able to reconstruct the exact layer diagram and validate all invariants solely by reading the source files.
+
+If the structure needs to be explained, it has failed. The structure must be computable.
+
 
 Crystalline Architecture can be described consistently through a minimal categorical structure, used here as a **tool for formal organization**, not as a complete mathematical apparatus.
 
@@ -179,7 +191,8 @@ Hasse Diagram of the LatticeThe diagram below represents the partial order $(L, 
 
 Each stratum represents a **distinct structural regime**, characterized by its level of stability, permissiveness, and acceptable entropy. The position of a component in the lattice is neither aesthetic nor organizational: it determines **what the component can know, what it can depend on, and how it can evolve**.
 
-The canonical structure is defined by the following strata, ordered from the most stable to the most variable.
+The canonical structure is defined by the following strata, ordered from the most stable to the most variable, ending in the Experimental Arena ($L_{20}$).
+
 
 ---
 
@@ -281,6 +294,21 @@ Property: Wiring is the point of convergence for all structural authority; it co
 
 ---
 
+#### ( L_{10+} ) — Orbital Lattice (Support)
+
+Beyond the product crystal ($L_0-L_4$), there exists the ecosystem that sustains it. These layers orbit the core, providing the manufacturing and validation environment.
+
+*   **($L_{10}$) — Bedrock**: Project infrastructure (Docker, Nix, CI/CD).
+*   **($L_{11}$) — Tools**: Automation agents, linters, and analyzers (e.g., `ai-coders-context`).
+*   **($L_{12}$) — Docs**: Generated or external documentation artifacts.
+*   **($L_{13}$) — Assets**: Static files, huge binaries, and raw media.
+
+
+**Orbital Gravity Axiom**:
+Orbital layers ($L_{10+}$) **may** depend on the product ($L_{0-4}$) for analysis and execution.
+The product ($L_{0-4}$) must **NEVER** depend on orbital layers. The software must be compilable and executable without the presence of its analysis tools.
+
+
 ### Global Properties of the Lattice
 
 * The lattice is **finite, discrete, and acyclic**.
@@ -345,7 +373,8 @@ Thus, entropy control is not a reactive process but an emergent property of the 
 | $L_2$ (Shell) | Interface Adapters | Primary Adapters | Application Layer |
 | $L_3$ (Infra) | Frameworks & Drivers | Secondary Adapters | Infrastructure |
 | $L_4$ (Wiring) | Main | — | Composition Root |
-| $L_{lab}$ (Arena) | — | — | Spikes / POCs |
+| $L_{20}$ (Arena) | — | — | Spikes / POCs |
+
 
 ---
 

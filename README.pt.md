@@ -28,118 +28,47 @@ O Padrão Cristalino trata a arquitetura de software como um **Espaço Topológi
 
 ---
 
-## Início Rápido
+## Início Rápido (Scaffolding Tekt)
 
-### 1. Criar Projeto do Template
+A Arquitetura Cristalina foi feita para ser construída **em parceria rigorosa com o seu Agente de IA** (Cursor, Copilot, Cline, Aider). Para iniciar um projeto novo, siga os três passos essenciais da Nucleação.
+
+### 1. Preparar a Física do Projeto
+Inicie o Lattice (as camadas) na sua pasta vazia executando o script de scaffolding ou clonando este repositório base.
 
 ```bash
 git clone https://github.com/your-org/crystalline-architecture-standard.git meu-projeto
 cd meu-projeto
+rm -rf .git
 ```
 
-### 2. Inicializar Estrutura
+### 2. Diga à sua IA como se comportar
+Este repositório acompanha dois arquivos preciosos: o `.cursorrules` e o `.agentrules`.
+Estes arquivos contêm comandos **absolutos e imperativos** que proíbem o seu LLM de quebrar a arquitetura (ex: ele será proibido de escrever regras de negócio sem antes criar a especificação em Texto).
 
-```bash
-# Gerar mapas de navegação
-cargo run --bin cartographer
-# Output: PROJECT_MAP.md, MAPs de camadas, MAPs de módulos
-```
+*   **Se você usa Cursor IDE:** O arquivo `.cursorrules` já será lido automaticamente.
+*   **Se você usa Aider/Cline/Outros:** Copie o conteúdo de `.agentrules` e alimente como *System Prompt* ou *Custom Instructions*.
 
-### 3. Criar Sua Primeira Feature
+### 3. Escreva sua primeira Feature (O jeito Tekt)
+Nós preparamos um tutorial mecânico prático de como a IA (e você) navegam desde a especificação até a inicialização.
+👉 **[Leia o guia prático: COMO IMPLEMENTAR (HOW_TO_IMPLEMENT.md)](./HOW_TO_IMPLEMENT.md)**
 
-#### Passo A: Escrever Especificação (Nucleação)
-
-```bash
-cat > 00_nucleo/specs/user-login.md <<'EOF'
-# Feature: Login de Usuário
-
-## Requisitos
-1. Aceitar email + senha
-2. Retornar token JWT (expira em 24h)
-3. Rate limit: 5 tentativas por minuto
-
-## Regras de Negócio
-- Senhas devem ser hasheadas com bcrypt (cost=12)
-- Tentativas falhadas disparam backoff exponencial
-EOF
-```
-
-#### Passo B: Implementar Lógica Central (Pura)
-
-```typescript
-// 01_core/domain/auth.ts
-/**
- * Crystalline Lineage
- * @spec 00_nucleo/specs/user-login.md
- * @topology L1
- */
-export function validateCredentials(
-  email: string,
-  password: string,
-  hashedPassword: string
-): boolean {
-  // Validação pura (sem I/O)
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) return false;
-  
-  return bcrypt.compareSync(password, hashedPassword);
-}
-```
-
-#### Passo C: Adicionar Persistência (Infraestrutura)
-
-```typescript
-// 03_infra/database/user-repository.ts
-/**
- * Crystalline Lineage
- * @spec 00_nucleo/specs/user-login.md
- * @topology L3
- */
-import { IUserRepository } from '../../01_core/contracts/user-repository';
-
-export class UserRepository implements IUserRepository {
-  async findByEmail(email: string): Promise<User | null> {
-    return await db.users.findUnique({ where: { email } });
-  }
-}
-```
-
-#### Passo D: Conectar Dependências (Composição)
-
-```typescript
-// 04_wiring/main.ts
-import { UserRepository } from '../03_infra/database/user-repository';
-import { AuthService } from '../01_core/domain/auth-service';
-import { AuthController } from '../02_shell/api/auth-controller';
-
-const userRepo = new UserRepository(prisma);
-const authService = new AuthService(userRepo);
-const authController = new AuthController(authService);
-```
-
-### 4. Validar Estrutura
-
-```bash
-npm run crystalline:lint
-# ✅ Nucleação: OK (todos os arquivos têm @spec)
-# ✅ Gravidade: OK (sem dependências reversas)
-# ✅ Pureza: OK (sem I/O em 01_core)
-```
 
 ---
 
 ## A Estrutura do Retículo
 
-A estrutura física de pastas atua como uma "restrição de hardware" para geração de lógica pela IA.
+A estrutura física de pastas atua como uma "restrição de hardware" para geração de lógica pela IA. O seu LLM será impedido (pelas regras de sistema descritas acima) de violar essa hierarquia.
 
 ```
 seu-projeto/
-├── 00_nucleo/     # 📋 Especificações, ADRs, Contratos (⊥ A Semente)
-├── 01_core/       # 💎 Lógica pura, zero I/O (O Cristal)
-├── 02_shell/      # 🖥️  UI, API, CLI (Adaptadores Primários)
-├── 03_infra/      # 🔌 Banco de Dados, Rede (Adaptadores Secundários)
-├── 04_wiring/     # ⚡ Injeção de Dependência, main() (⊤ A Composição)
-└── _lab/          # 🧪 Experimentos (Quarentena)
+├── 00_nucleo/     # 📋 Especificações, ADRs, Contratos (Obrigatório antes do código)
+├── 01_core/       # 💎 Lógica Matemática Pura, Zero I/O, Zero Dependências Externas
+├── 02_shell/      # 🖥️  Superfície: UI, APIs HTTP, CLI (Controle burro de borda)
+├── 03_infra/      # 🔌 O Mundo Real: Banco de Dados, Libs pesadas, Drivers
+├── 04_wiring/     # ⚡ O Deus Ex Machina: main.ts, Injeção de Dependências
+├── 10_bedrock/    # 🏗️  Infra de Projeto (Docker, CI/CD)
+├── 11_tools/      # 🛠️  Ferramentas de Análise (Scripts)
+└── 20_lab/        # 🧪 Arena Experimental (Código de Quarentena gerado por LLM)
 ```
 
 ---
@@ -172,7 +101,8 @@ graph TD
     end
 
     W("04_wiring<br>(Raiz de Composição) ⊤")
-    L("_lab<br>(Quarentena)")
+    L("20_lab<br>(Arena Experimental)")
+
 
     %% Dependências (setas apontam para o que é dependido)
     C --> N
@@ -209,7 +139,9 @@ graph TD
   - 🟢 Verde: Lógica pura (determinística)
   - 🟠 Laranja: Fronteiras de I/O
   - 🟣 Roxo: Camada de composição
+  - 🌑 Cinza: Camadas orbitais (Suporte)
   - 🔴 Vermelho: Zona de quarentena
+
 
 **Regra de Dependência**: Setas apontam **para** dependências. Setas reversas violam a gravidade.
 
@@ -224,9 +156,10 @@ graph TD
 ```
 Tarefa: "Implementar processamento de pagamento"
 
-Passo 1: Ler PROJECT_MAP.md
+Passo 1: Ler estrutura de diretórios (Topografia Intrínseca)
          ↓
-Passo 2: Navegar para 00_nucleo_MAP.md
+Passo 2: Navegar para 00_nucleo/specs/
+
          ↓
 Passo 3: Verificar se 00_nucleo/specs/payment-processing.md existe
          ├─ SIM → Ler spec, prosseguir com implementação
@@ -281,7 +214,8 @@ Antes de salvar qualquer arquivo, verificar:
 |-----------|-----------|
 | [**MANIFESTO.pt.md**](./MANIFESTO.pt.md) | Documento constitucional com fundamentos matemáticos |
 | [**MANIFESTO.md**](./MANIFESTO.md) | English version |
-| [**PROJECT_MAP.md**](./PROJECT_MAP.md) | Mapa de navegação (gerado automaticamente) |
+
+
 
 ### Guias por Camada
 
@@ -292,7 +226,8 @@ Antes de salvar qualquer arquivo, verificar:
 | L₂ | [02_shell/README.md](./02_shell/README.md) | Padrões de adaptador |
 | L₃ | [03_infra/README.md](./03_infra/README.md) | Configuração de infraestrutura |
 | L₄ | [04_wiring/README.md](./04_wiring/README.md) | Configuração DI |
-| Lab | [_lab/README.md](./_lab/README.md) | Protocolos de experimento |
+| L₂₀ | [20_lab/README.md](./20_lab/README.md) | Protocolos de experimento |
+
 
 ### Configuração para IA
 
@@ -325,41 +260,10 @@ Antes de salvar qualquer arquivo, verificar:
 
 ---
 
-## Ferramentas
+### Ferramentas de Verificação
 
-### Cartographer (Gerador de Mapas Fractais)
+*Em desenvolvimento: Adaptação do `ai-coders-context` para validação de Transparência Sintática.*
 
-Gera mapas de navegação hierárquicos:
-
-```bash
-cargo run --bin cartographer
-# Cria: PROJECT_MAP.md, 00_nucleo/00_nucleo_MAP.md, etc.
-```
-
-### Crystalline Linter
-
-Valida invariantes arquiteturais:
-
-```bash
-npm run crystalline:lint
-# Verifica: nucleação, gravidade, pureza, isomorfismo
-```
-
-### Integração CI/CD
-
-Adicione em `.github/workflows/crystalline-ci.yml`:
-
-```yaml
-name: Verificação de Integridade Cristalina
-on: [push, pull_request]
-jobs:
-  validate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Validar Estrutura
-        run: npm run crystalline:lint
-```
 
 ---
 
