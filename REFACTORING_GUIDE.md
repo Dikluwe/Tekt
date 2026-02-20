@@ -36,8 +36,9 @@ Peça para a sua IA (ou use o `tree` no terminal) gerar uma estrutura de checkbo
 ## Módulo: Parser
 - [ ] `crates/typst-syntax/src/parser.rs` 
   - *↳ [ ] L0 (Spec Criada)*
-  - *↳ [ ] L1 (Mecânica Extraída)*
-  - *↳ [ ] L2/L3 (Dependências Isoladas)*
+  - *↳ [ ] L1 (Mecânica Pura Extraída)*
+  - *↳ [ ] L2/L3 (I/O e Superfície Isoladas)*
+  - *↳ [ ] L4 (Wiring: Instanciamento e Injeção Configurados)*
 - [ ] `crates/typst-syntax/src/lexer.rs`
 - [ ] `crates/typst-syntax/src/span.rs`
 ```
