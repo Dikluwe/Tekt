@@ -9,7 +9,7 @@ Siga exatamente os passos abaixo.
 ---
 
 ## 🏗 Passo 1: O "Container" Cristalino
-O seu projeto antigo provavelmente tem suas próprias pastas (`src/`, `lib/`, `tests/`). Não as exclua ainda. Elas são agora a sua "Arena Experimental".
+O seu projeto antigo provavelmente tem suas próprias pastas (`src/`, `lib/`, `tests/`). Não as exclua ainda. Elas são agora a sua "Arena Experimental" (`L20`).
 
 Rode o script de infraestrutura no topo do repositório:
 ```bash
@@ -19,6 +19,29 @@ bash init-tekt.sh
 Isto criará as hierarquias `00_nucleo` a `04_wiring`.
 A partir de hoje, **nenhum código novo** deve ir para a estrutura velha.
 Toda refatoração ocorrerá "cortando" a pasta velha e "colando" nas novas.
+
+---
+
+## 🗺️ Passo 1.5: O Mapa de Demolição (Checklist de Legado)
+Um projeto como o *Typst* tem centenas de arquivos. Se você e a IA tentarem converter de forma *ad-hoc*, vocês perderão o rastro de quais arquivos do legado já foram lidos. 
+
+**Crie um arquivo na raiz chamado `LEGACY_MAP.md` e preencha com a lista dos arquivos antigos.** Use-o como o painel de rastreio da migração.
+
+Peça para a sua IA (ou use o `tree` no terminal) gerar uma estrutura de checkboxes assim:
+
+**Exemplo de `LEGACY_MAP.md`:**
+```markdown
+# Controle de Migração Tekt (Typst)
+
+## Módulo: Parser
+- [ ] `crates/typst-syntax/src/parser.rs` 
+  - *↳ [ ] L0 (Spec Criada)*
+  - *↳ [ ] L1 (Mecânica Extraída)*
+  - *↳ [ ] L2/L3 (Dependências Isoladas)*
+- [ ] `crates/typst-syntax/src/lexer.rs`
+- [ ] `crates/typst-syntax/src/span.rs`
+```
+*(Nota: O agente de IA deve ser instruído a marcar com um `x` cada etapa concluída neste mapa antes de passar para o próximo arquivo do legado).*
 
 ---
 
