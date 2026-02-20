@@ -74,7 +74,21 @@ Cole este **Prompt de Engenharia Reversa Tekt**:
 
 ---
 
-## 💎 Passo 3: A Clivagem (O Nascimento de `L1` e `L3` Atômicos)
+## � Passo 2.5: Auditoria Humana (Aprovação do `L0`)
+**Nunca confie cegamente na distilação da IA no primeiro prompt.**
+O código legado pode ser extremamente confuso e a IA pode simplesmente "pular" (resumir demasiadamente) uma regra de negócio crítica ou deixar um side-effect oculto passar sem identificar.
+
+Antes de prosseguir para o Passo 3, **o Engenheiro (Você) deve ler o Markdown gerado em `00_nucleo/specs/`.**
+Leia o objetivo, veja se as lógicas listadas cobrem o que o antigo código fazia e verifique se as impurezas anotadas estão corretas.
+
+Se estiver incompleto, mande este **Prompt de Correção de Mapeamento**:
+> "Sua extração de Spec no `L0` falhou em cobrir o arquivo inteiro. Você ignorou a regra `[NOME_DA_REGRA_OU_FUNÇÃO]` que estava no código legado. Reabra o código fonte, estude a parte que você perdeu e ATUALIZE o arquivo Markdown e os Contratos no L0 com esse pedaço que faltava."
+
+Somente quando você ler a Spec (`L0`) e sentir que a "Alma" do arquivo antigo foi traduzida com sucesso, avance para comandar a Clivagem.
+
+---
+
+## �💎 Passo 3: A Clivagem (O Nascimento de `L1` e `L3` Atômicos)
 Com os Markdown e Interfaces prontas no `L0` (e só agora lidos e perfeitamente entendidos pelo LLM), a refatoração segura começou. A IA agora fará o seu trabalho seguindo a Spec, sem precisar deduzir os gargalos do código velho.
 
 Envie o segundo **Prompt Executivo**:
