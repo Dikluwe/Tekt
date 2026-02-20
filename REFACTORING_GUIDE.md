@@ -55,14 +55,22 @@ Cole este **Prompt de Mapeamento**:
 O Axioma 1 da Tekt bloqueia a Inteligência Artificial de escrever ou refatorar código que não tenha Spec pronta no `L0`. Mas o código antigo já existe. Como fazemos?
 Através da **Engenharia Reversa de Spec**.
 
-Abra sua IDE (Cursor/Cline) com as `.agentrules` já carregadas e **SELECIONE O ARQUIVO OU MÓDULO ANTIGO** que quer migrar (ex: `src/parser.rs`).
+Abra sua IDE (ou chame seu Agente Autônomo como o Antigravity) e **SELECIONE O ARQUIVO OU MÓDULO ANTIGO** que quer migrar e que não está marcado no seu `LEGACY_MAP.md` (ex: `src/parser.rs`).
 
-Cole este **Prompt de Refatoração Tekt**:
-> "Sua tarefa como Arquiteto Cristalino começou.
-> Este arquivo ou módulo legado que anexei deve ser refatorado para a Arquitetura Tekt.
-> Porém, pelo Invariante de Nucleação, você NÃO PODE simplesmente reescrevê-lo nas pastas de L1-L4.
-> **PASSO ÚNICO AGORA:** Leia o código legado e faça a engenharia reversa das regras de negócio que ele executa. Crie e escreva um arquivo exaustivo de Markdown na pasta `00_nucleo/specs/<nome>.md` e as interfaces Puras em `00_nucleo/contracts/`.
-> Apenas crie os arquivos de `L0` e pare. Não altere o legado ainda."
+Cole este **Prompt de Engenharia Reversa Tekt**:
+> "Sua tarefa principal como Arquiteto Cristalino ativou.
+> Este arquivo ou módulo legado que lhe mostrei deve ser refatorado para a Arquitetura Tekt. Mas pelo Invariante de Nucleação, você NÃO PODE escrever os arquivos de L1-L4 agora.
+> **PASSO ÚNICO:** Leia criticamente o código legado fornecido e faça a **Engenharia Reversa** de sua intenção.
+> 
+> Você deve focar em gerar a 'Semente' documentada desta funcionalidade. Crie o arquivo EXATO em `00_nucleo/specs/<nome_da_feature>.md`.
+> 
+> A sua Spec (Markdown) DEVE conter:
+> 1. **Objetivo Central:** O que este arquivo antigo tentava fazer?
+> 2. **Lógica Pura Extraída (O futuro L1):** Liste os algoritmos, regras de validação e transformações matemáticas que acontecem ali. Isto guiará o núcleo duro sem dependências.
+> 3. **Efeitos Colaterais Identificados (Futuros Contratos L0 / Implementações L3):** Onde o código antigo bate no banco de dados? Chama a rede? Lê o File System? Interage com uma Lib externa pesada? *Liste exaustivamente.*
+> 4. **Glossário / Assinaturas (Opcional):** Documente as estruturas de dados (`structs`, `types`) principais que trafegam nessa feature.
+>
+> Apenas crie este arquivo de Spec no `L0` e os contratos `.ts`/`.rs` correspondentes no `00_nucleo/contracts/` se notar dependências I/O. Pare quando finalizar o L0. Marque `x` na checklist L0 do `LEGACY_MAP.md` e aguarde minhas instruções para o passo da Clivagem."
 
 ---
 
