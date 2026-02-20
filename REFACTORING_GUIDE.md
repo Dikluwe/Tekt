@@ -124,8 +124,10 @@ Sempre que a IA finalizar este passo, rode os testes focados neste novo ponto de
 Se houverem erros de tipagem, dependência cíclica ou ausência de métodos que o legado esperava: **NÃO TENTE CONSERTAR FAZENDO GAMBIARRAS NO L4!**
 
 O `04_wiring` é passivo. Se a peça nova não encaixou na peça velha, significa que **A Engenharia Reversa (Passo 2) falhou**. A IA não extraiu um Invariante correto ou esqueceu de mapear um Efeito Colateral na Spec (`L0`).
-A ação correta é:
-1. Desfaça o Wiring.
-2. Volte ao `00_nucleo/specs`. Atualize a Especificação para contemplar a falha descoberta.
-3. Peça para a IA readaptar o `L1` ou `L3` com base na nova Spec.
-4. Tente o Wiring novamente.
+
+Cole este **Prompt de Rollback Arquitetural** para forçar a correção na raiz:
+> "ABORTAR WIRING. Tivemos um erro de compilação ou regressão. A peça Cistalina nova não casou com o Legado.
+> **PASSO ÚNICO:** Pare o que está fazendo no `L4`. O problema nunca é o `L4`, o problema foi a nossa Extração. Leia o log de erro do Terminal/Cargo. Descubra qual função nativa, tipo, ou estrutura o legado requeria que *NÓS* esquecemos de colocar no nosso Cristal novo.
+> Volte imediatamente ao `00_nucleo/specs` e `00_nucleo/contracts`. Adicione a especificação que faltou. Recrie a topologia (L1, L3) que falhou em implementar isso.
+> NÃO crie workarounds, mocks lógicos ou mapeamentos macarrônicos no Wiring. Corrija o mal pela Semente.
+> Acabe o L0 e o L1/L3 e só então me avise para tentarmos o Wiring de novo."
