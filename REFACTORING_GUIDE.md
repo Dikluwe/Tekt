@@ -27,20 +27,29 @@ Um projeto como o *Typst* tem centenas de arquivos. Se você e a IA tentarem con
 
 **Crie um arquivo na raiz chamado `LEGACY_MAP.md` e preencha com a lista dos arquivos antigos.** Use-o como o painel de rastreio da migração.
 
-Peça para a sua IA (ou use o `tree` no terminal) gerar uma estrutura de checkboxes assim:
+Cole este **Prompt de Mapeamento**:
+> "Sua primeira tarefa não é alterar código, mas mapear o legado. 
+> Analise a pasta selecionada (ex: `20_lab/crates/typst-syntax/src`). 
+> Crie no diretório raiz do nosso projeto um novo arquivo `LEGACY_MAP.md`. Nele, liste em formato de Markdown checkboxes todos os arquivos `.rs` achados nessa pasta. 
+> Mas **ATENÇÃO**, abaixo de CADA arquivo `.rs` listado, você deve indentar 4 subj-checkboxes vazias exatas: 
+> `  - *↳ [ ] L0 (Spec Criada)*`
+> `  - *↳ [ ] L1 (Mecânica Pura Extraída)*`
+> `  - *↳ [ ] L2/L3 (I/O e Superfície Isoladas)*`
+> `  - *↳ [ ] L4 (Wiring Configurado)*`
+> Apenas crie este arquivo de checklist e pare."
 
-**Exemplo de `LEGACY_MAP.md`:**
+**Exemplo de como ficará o seu `LEGACY_MAP.md`:**
 ```markdown
 # Controle de Migração Tekt (Typst)
 
 ## Módulo: Parser
-- [ ] `crates/typst-syntax/src/parser.rs` 
+- [ ] `20_lab/crates/typst-syntax/src/parser.rs` 
   - *↳ [ ] L0 (Spec Criada)*
   - *↳ [ ] L1 (Mecânica Pura Extraída)*
   - *↳ [ ] L2/L3 (I/O e Superfície Isoladas)*
-  - *↳ [ ] L4 (Wiring: Instanciamento e Injeção Configurados)*
-- [ ] `crates/typst-syntax/src/lexer.rs`
-- [ ] `crates/typst-syntax/src/span.rs`
+  - *↳ [ ] L4 (Wiring Configurado)*
+- [ ] `20_lab/crates/typst-syntax/src/lexer.rs`
+- [ ] `20_lab/crates/typst-syntax/src/span.rs`
 ```
 *(Nota: O agente de IA deve ser instruído a marcar com um `x` cada etapa concluída neste mapa antes de passar para o próximo arquivo do legado).*
 
