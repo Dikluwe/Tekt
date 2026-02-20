@@ -99,18 +99,23 @@ Refatorar uma vez e deixá-la purificada no Core (`L1`) pagará dividendos expon
 
 ---
 
-## 🔗 Passo 4: O Wiring Parcial (Testando o Novo com o Antigo)
-**Pergunta Crítica:** *"Se eu refatorar APENAS o `typst-cli`, eu posso compilar o código novo junto com o código antigo (que ainda está no `L20/crates`) para garantir que o projeto não quebrou?"*
+## 🔗 Passo 4: O Wiring Parcial (Testando o Novo com o Antigo na L4)
+**Pergunta Crítica:** *"Se eu refatorar APENAS o `args.rs`, eu posso compilar as camadas novas junto com o código antigo (que ainda está no `L20/crates`) para garantir que o projeto não quebrou?"*
 
-**Resposta:** **Sim. Absolutamente.** É para isso que o L4 existe. O segredo da estratégia de estrangulamento (Strangler Fig Pattern) cristalizado é o **Wiring Parcial**.
+**Resposta:** **Sim, mas com uma Regra Absoluta: A pasta `L20` é READ-ONLY (Apenas Leitura).**
+Você NUNCA deve modificar o código dentro da quarentena para importar arquivos das camadas cristalinas. Se você fizer isso, estará injetando código puro de volta no reator radioativo.
 
-Você não precisa e não deve esperar refatorar 300 arquivos para tentar rodar `cargo test`. 
+A estratégia de "Figo Estrangulador" (Strangler Fig) na Tekt funciona invertida:
+1. **O L4 é a Nova Matriz:** Você construirá o novo ponto de entrada (`main.rs` ou provedor) na sua camada `04_wiring`.
+2. **Importando o Cristal:** O L4 importará e instanciará a sua nova casca (`02_shell` / `03_infra` / `01_core`).
+3. **Importando o Lixo (Legado):** Para tudo aquilo que *ainda não foi refatorado e clivado*, o L4 importará as funções diretamente do `L20` (usando o cargo root). 
+
+O `04_wiring` orquestra a feature cristalina se comunicando com o resto do sistema legado que atua como uma biblioteca suja externa, até que ele não exista mais.
 
 Cole este **Prompt de Integração (Wiring Parcial)**:
 > "A Clivagem Tekt foi um sucesso. Temos L1, L2, L3 e L4 isolados.
-> O nosso projeto agora tem uma dualidade: O código antigo intacto mora na pasta da Quarentena (`L20`), enquanto nosso módulo novo reside nas pastas `01` a `04`.
-> **PASSO ÚNICO:** Vá até o código do Legado no `L20` que dependia deste arquivo que acabamos de apagar/substituir. Altere os `imports` e as chamadas do _código legado_ para que eles invoquem o nosso novo **Adapter/Porta** criado no `04_wiring` ou `02_shell`.
-> O objetivo é fazer o compilador e os testes do projeto antigo (`cargo test` na raiz do workspace) voltarem a passar, consumindo a nossa nova infraestrutura cristalina. Crie Mocks L3 temporários apenas se o código legado exigir I/O que ainda não expusemos.
-> Me avise quando o projeto inteiro voltar a compilar com sucesso e marque os testes executados."
+> **REGRA GERAL:** A pasta `L20` (Legado) é ESTRITAMENTE READ-ONLY. Você não tem permissão para editar nenhum arquivo lá dentro para importar nossos módulos novos.
+> **PASSO ÚNICO:** Vá até a nossa camada de composição `04_wiring` e crie o ponto de entrada (adapter/main) para testar este fluxo. Neste arquivo de Wiring, importe a nossa nova arquitetura (L2, L3) e conecte-a com o resto do sistema que ainda precisa rodar, importando as sobras DIRETAMENTE do módulo em `L20`.
+> O objetivo é manter a Quarentena intocada enquanto o L4 estrangula o fluxo e orquestra a transição híbrida. Me avise quando o cargo compilar este novo Wiring com sucesso."
 
-Sempre que a IA finalizar este passo, rode seus testes localmente. Se compilou, o pedaço refatorado enxertou no pedaço podre com sucesso através da sutura do L4. Siga feliz para o próximo arquivo do `LEGACY_MAP.md`.
+Sempre que a IA finalizar este passo, rode os testes focados neste novo ponto de entrada. Se compilou e rodou, a simbiose foi um sucesso. Siga para clonar o próximo alvo no seu `LEGACY_MAP.md`.
