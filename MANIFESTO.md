@@ -1,176 +1,127 @@
-# The Crystalline Architecture Manifesto
+# Crystalline Architecture Manifesto
 
-**Context**: AI-Assisted Development and Entropy Control
-
----
-
-The phenomenon that led me to conceive this architecture is observable, recurring, and reproducible: when employing Large Language Models (LLMs) to refactor real and complex systems, it is verified that the generated code tends to preserve local functionality while progressively degrading the global structure.
-
-This degradation does not manifest as an immediate error, but as a loss of structural definition: increased implicit coupling, dilution of boundaries, expansion of unnecessary dependencies, and the weakening of architectural invariants. The system continues to “work,” but becomes more difficult to understand, modify, and optimize.
-
-This behavior is not an accidental defect of AI, but a statistical consequence of its generative nature: LLMs operate by maximizing local likelihood, not by preserving global structure. In the absence of explicit restrictions, the explored solution space tends toward an amorphous state.
-
-Crystalline Architecture arises from the realization that AI-assisted refactoring, without a rigid structural network, accelerates architectural entropy instead of reducing it.
-
-This observation leads to a broader, systemic question: if we desire software that is more economical in resources, more energy-efficient, more predictable in performance, and better suited for deep optimizations, then architecture cannot be treated merely as a logical organization — it must be treated as an abstract physical structure, subject to laws of containment, order, and stability.
-
-Leaner operating systems, highly specialized compilers, and software capable of exploiting modern processors with maximum efficiency require high-definition structural architectures. Under these conditions, architectural ambiguity is not just a maintenance problem: it is a direct obstacle to optimization, static analysis, and the generation of efficient code.
-
-Therefore, this manifesto does not propose a new aesthetic for code organization, but a structural regime: a set of principles designed to limit the growth space of software, reduce unnecessary degrees of freedom, and make explicit the conditions under which human and artificial agents can operate without inducing systemic degradation.
-
-In the context of this manifesto, **entropy is not a metaphor**, nor an aesthetic analogy. It is treated as a **measurable property of the architectural structure** of a software system.
-
-It is observed that, under AI-assisted development, the system evolves through statistically plausible but structurally independent local additions. This mode of generation tends to maximize immediate coherence while ignoring the preservation of global invariants. The result is functional growth accompanied by a **progressive loss of structural definition**.
-
-We call this phenomenon **AI Entropy**.
-
-Formally, a system is considered to be composed of a finite set of components ( C = {c_1, c_2, \dots, c_n} ), organized according to an architectural lattice with an explicit set of invariants ( \mathcal{I} ). For each component ( c \in C ), a probability ( p(c) ) is defined for the violation of at least one structural invariant when that component is created or modified without explicit architectural constraints.
-
-AI-induced architectural entropy is then defined as:
-
-This definition does not intend to measure algorithmic complexity nor functional quality, but rather the **degree of structural uncertainty** introduced into the system throughout its evolution.
-
-A system with low architectural entropy presents:
-
-* sharp boundaries,
-* predictable dependencies,
-* reconstruction of local intent made possible by its structural position.
-
-A system with high architectural entropy maintains observable functionality, but loses:
-
-* global readability,
-* static analysis capability,
-* potential for aggressive optimization.
-
-It is important to note that, in the absence of restrictions, local entropy reduction — for example, occasional refactorings or cosmetic reorganizations — **does not imply a reduction in global entropy**. On the contrary, such interventions can redistribute structural disorder without eliminating it.
-
-Crystalline Architecture starts from the principle that **architectural entropy is not combated by local heuristics**, but by **explicit global constraints**. The role of architecture is not to organize code after its generation, but to **limit the space of possible states** before generation occurs.
-
-Thus, the architectural lattice acts as a **containment operator**: it reduces the probability ( p(c) ) of structural violations not by subsequent correction, but by prior exclusion of illegitimate configurations from the solution space.
-
-In this framework, architecture is not a byproduct of code, but a **structural field** in which code can or cannot exist. The stability of the system does not stem from the intelligence of the generating agent — human or artificial — but from the rigidity of the invariants that define the lattice.
-
-## Structural Axioms
-
-#### Axiom I — Law of Nucleation
-
-The structural order of a system does not emerge spontaneously.
-Every valid architecture must possess an **explicit nucleation point**, from which its structure propagates.
-
-The system must contain a minimal and closed set of initial specifications that define:
-
-* fundamental concepts,
-* semantic boundaries,
-* and primary architectural invariants.
-
-Any component whose existence cannot be traced back to this nucleation point is **structurally illegitimate**, even if functional.
-
-The absence of nucleation results in unguided growth and the generation of distributed structural defects.
+**Context**: Sustainable Development with AI Agents
 
 ---
 
-#### Axiom II — Containment Topology
+## The Observed Problem
 
-The architecture must impose **explicit physical boundaries** that limit the propagation of dependencies.
+When employing language models to develop and refactor real systems, a recurring and reproducible pattern is observed: the generated code tends to preserve local functionality while progressively degrading the global structure.
 
-The system of directories, modules, or units of composition is not decorative: it defines a **containment topology** that restricts the space of possible structural states.
+This degradation does not manifest as immediate error. It manifests as loss of definition: implicit coupling that grows silently, boundaries that dissolve, dependencies that multiply without justification. The system continues to work, but becomes progressively harder to understand, modify, and reason about.
 
-Dependencies that cross unauthorized boundaries constitute architectural violations, regardless of their functional correctness.
+This behavior is not an accidental defect of language models. It is a direct consequence of how they operate: generating the most plausible next piece given the immediate context, without any internal mechanism that preserves the global coherence of the system over time.
 
-Without explicit containment, structural entropy propagates freely and it becomes impossible to distinguish organization from coincidence.
+The central problem is not the quality of the code generated in a single session. It is what happens to the system after hundreds of sessions, each locally reasonable, each eroding the structure a bit more.
 
----
+We call this phenomenon **amorphous growth**: functional expansion without structural preservation.
 
-#### Axiom III — Directionality of Morphisms
-
-Dependencies between components must obey a **strict partial order relation**.
-
-There is a privileged direction of dependency, defined by structural stability: more stable components cannot depend on less stable components.
-
-Any dependency that violates this direction constitutes a **break in structural symmetry** and compromises the global integrity of the system.
-
-Dependency cycles are considered topological degenerations and are prohibited.
+Crystalline Architecture starts from the hypothesis that amorphous growth is not inevitable. It is the predictable result of operating statistical agents without explicit structural constraints and without a record of the context that originated each decision. The solution is not to improve the agent — it is to redefine the space in which it operates and make its origin traceable.
 
 ---
 
-#### Axiom IV — Controlled Phase Transitions
+## The Central Hypothesis
+
+A language model generates code from context. The structural quality of the generated code is largely a function of the quality and organization of the provided context.
+
+Ad-hoc context — fragments pasted into a chat window, imprecise verbal instructions, outdated documentation separated from the code — produces ad-hoc growth. Each generation is plausible locally. None of them is guided by a global structure. And when it is necessary to modify the code weeks later, the original context is lost.
+
+The central hypothesis of this architecture is:
+
+> **If the context the agent receives is structurally controlled and versioned within the project itself, the growth it produces is structurally oriented and auditable.**
+
+The concrete mechanism is the structured prompt in `00_nucleo`. Not as documentation describing the code — but as the **causal origin** of the code. The prompt is the first-class artifact. The code is its materialization.
+
+*This hypothesis has not yet been systematically empirically verified. This manifesto is the proposition. The experiments will follow.*
+
+---
+
+## The Structural Metaphor
+
+Crystallography offers a precise metaphor for the problem and the proposed solution.
+
+In a supersaturated solution, excess molecules seek a state of lower energy. Without a reference point, they organize randomly, producing an amorphous solid: functional as a physical barrier, but without predictable internal structure, without clear cleavage planes, without defined properties.
+
+Introduce a seed crystal — a minimal fragment with a defined crystalline structure — and the behavior changes completely. The molecules no longer organize randomly. They adhere to the geometry of the seed. The growth that follows is oriented, reproducible, and structurally coherent with the point of origin.
+
+**The seed crystal does not contain the final crystal. It determines the shape the crystal can take.**
+
+This is the function of the structured prompt in `00_nucleo`: not to contain the system, but to determine the geometry according to which the system can grow. A system developed without a seed — with agents generating code directly from verbal instructions discarded after each session — is an amorphous system. It may solidify into something functional. But it will not have a predictable internal structure, and will not withstand the pressure of prolonged evolution.
+
+---
+
+## The Prompt as a Contract
+
+In traditional architectures, three artifacts are kept separate: the specification (what must be done), the interface contract (how components communicate), and the code (the implementation).
+
+In Crystalline Architecture, these three collapse into two: the prompt and the code.
+
+The prompt in `00_nucleo` contains the context, the structural constraints, and the generation instruction. The code generated from it — including the interfaces it exposes — **is** the contract. There is no separate document describing the contract: the code generated by the prompt is the direct realization of the intention registered in it.
+
+The architecture **seeks** isomorphism between prompt and code — that the shape of the code faithfully reflects the intention of the prompt. But it cannot guarantee this isomorphism: language models are probabilistic agents, and two executions of the same prompt produce structurally equivalent but not identical results. The verification of correspondence between prompt and code depends on human judgment, not mechanical analysis.
+
+What can be verified mechanically is the structure: if `@prompt` exists, if imports respect the layer's rules, if L₁ is free of I/O. Content fidelity — if the code does what the prompt intended — is the responsibility of the developer who writes the prompt and reviews the output.
+
+When a component needs to change, the prompt changes with it. The revision is recorded in the history. The code remains traceable to its origin at any point in time.
+
+---
+
+## A New Verification Paradigm
+
+Traditional development has always separated two moments: writing the code and verifying that it works. TDD brought these moments closer by requiring the test to be written before the implementation — but for humans this process has a real cognitive cost. Keeping the test specification and the implementation in head simultaneously is hard. That's why TDD requires discipline and training, and in practice is often abandoned under pressure.
+
+With AI agents, this cost does not exist.
+
+Generating code and tests simultaneously from the same prompt is as easy as generating just the code. The agent does not have the cognitive problem that makes TDD hard for humans. This opens up a paradigm that is not TDD, not code-first — it is a third mode:
+
+> **The prompt is the specification. The code and tests are simultaneous materializations of that specification.**
+
+The prompt in L₀ describes the expected behavior in the verification criteria. The agent generates the implementation and tests in a single cycle. The intention of TDD — to specify before implementing — is preserved. The mechanism that made it hard for humans is eliminated.
+
+A nucleation is incomplete if it has not produced tests along with the code. The linter verifies the presence of a corresponding test file for each generated component — not the content of the tests, but their existence as evidence that the cycle was completed.
+
+---
+
+## The Principles
+
+### I — Nucleation
+
+Structural order does not emerge spontaneously.
+
+Every valid system must have an explicit nucleation point: a set of structured prompts that establish the causal origin of each component.
+
+Any component whose existence cannot be traced to a prompt in `00_nucleo` is structurally illegitimate, even if functionally correct. Without nucleation, growth is amorphous and untraceable.
+
+### II — Containment
+
+Physical boundaries are structural constraints, not cosmetic organization.
+
+The directory structure defines the boundaries within which growth can occur. A dependency that crosses an unauthorized boundary is a structural violation, regardless of its functional correctness.
+
+### III — Gravity
+
+Dependencies have a natural direction: from the most variable to the most stable.
+
+High-level components depend on low-level components. Reversing this direction is a structural fracture. Dependency cycles are degenerations that compromise the system's auditability and modifiability.
+
+### IV — Phase Isolation
 
 Not all code belongs to the same structural regime.
 
-Experimental, unstable, or exploratory components must exist in **isolated strata ($L_{20}$)**, separated from the main system by explicit boundaries.
+Experimental code must exist in isolated strata. For a component to cross this boundary, it must be normalized: rewritten to satisfy the invariants of the stable regime, with a corresponding prompt created in `00_nucleo`.
 
+### V — Primacy of Invariants
 
-For a component to cross this boundary, it must be **normalized**: rewritten to fully satisfy the invariants of the stable regime.
+Architectural invariants take precedence over local convenience.
 
-The direct promotion of experimental code to the main system, without normalization, is a serious structural violation.
-
----
-
-#### Axiom V — Primacy of Invariants
-
-Architectural invariants have absolute precedence over:
-
-* local convenience,
-* premature optimizations,
-* or implementation preferences.
-
-Any modification that preserves functionality but violates invariants is considered a **structural regression**, even if it reduces lines of code or improves local metrics.
-
-System stability is determined by the continuous preservation of its invariants, not by the momentary absence of observable failures.
+A modification that preserves functionality but violates invariants is a structural regression. System stability is determined by the continuous preservation of its structure, not by the momentary absence of observable errors.
 
 ---
 
-#### Axiom VI — Syntactic Transparency
-
-The architecture must be machine-auditable. A system whose structure can only be understood through external documentation or manual diagrams is opaque and prone to hidden entropy.
-
-In Crystalline Architecture, we require **Syntactic Transparency**: an agent blind to human context, armed only with a syntax parser, must be able to reconstruct the exact layer diagram and validate all invariants solely by reading the source files.
-
-If the structure needs to be explained, it has failed. The structure must be computable.
-
-
-Crystalline Architecture can be described consistently through a minimal categorical structure, used here as a **tool for formal organization**, not as a complete mathematical apparatus.
-
-Consider a category ( \mathcal{A} ) in which:
-
-* **objects** represent architectural strata,
-* **morphisms** represent the flow of architectural authority (or contract provision) between these strata.
-
-The relationship between objects induces a **partial order**, forming a partially ordered set (poset). This order is not arbitrary: it expresses the structural asymmetry between stability and variability in the system.
-
-There exists in ( \mathcal{A} ):
-
-* an **initial object**, corresponding to the specification and nucleation stratum, from which fundamental definitions emanate;
-* a **terminal object**, corresponding to the final composition stratum, where systemic materialization is consolidated.
-
-The existence of these objects is not an abstract requirement, but a practical condition: without an explicit initial point, the structure loses orientation; without a well-defined terminal point, composition becomes diffuse and non-auditable.
-
-Morphisms in ( \mathcal{A} ) strictly obey the defined partial order. General invertibility is not assumed, nor is structural equivalence between distinct strata. The existence of a morphism (A \rightarrow B) does not imply, nor authorize, the existence of a morphism ( B \rightarrow A ).
-
-Dependencies that violate this order—whether through direct inversion or cycles—are considered **invalid configurations** in the structural space of the system.
-
-This use of category theory is **deliberately restricted**. No assumptions are made regarding limits, colimits, functors, or adjunctions, except when these concepts can be operationally defined in the context of the architecture.
-
-The goal of this framework is not to mathematize software, but to provide a minimal formal language to express:
-
-* structural directionality,
-* controlled composition,
-* and the impossibility of certain configurations.
-
-Thus, the categorical structure functions as a **conceptual invariant**: it delimits the set of possible architectures and excludes, by construction, structurally degenerate states.
-
----
-
-### Canonical Structure (Lattice)
-
-Crystalline Architecture defines a **canonical architectural lattice** composed of discrete and partially ordered strata. This lattice delimits the legitimate growth space of the system and imposes explicit constraints on the composition of dependencies.
-
-Hasse Diagram of the LatticeThe diagram below represents the partial order $(L, \preceq)$, where arrows (morphisms) indicate the flow of authority and contractual provision:
-
-### Hasse Diagram
+## The Canonical Structure
 
 ```
-        L₄ (Wiring) ⊤
+        L₄ (Wiring)
        /  \
       /    \
     L₂     L₃
@@ -179,217 +130,147 @@ Hasse Diagram of the LatticeThe diagram below represents the partial order $(L, 
        \  /
         L₁ (Core)
          |
-        L₀ (Nucleus) ⊥
+        L₀ (Seed)
 ```
 
-* ** $\bot$ (Initial Object)**: The Seed ($L_0$) is the source of all definition.
-* ** $\top$ (Terminal Object)**: The Wiring ($L_4$) is the point of total materialization.
-* **Incomparability**: $L_2$ and $L_3$ are independent branches; they never depend on each other.
-* **Gravity**: All physical dependencies (imports) must flow downward against the authority gradient ($L_n \rightarrow L_{n-1}$).
+The position of a component in the lattice determines what it can know, who it can depend on, and how it can evolve.
 
 ---
 
-Each stratum represents a **distinct structural regime**, characterized by its level of stability, permissiveness, and acceptable entropy. The position of a component in the lattice is neither aesthetic nor organizational: it determines **what the component can know, what it can depend on, and how it can evolve**.
+### L₀ — Seed
 
-The canonical structure is defined by the following strata, ordered from the most stable to the most variable, ending in the Experimental Arena ($L_{20}$).
-
-
----
-
-#### ( L_0 ) — Seed (Nucleus) — Initial Object
-
-This stratum exclusively contains the **formal definition of the system**.
-
-Includes:
-
-* functional specifications,
-* interface contracts,
-* canonical glossary,
-* architectural invariants.
+Contains the structured prompts that originated each component of the system, and the ADRs that document global architectural decisions.
 
 **No executable code is allowed in this stratum.**
 
-The Seed is the system's nucleation point. A requirement, concept, or dependency that does not explicitly exist in (L_0) **has no valid structural existence** in higher strata.
+The prompt is the first-class artifact. The code and tests generated from it are its materialization. A component without a corresponding prompt in L₀ is untraceable — it is impossible to reproduce, audit, or consistently evolve what has no registered origin.
 
 ---
 
-Aqui está a tradução da parte final do manifesto para o inglês, mantendo a consistência terminológica com as seções anteriores:
+### L₁ — Core
+
+Contains only essential deterministic logic: domain entities, fundamental rules, pure algorithms.
+
+Absolute constraints: no external dependencies, no I/O operations, no access to mutable state outside its own scope.
+
+The Core is the most stable structural phase of the system. The logic here exists independently of time, external state, and infrastructure technologies. It is also the stratum with the highest testability: pure functions do not need mocks, do not need an in-memory database, do not need complex setup.
 
 ---
 
-#### ( L_1 ) — Core — Maximum Stability Stratum
+### L₂ — Shell
 
-This stratum contains only **essential deterministic logic**.
+Performs translation between external contexts and the Core: input validation, orchestration, format adaptation.
 
-Includes:
+Allowed dependencies: L₂ → L₁, L₂ → L₀. Direct coupling with L₃ is prohibited.
 
-* domain entities,
-* fundamental rules,
-* pure algorithms.
-
-Absolute restrictions:
-
-* zero external dependencies,
-* zero input/output (I/O) operations,
-* no access to mutable state outside its own scope.
-
-Internal operations within ( L_1 ) must be strictly pure functions. This stratum defines the most ordered structural phase of the system, where logic exists independently of time and external state.
+The Shell is the primary cleavage plane: it separates conceptual stability from contextual variability.
 
 ---
 
-#### ( L_2 ) — Shell — Primary Adapters
+### L₃ — Infrastructure
 
-This stratum performs the **translation between external contexts and the Core**.
+Implements physical and technological details: persistence, networks, file systems, external frameworks.
 
-Includes:
+It is the stratum of greatest permitted variability, contained by the interfaces defined in L₁ and originated by the L₀ prompts.
 
-* validation,
-* orchestration,
-* format adaptation,
-* flow coordination.
-
-Permitted dependencies:
-
-* ( L_2 \rightarrow L_1 )
-* ( L_2 \rightarrow L_0 )
-
-Any direct coupling with ( L_3 ) is prohibited. The Shell acts as a **cleavage plane**: it separates conceptual stability from contextual variability.
+Allowed dependencies: L₃ → L₁, L₃ → L₀. No other stratum can depend on L₃.
 
 ---
 
-#### ( L_3 ) — Infrastructure (Infra) — Secondary Adapters
+### L₄ — Wiring
 
-This stratum implements **physical and technological details**.
+The fully materialized system. Instantiates components, injects dependencies, configures execution.
 
-Includes:
-
-* persistence,
-* file systems,
-* networks,
-* devices,
-* frameworks and external libraries.
-
-This is the stratum of **highest permitted entropy**, but this entropy is rigidly contained by interfaces defined in ( L_1 ) or ( L_0 ).
-
-Permitted dependencies:
-
-* ( L_3 \rightarrow L_1 )
-* ( L_3 \rightarrow L_0 )
-
-No stratum may depend on ( L_3 ).
+It is the only point where the definitions of L₀ meet their concrete implementations from L₃. It absorbs complexity — it does not redistribute it to the lower strata. Business logic found here is a structural defect.
 
 ---
 
-#### ( L_4 ) — Wiring — Terminal Object
+### L_lab — Arena
 
-This stratum represents the fully materialized state of the system. It is the Terminal Object of the materialization category, where all abstract definitions from $L_0$ find their concrete and final realization.
+Isolated stratum for experiments and prototypes. Code here has no mandatory lineage and cannot be referenced by the main system.
 
-Includes:
-
-* component instantiation,
-* dependency injection,
-* execution configuration.
-
-Property: Wiring is the point of convergence for all structural authority; it consumes all interfaces to produce the executable binary.
+Migration from the Arena to the system requires complete rewriting with a corresponding prompt created in L₀ and tests generated along with the code.
 
 ---
 
-#### ( L_{10+} ) — Orbital Lattice (Support)
+## AI Agents in Crystalline Architecture
 
-Beyond the product crystal ($L_0-L_4$), there exists the ecosystem that sustains it. These layers orbit the core, providing the manufacturing and validation environment.
+AI agents are treated as **growth agents** operating under explicit physical constraints. Their function is to explore the solution space allowed by the lattice — not to expand it arbitrarily.
 
-*   **($L_{10}$) — Bedrock**: Project infrastructure (Docker, Nix, CI/CD).
-*   **($L_{11}$) — Tools**: Automation agents, linters, and analyzers (e.g., `ai-coders-context`).
-*   **($L_{12}$) — Docs**: Generated or external documentation artifacts.
-*   **($L_{13}$) — Assets**: Static files, huge binaries, and raw media.
+The developer does not modify the code directly. They modify the prompt in L₀ and the agent reconstructs the code from it. L₀ is the system's control interface — the strata below are output, not workspace.
 
+The operation protocol is:
 
-**Orbital Gravity Axiom**:
-Orbital layers ($L_{10+}$) **may** depend on the product ($L_{0-4}$) for analysis and execution.
-The product ($L_{0-4}$) must **NEVER** depend on orbital layers. The software must be compilable and executable without the presence of its analysis tools.
+1. Check if a prompt exists in `00_nucleo/prompts/` for the component
+2. If it does not exist — stop and prompt the developer
+3. If it exists — read the complete prompt, including constraints, verification criteria, and history
+4. Generate code **and tests** within the declared constraints
+5. Record the revision in the prompt's history
 
-
-### Global Properties of the Lattice
-
-* The lattice is **finite, discrete, and acyclic**.
-* Each component belongs to **a single stratum**.
-* Every valid dependency respects the partial order.
-* Every violation is structurally detectable.
-
-A component's position in the lattice determines its **function, stability, and cognitive cost**. Misplaced components introduce structural defects, even when functionally correct.
+The alignment of the agent does not occur through verbal instruction or external filters. It occurs because the context it receives is already structurally delimited — the prompt defines what can be generated, and the position in the lattice defines what can be imported.
 
 ---
 
-### Operational Consequence
+## System Evolution
 
-Given any artifact—whether human or AI-generated—it must be possible to determine its position in the lattice **without external contextual inference**. If this is not possible, the artifact is structurally ambiguous and must be rejected or reclassified.
+Most evolution occurs by **epitaxy**: new components adhere to the existing structure with new L₀ prompts and corresponding code in the appropriate strata.
 
----
+Deeper changes occur by **nucleation**: new fundamental concepts require new prompts that redefine the space of possible solutions. This process is deliberate — a new nucleation may require revision of existing prompts.
 
-Once the canonical structure of the lattice is established, the system ceases to be static. Crystalline architecture does not assume immutability; it assumes **controlled evolution**. The central question is no longer *if* the system changes, but *how* that change occurs without violating the structural invariants defined by the core.
+Internal transformations without changing the fundamental structure are **metamorphism**: the prompt is revised, the code is regenerated, the history records the pressure that forced the change.
 
-Architectural evolution is modeled as a physical process, not as an arbitrary historical accumulation. Legitimate changes manifest as internal transformations of the crystal, preserving the lattice topology and the directionality of morphisms.
-
-Structural changes may occur through **nucleation**, when new fundamental concepts are introduced into the seed stratum. This process is rare, energetically costly, and explicitly deliberate. A new nucleation redefines the space of possible solutions and requires a reevaluation of the upper strata, as it alters the set of valid invariants. Without explicit nucleation, there is no legitimacy for introducing new conceptual axes into the system.
-
-Most evolution occurs through **epitaxy**: oriented growth from the existing core. New components adhere to the structure while strictly respecting the symmetries and constraints already established. This growth does not create new structural directions; it merely expands the concrete realization of directions already permitted by the lattice.
-
-Deeper transformations are characterized as **structural metamorphism**. Under accumulated pressure—whether from unforeseen requirements, performance limitations, or changes in the execution environment—parts of the system can be internally reconfigured without altering their fundamental composition. Metamorphism does not create new strata nor change the partial order; it reorganizes the internal form of a stratum to achieve a state of lower structural energy.
-
-Over time, the system also undergoes **sedimentation**. Consolidated decisions become stable layers, reducing future degrees of freedom. Sedimentation is not a defect; it is a stabilization mechanism. However, when it occurs outside the core, it must be susceptible to cleavage. Upper strata accumulate sediment by definition, but these deposits must not propagate rigidity toward the fundamental levels.
-
-Structural defects arise when components do not respect the lattice: reverse dependencies, transverse couplings, or code without specification lineage. These defects are not treated as local exceptions, but as internal stresses. If left uncorrected, they concentrate pressure until they provoke architectural fractures, manifested as systemic degradation, explosive complexity, or loss of auditability.
-
-Crystalline architecture does not promise to avoid defects, but it provides clear **cleavage planes**. When a fracture occurs, it must follow well-defined structural surfaces, allowing for localized removal or reorganization without a global collapse of the system.
-
-In this way, software evolution is understood as a physical process governed by energy, pressure, and symmetry. The lattice does not prevent change; it prevents degeneration. The system remains alive precisely because its structure restricts the ways in which it can change.
-
-Within crystalline architecture, AI agents are treated neither as authors nor as architects. They are treated as **growth agents** operating under explicit physical constraints. Their function is to explore the solution space permitted by the lattice, not to expand it arbitrarily.
-
-The architecture exists precisely to make this space **finite, oriented, and auditable**.
-
-Before any generation of executable code, the system must be completely nucleated. Specifications, contracts, and invariants defined in the seed stratum constitute the only legitimate source of materialization. Until this nucleation is complete, AI involvement is restricted to analysis, semantic refinement, and the detection of formal inconsistencies. Any attempt to generate implementation without explicit nucleation is considered amorphous growth.
-
-Once the seed is established, the AI can act through **controlled epitaxy**. This means that every generated artifact must possess a clear structural lineage, traceable to an element defined in the lower strata. Code without a direct match to a specification is structurally invalid, even if functionally correct.
-
-AI performance is, therefore, subordinate to a regime of **structural isomorphism**. The implementation must preserve the logical form defined by the seed and the core. Divergences between specification and materialization are not treated as acceptable variations, but as crystalline defects. Correction occurs by removal or rewriting, never by silent accommodation.
-
-As statistical agents, language models tend to minimize local cost rather than global structural energy. Therefore, the architecture imposes systematic gravity checks: dependencies must respect the partial order of the lattice, and any hint of inversion, transverse coupling, or cycle is automatically rejected. The AI is not granted the authority to justify exceptions.
-
-The wiring layer plays a critical role in this regime. It functions as the sole point where abstract morphisms are concretely instantiated. AI can assist in this composition but cannot redefine its terms. The terminal object exists to absorb complexity, not to redistribute it back to the core.
-
-It is important to note that crystalline architecture does not seek to align AI through behavioral heuristics or semantic filters. Alignment occurs **through structural geometry**. The agent can only operate efficiently when its actions are confined to a space where invalid states simply do not exist.
-
-Thus, entropy control is not a reactive process but an emergent property of the system's form. AI accelerates growth, but the architecture defines the possible axes of that growth. The result is not "AI-assisted" code, but structurally stable software in an environment where automatic generation is inevitable.
+When fractures occur, the architecture provides clear **cleavage planes**: the stratum structure defines surfaces along which the system can be locally reorganized without global collapse.
 
 ---
 
-## Industry Standard Mapping
+## Declared Limitations
 
-| Crystalline Layer | Clean Architecture | Hexagonal Architecture | DDD |
-|-------------------|-------------------|------------------------|-----|
-| $L_0$ (Nucleus) | — | — | Ubiquitous Language |
-| $L_1$ (Core) | Entities | Application Core | Domain Layer |
-| $L_2$ (Shell) | Interface Adapters | Primary Adapters | Application Layer |
-| $L_3$ (Infra) | Frameworks & Drivers | Secondary Adapters | Infrastructure |
-| $L_4$ (Wiring) | Main | — | Composition Root |
-| $L_{20}$ (Arena) | — | — | Spikes / POCs |
+This architecture does not solve the problem of the incorrect prompt. If L₀ contains a poorly formulated prompt, the growth derived from it will be structurally coherent and functionally incorrect. The seed determines the shape — not the truth.
 
+The verification of correspondence between prompt and code is not mechanizable: language models are probabilistic, and two executions of the same prompt produce equivalent but not identical results. The linter verifies structure — existence of `@prompt`, import rules, L₁ purity, presence of tests. Content fidelity depends on human review.
+
+The premise that the developer does not touch the code directly is the most fragile condition of the architecture. Under pressure, the tendency is to modify the code directly and "update the prompt later". If this systematically occurs, L₀ diverges from the real system and loses its causal origin function. The architecture is only as strong as the discipline of keeping L₀ as the sole entry point.
+
+---
+
+## What This Architecture Is Not
+
+This architecture is not a variation of Clean Architecture, Hexagonal Architecture, or DDD. Those were designed for the human → code cycle.
+
+Crystalline Architecture is designed for the **human → prompt → agent → code + tests** cycle. The fundamental distinction lies in L₀: not as a documentation layer, but as a versioned causal record that makes the generation context a permanent part of the project.
+
+---
+
+## Current State
+
+This is a proposition, not a validated practice.
+
+The observations that motivate it are real and reproducible. The central hypothesis — that structured and versioned prompts in L₀ reduce amorphous growth in systems developed with AI agents — is plausible, but has not yet been systematically tested.
+
+The experiment that will prove or refute the hypothesis is to compare the speed and consistency of modification of a system developed with this architecture versus one developed without it, after months of evolution. It is at this point that structural degradation becomes visible.
+
+The manifesto is the proposition. The experiments will tell if it holds.
+
+---
+
+## Industry Patterns Mapping
+
+| Crystalline Stratum | Clean Architecture | Hexagonal | DDD |
+|---|---|---|---|
+| L₀ (Seed) | — | — | Ubiquitous Language |
+| L₁ (Core) | Entities | Application Core | Domain Layer |
+| L₂ (Shell) | Interface Adapters | Primary Adapters | Application Layer |
+| L₃ (Infra) | Frameworks & Drivers | Secondary Adapters | Infrastructure |
+| L₄ (Wiring) | Main | — | Composition Root |
+| L_lab (Arena) | — | — | Spikes / POCs |
 
 ---
 
 ## References
 
-### Theoretical Foundations
-- **Clean Architecture** (Robert C. Martin, 2012)
-- **Hexagonal Architecture** (Alistair Cockburn, 2005)
-- **Domain-Driven Design** (Eric Evans, 2003)
-- **Category Theory for Programmers** (Bartosz Milewski, 2018)
-- **Order Theory** (Davey & Priestley, 2002)
-
-### Related Concepts
-- **Functional Core, Imperative Shell** (Gary Bernhardt)
+- **Clean Architecture** — Robert C. Martin, 2012
+- **Hexagonal Architecture** — Alistair Cockburn, 2005
+- **Domain-Driven Design** — Eric Evans, 2003
+- **Functional Core, Imperative Shell** — Gary Bernhardt
 - **Ports and Adapters Pattern**
-- **Onion Architecture** (Jeffrey Palermo)
-
----
+- **Onion Architecture** — Jeffrey Palermo

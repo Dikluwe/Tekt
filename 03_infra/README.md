@@ -1,70 +1,73 @@
-### 1. README.md (English Version)
+# /04_wiring — The Wiring
 
-# /03_infra — The Foundation
+> The only point where everything connects.
 
-> **The Crystal's Support.** Controlled side effects and external persistence.
+---
 
 ## Purpose
 
-This directory contains **Secondary Adapters**: implementations of the interfaces defined in the Core. It handles the "dirty" work of interacting with the physical world (Databases, External APIs, File Systems).
+This stratum is the composition root: the only place that knows all strata and connects them. Here live `main()`, dependency injection configuration, and environment initialization.
+
+The Wiring is the point of total materialization — where the abstract definitions from `00_nucleo` meet their concrete implementations from `03_infra`.
 
 ---
 
-## 💎 Mathematical Formalism ($\mathcal{L}_3$)
+## Fundamental Property
 
-Unlike the Core, the Infrastructure layer acknowledges the existence of state and side effects, but subjects them to **Interface Realization**:
-
-* **Effect Realization**: Let $I \subset L_1$ be a set of abstract interfaces. Infrastructure provides a set of concrete implementations $M$ such that there is a realization morphism $r: M \to I$.
-* **Side-Effect Encapsulation**: Let $\mathcal{E}$ be the set of side effects. While $\text{SideEffects}(L_3) \neq \emptyset$, these effects must be contained within the boundaries of the implementation, never leaking their internal types to $L_1$.
-* **Dependency Inversion**: $L_3$  depends on $L_1$ to know *what* to implement, but $L_1$ never knows *how* $L_3$ works.
-$$L_3 \implies L_1$$
+The Wiring has near-zero logic. It orchestrates — it does not create. Any `if/else` related to business rules found here is a structural defect and belongs to `01_core`.
 
 ---
 
-## What Lives Here
+## What belongs here
 
-* 🗄️ **Repositories**: SQL/NoSQL database implementations.
-* ☁️ **External Clients**: SDKs for AWS, Stripe, SendGrid, etc.
-* 📂 **Storage**: File system drivers.
-* 📡 **Gateways**: Wrappers for external microservices.
-
-## Dependency Rules
-
-> [!IMPORTANT]
-> **CAN import**: `01_core` (to implement its interfaces).
-> **CANNOT import**: `02_shell`, `04_wiring`.
-
-* ✅ `03_infra`  `01_core` (Implementing Domain Interfaces)
-* ❌ `03_infra`  `02_shell` (Infrastructure never talks to the UI)
-
-## AI Protocol (Isomorphism Audit)
-
-1. **Contract Adherence**: AI must verify that every class in $L_3$ strictly follows an interface from $L_1$ or $L_0$.
-2. **Implementation Only**: This layer should contain logic for "how to talk to the tool," not "business logic."
-3. **Error Translation**: AI must map infrastructure errors (HTTP 500, SQL Timeout) to Domain Errors defined in $L_1$.
+- Application entry point (`main()`, `index.ts`, `app.py`)
+- Dependency injection configuration
+- Environment variable loading
+- Server initialization
 
 ---
 
-### Exemplo / Example
+## Dependency Rule
+
+This is the only stratum that can import from all numbered layers.
+
+- ✅ `04_wiring` → `00_nucleo`
+- ✅ `04_wiring` → `01_core`
+- ✅ `04_wiring` → `02_shell`
+- ✅ `04_wiring` → `03_infra`
+- ❌ `04_wiring` → `_lab`
+
+---
+
+## Example
 
 ```typescript
 /**
  * Crystalline Lineage
- * @spec 00_nucleo/contracts/user-repository.md
+ * @spec 00_nucleo/specs/application-bootstrap.md
+ * @layer L4
  */
+import { IUserRepository } from '../01_core/domain/user';
+import { UserController } from '../02_shell/api/user-controller';
+import { PostgresUserRepository } from '../03_infra/database/postgres-user-repository';
 
-// ✅ CORRECT - Implements an interface from Core
-import { UserRepository } from '../../01_core/domain/interfaces';
-import { Database } from './db-client';
+// Dependency injection — the only place where implementations are assigned to interfaces
+const repository: IUserRepository = new PostgresUserRepository(config.database);
+const controller = new UserController(repository);
 
-export class SqlUserRepository implements UserRepository {
-  // Logic restricted to data persistence
-  async save(user) {
-    return await Database.insert('users', user);
-  }
+export function main() {
+  const app = createServer();
+  app.use('/users', controller.routes);
+  app.listen(3000);
 }
 
-// ❌ WRONG - Business logic leaked into infra
-// if (user.age < 18) throw Error(); // THIS BELONGS IN 01_CORE!
-
+main();
 ```
+
+---
+
+## AI Agents Protocol
+
+- Do not generate business logic in this stratum
+- Verify that implementations from `03_infra` satisfy the interfaces required by `02_shell` and defined in `01_core`
+- Ensure that mandatory environment variables are validated on bootstrap
