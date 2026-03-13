@@ -1,70 +1,63 @@
-### 2. README.pt.md (Versão em Português)
+# /02_shell — A Casca
 
-# /02_shell — A Superfície
+> Tradução entre o mundo externo e o Núcleo.
 
-> **A Face do Cristal.** Tudo que é tocável externamente.
+---
 
 ## Propósito
 
-Este diretório contém **Adaptadores Primários**: componentes que recebem entrada do mundo externo (Usuários, Requisições HTTP, Comandos CLI) e as traduzem em chamadas para o domínio core.
+Este estrato contém os adaptadores primários: componentes que recebem entrada do mundo externo — usuários, requisições HTTP, comandos CLI — e traduzem para chamadas ao domínio em `01_core`.
+
+A Casca é o plano de clivagem primário: separa a estabilidade conceitual do Núcleo da variabilidade dos canais de entrada.
 
 ---
 
-## 💎 Formalismo Matemático ($\mathcal{L}_2$)
+## O que pertence aqui
 
-Para manter a integridade do core enquanto interage com ambientes de alta entropia, a Shell segue o **Morfismo de Tradução**:
-
-* **Projeção de Interface**: Seja $W$ o Mundo (Dados Externos) e $C$ o Domínio Core. A Shell é uma função de mapeamento $f: W \to C$.
-* **Garantia de Tipos**: A shell deve garantir que para cada entrada externa $x \in W$, a transformação $f(x)$ resulte em um objeto de domínio válido $y \in L_1$.
-* **Invariante de Desacoplamento**: A Shell é proibida de interagir com a camada de Infraestrutura $L_3$.
-$$\text{dep}(L_2) \cap L_3 = \emptyset$$
-* **Composição**: A Shell interage com $L_1$, mas é montada/composta pela camada $L_4$ (Wiring).
+- Componentes de UI (React, Vue, Svelte)
+- Controllers de API REST e resolvers GraphQL
+- Handlers de CLI
+- Validação de entrada (formato e tipo, não regras de negócio)
+- Projeção de saída (transformação de resposta para o cliente)
 
 ---
 
-## O Que Vive Aqui
+## Regra de Dependência
 
-* 🖥️ **Componentes de UI**: React, Vue, Svelte ou views em JS puro.
-* 🌐 **Controllers de API**: Endpoints REST e resolvers GraphQL.
-* ⌨️ **Interfaces de CLI**: Manipuladores de argumentos de linha de comando.
+- **Pode importar**: `00_nucleo`, `01_core`
+- **Proibido**: `03_infra`, `04_wiring`, `_lab`
 
----
-
-## Regras de Dependência
-
-> [!IMPORTANT]
-> **PODE importar**: `01_core` (para usar a lógica de domínio).
-> **NÃO PODE importar**: `03_infra` (para evitar acoplamento direto com DB/Rede).
-
-* ✅ `02_shell`  `01_core`
-* ❌ `02_shell`  `03_infra` (A infraestrutura deve ser injetada via `04_wiring`).
-
-## Protocolo de IA (Auditoria de Isomorfismo)
-
-1. **Validação de Entrada**: A IA deve garantir que todos os dados externos sejam validados antes de tocar em .
-2. **UI Sem Estado**: Componentes de interface devem ser o mais funcionais possível, delegando a lógica ao Core.
-3. **Sem I/O Direto**: A IA não deve gerar chamadas de `fetch` ou `sql` dentro deste diretório.
+> A Casca nunca acessa infraestrutura diretamente. Dependências de `03_infra` são injetadas via `04_wiring`.
 
 ---
 
-### Exemplo
+## Exemplo
 
 ```typescript
 /**
  * Crystalline Lineage
- * @spec 00_nucleo/specs/user-registration.md
+ * @spec 00_nucleo/specs/cadastro-usuario.md
+ * @layer L2
  */
+import { validarUsuario } from '../../01_core/domain/usuario';
 
-// ✅ CORRECT - Maps external interaction to Core logic
-import { validateUser } from '../../01_core/domain/user-logic';
-
-// ❌ WRONG - Direct Infrastructure access
-// import { db } from '../../03_infra/persistence'; // FORBIDDEN!
-
-export function RegistrationController(req, res) {
-  // Logic flows from Shell to Core
-  const isValid = validateUser(req.body);
-  // Implementation continues...
+// ✅ Correto — traduz entrada externa para lógica do Core
+export function ControllerCadastro(req, res) {
+  const resultado = validarUsuario(req.body);
+  if (!resultado.valido) {
+    return res.status(400).json({ erros: resultado.erros });
+  }
+  // continua...
 }
 
+// ❌ Errado — acesso direto à infraestrutura
+// import { db } from '../../03_infra/persistence'; // PROIBIDO
 ```
+
+---
+
+## Protocolo para Agentes de IA
+
+- Validar toda entrada externa antes de passar ao Core
+- Não gerar chamadas `fetch`, `sql` ou acesso a arquivos neste estrato
+- Componentes de UI devem ser o mais funcionais possível — lógica no Core

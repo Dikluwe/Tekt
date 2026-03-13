@@ -22,7 +22,7 @@ Toda refatoração ocorrerá "cortando" a pasta velha e "colando" nas novas.
 
 ---
 
-## 🗺️ Passo 1.5: O Mapa de Demolição (Checklist de Legado)
+## 🗺️ Passo 1.5: O Mapa de Demolição (Comando `/init-legado`)
 Um projeto como o *Typst* tem centenas de arquivos. Se você e a IA tentarem converter de forma *ad-hoc*, vocês perderão o rastro de quais arquivos do legado já foram lidos. 
 
 **Crie um arquivo na raiz chamado `LEGACY_MAP.md` e preencha com a lista dos arquivos antigos.** Use-o como o painel de rastreio da migração.
@@ -35,23 +35,20 @@ Cole este **Prompt de Mapeamento**:
 > `  - *↳ [ ] L0 (Spec Criada)*`
 > Apenas crie este arquivo de checklist e pare."
 
-**Exemplo de como ficará o seu `LEGACY_MAP.md`:**
+**Exemplo de como ficará o seu `LEGACY_MAP.md` (Formato Compacto):**
 ```markdown
 # Controle de Migração Tekt (Typst)
 
 ## Módulo: Parser
-- [ ] `20_lab/crates/typst-syntax/src/parser.rs` 
-  - *↳ [ ] L0 (Spec Criada)*
-- [ ] `20_lab/crates/typst-syntax/src/lexer.rs`
-  - *↳ [ ] L0 (Spec Criada)*
-- [ ] `20_lab/crates/typst-syntax/src/span.rs`
-  - *↳ [ ] L0 (Spec Criada)*
+- [ ] `20_lab/crates/typst-syntax/src/parser.rs` | [ ] L0 Spec
+- [ ] `20_lab/crates/typst-syntax/src/lexer.rs` | [ ] L0 Spec
+- [ ] `20_lab/crates/typst-syntax/src/span.rs` | [ ] L0 Spec
 ```
 *(Nota: O agente de IA deve ser instruído a marcar com um `x` a criação do L0 de cada arquivo. Uma vez que o L0 nasça, o humano/IA expandem o checklist daquele arquivo específico com os passos de implementação L1->L4).*
 
 ---
 
-## 🔍 Passo 2: A Engenharia Reversa (Criar o `L0` a partir do legado)
+## 🔍 Passo 2: A Engenharia Reversa (Comando `/gerar-spec`)
 O Axioma 1 da Tekt bloqueia a Inteligência Artificial de escrever ou refatorar código que não tenha Spec pronta no `L0`. Mas o código antigo já existe. Como fazemos?
 Através da **Engenharia Reversa de Spec**.
 
@@ -74,7 +71,7 @@ Cole este **Prompt de Engenharia Reversa Tekt**:
 
 ---
 
-## 👁 Passo 2.5: Auto-Revisão e Auditoria do `L0`
+## 👁 Passo 2.5: Auto-Revisão e Auditoria do `L0` (Comando `/auditar-spec`)
 **Nunca confie cegamente na distilação da IA no primeiro prompt.**
 O código legado pode ser extremamente confuso e a IA pode simplesmente "pular" (resumir demasiadamente) uma regra de negócio crítica ou deixar um side-effect oculto passar sem identificar.
 
@@ -98,10 +95,14 @@ Somente quando a Spec for o espelho da "Alma" do arquivo antigo, avance para a C
 ## �💎 Passo 3: A Clivagem (O Nascimento de `L1` e `L3` Atômicos)
 Com os Markdown e Interfaces prontas no `L0` (e só agora lidos e perfeitamente entendidos pelo LLM), a refatoração segura começou. A IA agora fará o seu trabalho seguindo a Spec, sem precisar deduzir os gargalos do código velho.
 
+**Posso olhar para o código legado no `L20` durante a clivagem?**
+**SIM!** A Spec `L0` define a nova *Arquitetura e Contratos* (O QUÊ fazer). Mas a matemática sutil, as manipulações de bits, macros e lógica densa residem no `L20` (O COMO fazer). 
+A IA e o Humano **devem** manter o legado antigo aberto ao lado para resgatar os algoritmos exatos. A diferença é que você não vai dar um "Copiar e Colar" do blocão de 500 linhas. Você vai extrair o algoritmo cru do legado e recristalizá-lo em funções atômicas de 20 linhas, guiado pelo mapa que o `L0` definiu.
+
 Envie o segundo **Prompt Executivo**:
 > "As specs estão formadas no `00_nucleo`. Leia-as.
 > Agora ative as regras da Tekt para esse módulo:
-> 1. Escreva a Lógica Pura (Sem I/O) no `01_core/`. **REGRA DE OURO: ATOMIZAÇÃO.** Implemente funções minúsculas e de propósito único. Nada de funções blocadas de 100 linhas. Eles devem ser a mecânica fina que o L2 usará.
+> 1. Escreva a Lógica Pura (Sem I/O) no `01_core/`. **REGRA DE OURO: ATOMIZAÇÃO.** Implemente funções minúsculas e de propósito único. Use o código original em `L20` como referência para garantir que a precisão matemática e os algoritmos não sejam perdidos, mas não copie a estrutura engessada velha.
 > 2. Qualquer regra de I/O identificada, implemente nas classes do `03_infra/`.
 > 3. Crie os controladores/orquestradores de superfície no `02_shell/`.
 > 4. Faça o Wiring final na sua composição.
@@ -120,7 +121,7 @@ Refatorar uma vez e deixá-la purificada no Core (`L1`) pagará dividendos expon
 
 ---
 
-## 🔗 Passo 4: O Wiring Parcial (Testando o Novo com o Antigo na L4)
+## 🔗 Passo 4: O Wiring Parcial (Comando `/integrar-legado`)
 **Pergunta Crítica:** *"Se eu refatorar APENAS o `args.rs`, eu posso compilar as camadas novas junto com o código antigo (que ainda está no `L20/crates`) para garantir que o projeto não quebrou?"*
 
 **Resposta:** **Sim, mas com uma Regra Absoluta: A pasta `L20` é READ-ONLY (Apenas Leitura).**

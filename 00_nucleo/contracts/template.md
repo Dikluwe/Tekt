@@ -1,69 +1,54 @@
-# 📜 Contract Template
+# Contrato: [Nome da Interface]
 
-> **Morphism Definition**: This document defines the formal interface (contract) that bridges the abstract logic of the Core with its physical implementations.
-
----
-
-## 💎 Formalism ($\mathcal{L}_{contract}$)
-
-* **Contract Identity**: Let $I$ be the interface defined herein.
-* **Morphism Mapping**: $\forall m \in M$ (Implementations),  must satisfy the type signature of $I$.
-* **Nucleation Link**: This contract is a realization of the specification: `[[link-to-spec-in-00_nucleo]]`.
+> **Linhagem**: Este contrato define a fronteira entre o Núcleo e suas implementações externas.
 
 ---
 
-## Purpose
+## Propósito
 
-> Define concisely what this interface abstracts and the specific problem it solves within the domain.
+Descrever o que esta interface abstrai e qual problema de domínio ela resolve.
 
 ---
 
-## Definition
+## Definição
 
 ```typescript
 /**
- * Interface Name: I[EntityName][Action]
- * Lineage: [00_nucleo/specs/filename.md]
+ * Crystalline Lineage
+ * @spec 00_nucleo/specs/[nome-da-spec].md
+ * @layer L0
  */
-export interface IExampleInterface {
+export interface I[Entidade][Ação] {
   /**
-   * Method Purpose: [Brief description]
-   * @param input - [Domain Type]
-   * @returns [Morphism Result]
+   * Descrever o propósito do método.
+   * @param input - Tipo de domínio de entrada
+   * @returns Resultado esperado
    */
-  methodName(input: InputType): Promise<OutputType>;
+  nomeDoMetodo(input: TipoDeEntrada): Promise<TipoDeSaída>;
 }
-
 ```
 
 ---
 
-## Implementations
+## Implementações
 
-| Layer | Class/Implementation | Purpose | Status |
-| --- | --- | --- | --- |
-| `03_infra` | `Sql[Name]Repository` | Production persistence (PostgreSQL) | Pending |
-| `_lab` | `Mock[Name]Provider` | High-entropy testing sandbox | Active |
+| Camada | Classe | Propósito | Status |
+|--------|--------|-----------|--------|
+| `03_infra` | `Sql[Nome]Repository` | Persistência em produção | Pendente |
+| `_lab` | `Mock[Nome]Provider` | Testes e experimentos | Ativo |
 
 ---
 
-## Usage & Wiring
-
-To maintain the **Composition Root** ($L_4$) integrity:
-
-1. **Define** the interface in `01_core`.
-2. **Implement** the logic in `03_infra`.
-3. **Compose** (Wire) in `04_wiring`.
+## Como usar em Wiring
 
 ```typescript
-// Wiring Example (04_wiring/index.ts)
-const implementation = new SqlImplementation();
-const controller = new Controller(implementation as IExampleInterface);
-
+// 04_wiring/main.ts
+const implementacao = new SqlImplementacao();
+const servico = new Servico(implementacao as INomeInterface);
 ```
 
 ---
 
-## Notes
+## Notas
 
-* [Any specific invariant or edge case this contract must handle]
+Invariantes específicos, casos de borda ou restrições que esta interface deve respeitar.

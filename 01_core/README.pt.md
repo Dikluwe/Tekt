@@ -1,76 +1,75 @@
-### 2. README.pt.md (Versão em Português)
+# /01_core — O Núcleo
 
-# /01_core — O Cristal Puro
+> Lógica pura. O coração determinístico do sistema.
 
-> **Lógica Platônica.** O coração das regras de negócio puras.
+---
 
 ## Propósito
 
-Este diretório contém **lógica de domínio pura**: entidades, algoritmos, funções matemáticas e regras de negócio com **absolutamente nenhum I/O**.
+Este estrato contém apenas lógica de domínio essencial: entidades, regras de negócio, algoritmos puros. Nada aqui depende de banco de dados, rede, sistema de arquivos, ou qualquer estado externo.
+
+O Núcleo é a fase estrutural mais estável do sistema. Código aqui existe independentemente do tempo, das tecnologias de infraestrutura e dos canais de entrada.
 
 ---
 
-## 💎 Formalismo Matemático ($\mathcal{L}_1$)
+## Restrição Absoluta: Zero I/O
 
-Para garantir um núcleo determinístico, esta camada é definida como uma coleção de **Morfismos Puros**:
+> Código neste diretório **não deve**:
+> - Acessar banco de dados ou fazer requisições de rede
+> - Ler ou escrever arquivos
+> - Acessar o relógio do sistema ou estado global mutável
+> - Importar bibliotecas externas (apenas biblioteca padrão da linguagem)
 
-* **Pureza ($\mathcal{P}$)**: Toda função $f$ em $L_1$ deve ser uma função pura.
-$$\forall x \in X, \forall t \in T : f(x, t) = f(x)$$
-(O resultado depende exclusivamente da entrada, independente do tempo do sistema  ou estado externo).
-* **Isolamento de Efeitos Colaterais**: O conjunto de efeitos colaterais $\mathcal{E}$ para qualquer operação nesta camada deve ser vazio.
-$$\text{EfeitosColaterais}(L_1) = \emptyset$$
-* **Determinismo Sem Estado**: Para qualquer estado $S$ e entrada $I$, a função de transição $\delta$ deve ser um mapeamento determinístico: $\delta: S \times I \to S'$.
+Qualquer necessidade de I/O deve ser expressa como uma interface em `00_nucleo/contracts/` e implementada em `03_infra/`.
 
 ---
 
-## A Regra de Zero I/O
+## O que pertence aqui
 
-> [!CAUTION]
-> **RESTRIÇÃO ABSOLUTA**
-> O código neste diretório **NÃO DEVE**:
-> * Acessar bancos de dados ou fazer requisições de rede.
-> * Ler/escrever arquivos ou acessar o relógio do sistema.
-> * Importar bibliotecas externas (apenas a biblioteca padrão da linguagem).
-> 
-> 
+- Entidades de domínio e Value Objects
+- Validação de regras de negócio
+- Algoritmos e transformações puras
+- Definições de interfaces (não implementações)
+- Erros de domínio
 
-## Permitido
+---
 
-✅ **Funções puras** e estruturas de dados imutáveis.
-✅ **Entidades de Domínio** e validação de regras de negócio.
-✅ **Interfaces** (Definições abstratas) para dependências externas.
-✅ **Algoritmos matemáticos** e computações sem estado (*stateless*).
-
-## Estrutura de Diretórios
+## Estrutura
 
 ```
 01_core/
-├── entities/        # Entidades de domínio (Models, Value Objects)
-├── algorithms/      # Algoritmos puros (Matemática, Transformações)
-└── domain/          # Regras de negócio (Validadores, Serviços Puros)
-
+├── entities/     # Entidades de domínio e Value Objects
+├── domain/       # Regras de negócio e serviços puros
+└── algorithms/   # Algoritmos e transformações
 ```
-
-## Regra de Dependência
-
-* **Pode Importar**: `00_nucleo` (para implementar contratos e especificações).
-* **Proibido**: `02_shell`, `03_infra`, `04_wiring`, `_lab`.
 
 ---
 
-### Exemplo de Auditoria 
+## Regra de Dependência
+
+- **Pode importar**: `00_nucleo` (para implementar contratos e satisfazer specs)
+- **Proibido**: `02_shell`, `03_infra`, `04_wiring`, `_lab`
+
+---
+
+## Exemplo
+
+```typescript
 /**
- * Linhagem Cristalina
+ * Crystalline Lineage
  * @spec 00_nucleo/specs/validacao-usuario.md
+ * @layer L1
  */
 
-// ✅ CORRETO - Morfismo Puro f: string -> boolean
+// ✅ Correto — função pura, sem dependências externas
 export function validarEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
-// ❌ ERRADO - Violação de Efeito Colateral (I/O Externo)
+// ❌ Errado — I/O externo viola a pureza do estrato
 // import axios from 'axios';
-
----
+// export async function verificarEmail(email: string) {
+//   return await axios.get(`/api/verify?email=${email}`);
+// }
+```

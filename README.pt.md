@@ -1,90 +1,39 @@
-# Padrão de Arquitetura Cristalina
+# Arquitetura Cristalina
 
 <div align="center">
 
-**Um framework de topologia reforçada para desenvolvimento resistente a IA**
+**Um framework estrutural para desenvolvimento sustentável com agentes de IA**
 
-[![Versão](https://img.shields.io/badge/versão-1.1-blue.svg)](./MANIFESTO.pt.md)
+[![Versão](https://img.shields.io/badge/versão-1.3-blue.svg)](./MANIFESTO.pt.md)
 [![Licença](https://img.shields.io/badge/licença-MIT-green.svg)](./LICENSE)
 
-[**Manifesto**](./MANIFESTO.pt.md) • [**Início Rápido**](#início-rápido) • [**Documentação**](#documentação) • [**Exemplos**](#exemplos)
+[**Manifesto**](./MANIFESTO.pt.md) • [**Início Rápido**](#início-rápido) • [**Documentação**](#documentação)
 
 </div>
 
 ---
 
-## 💎 Fundamentação Matemática
+## A Ideia Central
 
-O Padrão Cristalino trata a arquitetura de software como um **Espaço Topológico** regido por leis matemáticas estritas para minimizar a entropia estrutural $H$.
+Agentes de IA geram código a partir de contexto. Contexto descartado após cada sessão produz crescimento sem rastreabilidade — cada modificação parte do zero, sem memória da intenção original.
 
-### Estrutura Central
+A Arquitetura Cristalina mantém os **prompts** que geraram cada componente dentro do próprio projeto, versionados e estruturalmente ligados ao código que deles deriva. O desenvolvedor trabalha em `00_nucleo` — os estratos abaixo são output, não workspace.
 
-* **Topologia do Sistema** ($\mathcal{T}$): Um Grafo Acíclico Direcionado (DAG) onde nós são camadas $L_n$ e arestas são morfismos de dependência
-* **Poset de Dependência**: Conjunto parcialmente ordenado $(L, \preceq)$ seguindo:
-  $$L_0 \preceq L_1 \preceq \{L_2, L_3\} \preceq L_4$$
-  onde $L_0$ (Núcleo) é o **elemento inferior** ($\bot$)
-* **Controle de Entropia**: A **Invariante de Nucleação** impõe:
-  $$\text{Código} \neq \emptyset \iff \text{Espec} \neq \emptyset$$
+O agente gera **código e testes simultaneamente** a partir do mesmo prompt. Não é TDD, não é code-first — é um paradigma onde especificação, implementação e verificação derivam da mesma origem.
 
 ---
 
-## Início Rápido (Scaffolding Tekt)
-
-A Arquitetura Cristalina foi feita para ser construída **em parceria rigorosa com o seu Agente de IA** (Cursor, Copilot, Cline, Aider). Para iniciar um projeto novo, siga os três passos essenciais da Nucleação.
-
-### 1. Preparar a Física do Projeto
-Inicie o Lattice (as camadas) na sua pasta vazia executando o script de scaffolding ou clonando este repositório base.
-
-```bash
-git clone https://github.com/your-org/crystalline-architecture-standard.git meu-projeto
-cd meu-projeto
-rm -rf .git
-```
-
-### 2. Diga à sua IA como se comportar
-Este repositório acompanha dois arquivos preciosos: o `.cursorrules` e o `.agentrules`.
-Estes arquivos contêm comandos **absolutos e imperativos** que proíbem o seu LLM de quebrar a arquitetura (ex: ele será proibido de escrever regras de negócio sem antes criar a especificação em Texto).
-
-*   **Se você usa Cursor IDE:** O arquivo `.cursorrules` já será lido automaticamente.
-*   **Se você usa Aider/Cline/Outros:** Copie o conteúdo de `.agentrules` e alimente como *System Prompt* ou *Custom Instructions*.
-
-### 3. Escreva sua primeira Feature (O jeito Tekt)
-Nós preparamos um tutorial mecânico prático de como a IA (e você) navegam desde a especificação até a inicialização.
-👉 **[Leia o guia prático: COMO IMPLEMENTAR (HOW_TO_IMPLEMENT.md)](./HOW_TO_IMPLEMENT.md)**
-
-### 4. Ou Refatore um Projeto Existente (Modo Demolição)
-Se você quer migrar um repositório gigantesco ou caótico para a Tekt (ex: Typst), você **não pode** mandar a IA reescrever tudo de uma vez. Nós criamos um processo cirúrgico de refatoração com **Prompts de Engenharia Reversa**.
-👉 **[Leia o guia de Migração de Legados (REFACTORING_GUIDE.md)](./REFACTORING_GUIDE.md)**
-
-
----
-
-## A Estrutura do Retículo
-
-A estrutura física de pastas atua como uma "restrição de hardware" para geração de lógica pela IA. O seu LLM será impedido (pelas regras de sistema descritas acima) de violar essa hierarquia.
+## A Estrutura
 
 ```
 seu-projeto/
-├── 00_nucleo/     # 📋 Especificações, ADRs, Contratos (Obrigatório antes do código)
-├── 01_core/       # 💎 Lógica Matemática Pura, Zero I/O, Zero Dependências Externas
-├── 02_shell/      # 🖥️  Superfície: UI, APIs HTTP, CLI (Controle burro de borda)
-├── 03_infra/      # 🔌 O Mundo Real: Banco de Dados, Libs pesadas, Drivers
-├── 04_wiring/     # ⚡ O Deus Ex Machina: main.ts, Injeção de Dependências
-├── 10_bedrock/    # 🏗️  Infra de Projeto (Docker, CI/CD)
-├── 11_tools/      # 🛠️  Ferramentas de Análise (Scripts)
-└── 20_lab/        # 🧪 Arena Experimental (Código de Quarentena gerado por LLM)
+├── 00_nucleo/     # Prompts e ADRs (A Semente)
+├── 01_core/       # Lógica pura, zero I/O (O Cristal)
+├── 02_shell/      # UI, API, CLI (Adaptadores Primários)
+├── 03_infra/      # Banco de dados, rede, arquivos (Adaptadores Secundários)
+├── 04_wiring/     # Injeção de dependência, main() (A Composição)
+└── _lab/          # Experimentos isolados (Quarentena)
 ```
-
----
-
-## Princípios Fundamentais
-
-| # | Princípio | Propriedade Formal | Descrição |
-|---|-----------|-------------------|-----------|
-| 1 | **Nucleação** | Axiomatização | Especificações antes do código. Sem spec → Sem código. |
-| 2 | **Contenção** | Fronteira Topológica | Estrutura de pastas como barreira física. |
-| 3 | **Gravidade** | Aciclicidade Direcionada | Dependências apontam apenas para camadas inferiores. |
-| 4 | **Darwinismo** | Isolamento | Código do Lab deve ser normalizado antes da produção. |
 
 ---
 
@@ -92,23 +41,19 @@ seu-projeto/
 
 ```mermaid
 graph TD
-    subgraph Crystal ["Sistema Central (O Cristal)"]
-        direction TB
-        N("00_nucleo<br>(Especificações) ⊥")
+    subgraph Crystal ["Sistema Central"]
+        N("00_nucleo<br>(Prompts + ADRs)")
         C("01_core<br>(Lógica Pura)")
     end
 
-    subgraph Adapters ["Adaptadores (A Borda)"]
-        direction TB
+    subgraph Adapters ["Adaptadores"]
         S("02_shell<br>(UI/API/CLI)")
         I("03_infra<br>(Banco/Rede)")
     end
 
-    W("04_wiring<br>(Raiz de Composição) ⊤")
-    L("20_lab<br>(Arena Experimental)")
+    W("04_wiring<br>(Composição)")
+    L("_lab<br>(Quarentena)")
 
-
-    %% Dependências (setas apontam para o que é dependido)
     C --> N
     S --> C
     I --> C
@@ -116,8 +61,7 @@ graph TD
     W --> I
     W --> C
     L -.-> N
-    
-    %% Estilos
+
     classDef nucleus fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:black;
     classDef core fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:black;
     classDef adapters fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:black;
@@ -131,167 +75,278 @@ graph TD
     class L lab;
 ```
 
-### Lendo o Diagrama
-
-- **Setas sólidas** (→): Dependências diretas (permitidas)
-- **Setas tracejadas** (⋯): Referência indireta (apenas specs)
-- **Símbolos**: 
-  - $\bot$ (inferior): Núcleo é a fundação
-  - $\top$ (superior): Wiring vê tudo
-- **Código de cores**:
-  - 🔵 Azul: Especificações (fonte da verdade)
-  - 🟢 Verde: Lógica pura (determinística)
-  - 🟠 Laranja: Fronteiras de I/O
-  - 🟣 Roxo: Camada de composição
-  - 🌑 Cinza: Camadas orbitais (Suporte)
-  - 🔴 Vermelho: Zona de quarentena
-
-
-**Regra de Dependência**: Setas apontam **para** dependências. Setas reversas violam a gravidade.
+`L₂` e `L₃` são ramos independentes — nunca se enxergam diretamente.
 
 ---
 
-## Protocolo de IA
+## Princípios
 
-### Para Assistentes de IA (Cursor, Copilot, Claude)
+| Princípio | Descrição |
+|-----------|-----------|
+| **Nucleação** | Prompt antes de código. Sem prompt em `00_nucleo` → sem geração. |
+| **Contenção** | Estrutura de pastas como fronteira física, não decoração. |
+| **Gravidade** | Dependências fluem apenas para estratos inferiores. Ciclos são proibidos. |
+| **Isolamento de Fases** | Código experimental fica na Arena. Migração exige reescrita com novo prompt. |
+| **Primazia dos Invariantes** | Violação estrutural é regressão, mesmo que o código funcione. |
 
-#### 1. Carregamento de Contexto (Ordem de Prioridade)
+---
 
-```
-Tarefa: "Implementar processamento de pagamento"
+## Início Rápido
 
-Passo 1: Ler estrutura de diretórios (Topografia Intrínseca)
-         ↓
-Passo 2: Navegar para 00_nucleo/specs/
+### 1. Criar projeto
 
-         ↓
-Passo 3: Verificar se 00_nucleo/specs/payment-processing.md existe
-         ├─ SIM → Ler spec, prosseguir com implementação
-         └─ NÃO → PARAR. Criar spec primeiro (Trava de Nucleação)
-         
-Passo 4: Ler contratos relevantes em 00_nucleo/contracts/
-Passo 5: Implementar na camada apropriada (01_core, 02_shell, 03_infra)
-Passo 6: Conectar em 04_wiring/
+```bash
+git clone https://github.com/Dikluwe/crystalline-architecture-standard.git meu-projeto
+cd meu-projeto
 ```
 
-#### 2. Cabeçalho de Linhagem Obrigatório
+### 2. Escrever o prompt (Nucleação)
 
-Todo arquivo DEVE incluir:
+```markdown
+<!-- 00_nucleo/prompts/autenticacao-usuario.md -->
+# Prompt: Autenticação de Usuário
+
+**Camada**: L1 — Núcleo
+**Criado em**: 2025-01-15
+**Arquivos gerados**: 01_core/domain/auth.ts, 01_core/domain/auth.test.ts
+
+## Contexto
+Sistema de e-commerce. Nenhuma lógica de autenticação existe ainda.
+Este componente valida credenciais antes de emitir tokens JWT.
+
+## Restrições Estruturais
+- L₁: zero I/O, zero dependências externas
+- Não deve conhecer como senhas são armazenadas (isso é L₃)
+- Deve expor interface que L₃ implementará
+
+## Instrução
+Criar função pura que valida email e compara senha com hash bcrypt.
+Criar interface IRepositorioUsuario que abstrai a busca por email.
+Gerar testes junto com o código.
+
+## Critérios de Verificação
+Dado email válido e senha correta
+Quando validarCredenciais for chamada
+Então retorna true
+
+Dado email inválido
+Quando validarCredenciais for chamada
+Então retorna false sem lançar exceção
+
+Dado senha incorreta
+Quando validarCredenciais for chamada
+Então retorna false
+
+## Resultado Esperado
+- `01_core/domain/auth.ts`: função validarCredenciais + interface IRepositorioUsuario
+- `01_core/domain/auth.test.ts`: testes cobrindo os critérios acima
+
+## Histórico de Revisões
+| Data | Motivo | Arquivos afetados |
+|------|--------|-------------------|
+| 2025-01-15 | Criação inicial | auth.ts, auth.test.ts |
+```
+
+### 3. O agente gera código e testes
+
+```typescript
+// 01_core/domain/auth.ts
+/**
+ * Crystalline Lineage
+ * @prompt 00_nucleo/prompts/autenticacao-usuario.md
+ * @layer L1
+ */
+export interface IRepositorioUsuario {
+  buscarPorEmail(email: string): Promise<Usuario | null>;
+}
+
+export function validarCredenciais(
+  email: string,
+  senha: string,
+  hashSenha: string
+): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) return false;
+  return bcrypt.compareSync(senha, hashSenha);
+}
+```
+
+```typescript
+// 01_core/domain/auth.test.ts
+/**
+ * Crystalline Lineage
+ * @prompt 00_nucleo/prompts/autenticacao-usuario.md
+ * @layer L1
+ */
+describe('validarCredenciais', () => {
+  it('retorna true para credenciais válidas', () => {
+    const hash = bcrypt.hashSync('senha123', 12);
+    expect(validarCredenciais('user@example.com', 'senha123', hash)).toBe(true);
+  });
+
+  it('retorna false para email inválido', () => {
+    expect(validarCredenciais('email-invalido', 'senha123', 'hash')).toBe(false);
+  });
+
+  it('retorna false para senha incorreta', () => {
+    const hash = bcrypt.hashSync('senha-correta', 12);
+    expect(validarCredenciais('user@example.com', 'senha-errada', hash)).toBe(false);
+  });
+});
+```
+
+### 4. Implementar infraestrutura
+
+```typescript
+// 03_infra/database/repositorio-usuario.ts
+/**
+ * Crystalline Lineage
+ * @prompt 00_nucleo/prompts/autenticacao-usuario.md
+ * @layer L3
+ */
+import { IRepositorioUsuario } from '../../01_core/domain/auth';
+
+export class RepositorioUsuarioSql implements IRepositorioUsuario {
+  async buscarPorEmail(email: string): Promise<Usuario | null> {
+    return await db.usuarios.findUnique({ where: { email } });
+  }
+}
+```
+
+### 5. Compor
+
+```typescript
+// 04_wiring/main.ts
+/**
+ * Crystalline Lineage
+ * @prompt 00_nucleo/prompts/autenticacao-usuario.md
+ * @layer L4
+ */
+const repositorio = new RepositorioUsuarioSql(prisma);
+const servico = new ServicoAuth(repositorio);
+const controller = new ControllerAuth(servico);
+```
+
+### 6. Validar
+
+```bash
+npm run crystalline:lint
+# ✅ Nucleação: OK (todos os arquivos têm @prompt)
+# ✅ Testes: OK (arquivo de teste presente para cada componente)
+# ✅ Gravidade: OK (sem dependências reversas)
+# ✅ Pureza: OK (sem I/O em 01_core)
+```
+
+---
+
+## Protocolo para Agentes de IA
+
+```
+Tarefa recebida
+
+1. Inspecionar 00_nucleo/prompts/
+2. Verificar se prompt existe para o componente
+   ├─ SIM → Ler prompt completo (contexto, restrições, critérios, histórico)
+   └─ NÃO → PARAR. Solicitar ao desenvolvedor que crie o prompt
+3. Gerar código E testes simultaneamente
+4. Registrar revisão no histórico do prompt
+```
+
+### Cabeçalho de linhagem obrigatório
 
 ```typescript
 /**
  * Crystalline Lineage
- * @spec 00_nucleo/specs/<nome-feature>.md
- * @contract 00_nucleo/contracts/<interface>.md (se aplicável)
- * @topology L[n]
+ * @prompt 00_nucleo/prompts/<nome>.md
+ * @layer L[n]
  * @updated YYYY-MM-DD
  */
 ```
 
-#### 3. Regras Específicas por Camada
+### Regras por camada
 
-| Camada | Pode Importar De | Não Pode Importar De | Operações Permitidas |
-|--------|------------------|----------------------|----------------------|
-| L₀ (Nucleus) | — | — | Apenas especificações (sem código) |
-| L₁ (Core) | L₀ | L₂, L₃, L₄, Lab | Funções puras, sem I/O |
-| L₂ (Shell) | L₀, L₁ | L₃, L₄, Lab | Lógica UI/API, tradução |
+| Camada | Pode importar de | Não pode importar de | Restrições |
+|--------|------------------|----------------------|------------|
+| L₀ (Semente) | — | — | Apenas prompts e ADRs, sem código |
+| L₁ (Núcleo) | L₀ | L₂, L₃, L₄, Lab | Funções puras, zero I/O |
+| L₂ (Casca) | L₀, L₁ | L₃, L₄, Lab | Tradução de entrada/saída |
 | L₃ (Infra) | L₀, L₁ | L₂, L₄, Lab | Operações I/O, persistência |
-| L₄ (Wiring) | Todas exceto Lab | — | Apenas configuração DI |
-| Lab | L₀ (apenas specs) | Todas | Experimentos (volátil) |
+| L₄ (Fiação) | Todas exceto Lab | — | Apenas composição, zero lógica |
+| Lab | L₀ (prompts apenas) | Todas | Experimentos voláteis |
 
-#### 4. Checklist Pré-Salvamento
+### Checklist antes de finalizar
 
-Antes de salvar qualquer arquivo, verificar:
-- [ ] Tag `@spec` presente e aponta para arquivo existente
-- [ ] Sem imports proibidos (verificar tabela acima)
-- [ ] Se em `01_core/`: absolutamente zero operações I/O
-- [ ] Implementação está conforme requisitos da spec
-- [ ] Sem dependências circulares
+- [ ] `@prompt` presente e aponta para arquivo existente em `00_nucleo/`
+- [ ] Arquivo de teste gerado junto com o código
+- [ ] Sem imports proibidos para a camada
+- [ ] Se em `01_core/`: zero operações de I/O
+- [ ] Revisão registrada no histórico do prompt
 
 ---
 
 ## Documentação
 
-### Documentos Centrais
-
 | Documento | Descrição |
 |-----------|-----------|
-| [**MANIFESTO.pt.md**](./MANIFESTO.pt.md) | Documento constitucional com fundamentos matemáticos |
-| [**MANIFESTO.md**](./MANIFESTO.md) | English version |
-
-
-
-### Guias por Camada
-
-| Camada | Guia | Propósito |
-|--------|------|-----------|
-| L₀ | [00_nucleo/README.md](./00_nucleo/README.md) | Escrita de especificações |
-| L₁ | [01_core/README.md](./01_core/README.md) | Diretrizes de lógica pura |
-| L₂ | [02_shell/README.md](./02_shell/README.md) | Padrões de adaptador |
-| L₃ | [03_infra/README.md](./03_infra/README.md) | Configuração de infraestrutura |
-| L₄ | [04_wiring/README.md](./04_wiring/README.md) | Configuração DI |
-| L₂₀ | [20_lab/README.md](./20_lab/README.md) | Protocolos de experimento |
-
-
-### Configuração para IA
-
-| Arquivo | Propósito | Alvo |
-|---------|-----------|------|
-| [.cursorrules](./.cursorrules) | Regras do Cursor IDE | Cursor |
-| [.agentrules](./.agentrules) | Regras gerais para LLM | Claude, GPT-4, Gemini |
+| [MANIFESTO.pt.md](./MANIFESTO.pt.md) | A proposição e os princípios |
+| [00_nucleo/README.pt.md](./00_nucleo/README.pt.md) | Prompts e ADRs |
+| [01_core/README.pt.md](./01_core/README.pt.md) | Lógica pura |
+| [02_shell/README.pt.md](./02_shell/README.pt.md) | Adaptadores primários |
+| [03_infra/README.pt.md](./03_infra/README.pt.md) | Infraestrutura |
+| [04_wiring/README.pt.md](./04_wiring/README.pt.md) | Composição |
+| [_lab/README.pt.md](./_lab/README.pt.md) | Experimentos |
 
 ---
 
-## Mapeamento para Padrões da Indústria
+## Ferramentas
+
+### Crystalline Linter
+
+```bash
+npm run crystalline:lint
+# Verifica: nucleação, testes presentes, gravidade, pureza de L₁
+```
+
+### Integração CI/CD
+
+```yaml
+name: Integridade Cristalina
+on: [push, pull_request]
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Validar estrutura
+        run: npm run crystalline:lint
+```
+
+---
+
+## Mapeamento com padrões da indústria
 
 | Cristalina | Clean Architecture | Hexagonal | DDD |
 |------------|-------------------|-----------|-----|
 | `00_nucleo` | — | — | Linguagem Ubíqua |
-| `01_core` | Entidades | Núcleo da Aplicação | Camada de Domínio |
+| `01_core` | Entidades | Core da Aplicação | Camada de Domínio |
 | `02_shell` | Adaptadores de Interface | Adaptadores Primários | Camada de Aplicação |
 | `03_infra` | Frameworks & Drivers | Adaptadores Secundários | Infraestrutura |
-| `04_wiring` | Main | — | Raiz de Composição |
-
----
-
-## Exemplos
-
-| Domínio | Repositório | Status |
-|---------|-------------|--------|
-| Compilador (Typst) | [typst-crystalline](https://github.com/Dikluwe/typst-crystalline) | 🚧 Em Progresso |
-| Web API (E-commerce) | [examples/shop/](./examples/shop/) | 📝 Planejado |
-| Embarcado (IoT) | [examples/iot/](./examples/iot/) | 📝 Planejado |
-
----
-
-### Ferramentas de Verificação
-
-*Em desenvolvimento: Adaptação do `ai-coders-context` para validação de Transparência Sintática.*
-
-
----
-
-## Contribuindo
-
-Veja [CONTRIBUTING.md](./CONTRIBUTING.md) para diretrizes.
-
-**Regra Principal**: Todas as contribuições devem seguir o Protocolo de Nucleação (spec antes do código).
+| `04_wiring` | Main | — | Composition Root |
+| `_lab` | — | — | Spikes / POCs |
 
 ---
 
 ## Licença
 
-Licença MIT — Use livremente em qualquer projeto.
+MIT — Use livremente em qualquer projeto.
 
 ---
 
 ## Citação
 
-Se você usar a Arquitetura Cristalina em pesquisa, por favor cite:
-
 ```bibtex
-  @misc{crystalline2025,
-  title={Crystalline Architecture: A Topology-Enforced Framework for AI-Resistant Software Development},
+@misc{crystalline2025,
+  title={Crystalline Architecture: A Structural Framework for Sustainable AI-Assisted Development},
   author={Diego Kluwe de Souza},
   year={2025},
   howpublished={\url{https://github.com/Dikluwe/crystalline-architecture-standard}}

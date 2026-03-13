@@ -1,414 +1,276 @@
-# O Manifesto da Arquitetura Cristalina (The Crystalline Architecture Manifesto)
+# Manifesto da Arquitetura Cristalina
 
-**Contexto (Context)**: Desenvolvimento Assistido por IA (AI-Assisted Development) e Controlo de Entropia (Entropy Control)
-
----
-O fenômeno que me fez pensar nesta arquitetura é observável, recorrente e reproduzível:
-ao empregar Modelos de Linguagem Grandes (LLMs) para refatorar sistemas reais e complexos, verifica-se que o código gerado tende a preservar funcionalidade local enquanto degrada progressivamente a estrutura global.
-
-Essa degradação não se manifesta como erro imediato, mas como perda de definição estrutural: aumento de acoplamento implícito, diluição de fronteiras, expansão de dependências não necessárias e enfraquecimento de invariantes arquiteturais. O sistema continua a “funcionar”, mas torna-se mais difícil de compreender, modificar e otimizar.
-
-Este comportamento não é um defeito acidental da IA, mas uma consequência estatística de sua natureza generativa: os LLMs operam por maximização de verossimilhança local, não por preservação de estrutura global. Na ausência de restrições explícitas, o espaço de soluções explorado tende ao estado amorfo.
-
-A Arquitetura Cristalina surge da constatação de que refatoração assistida por IA, sem uma rede estrutural rígida, acelera a entropia arquitetural em vez de reduzi-la.
-
-Essa observação conduz a uma questão mais ampla, de caráter sistêmico:
-se desejamos software mais econômico em recursos, mais eficiente energeticamente, mais previsível em desempenho e mais adequado a otimizações profundas, então a arquitetura não pode ser tratada apenas como organização lógica — ela deve ser tratada como estrutura física abstrata, sujeita a leis de contenção, ordem e estabilidade.
-
-Sistemas operacionais mais enxutos, compiladores altamente especializados e software capaz de explorar processadores modernos com máxima eficiência exigem arquiteturas de alta definição estrutural. Nessas condições, ambiguidade arquitetural não é apenas um problema de manutenção: é um obstáculo direto à otimização, à análise estática e à geração de código eficiente.
-
-Portanto, este manifesto não propõe uma nova estética de organização de código, mas um regime estrutural: um conjunto de princípios concebidos para limitar o espaço de crescimento do software, reduzir graus de liberdade desnecessários e tornar explícitas as condições sob as quais agentes humanos e artificiais podem operar sem induzir degradação sistêmica.
-
-No contexto deste manifesto, **entropia não é metáfora**, nem analogia estética. Ela é tratada como uma **propriedade mensurável da estrutura arquitetural** de um sistema de software.
-
-Observa-se que, sob desenvolvimento assistido por IA, o sistema evolui por adições locais estatisticamente plausíveis, mas estruturalmente independentes. Esse modo de geração tende a maximizar coerência imediata enquanto ignora a preservação de invariantes globais. O resultado é um crescimento funcional acompanhado por **perda progressiva de definição estrutural**.
-
-Chamamos esse fenômeno de **Entropia de IA (AI Entropy)**.
-
-Formalmente, considera-se um sistema composto por um conjunto finito de componentes ( C = {c_1, c_2, \dots, c_n} ), organizados segundo um lattice arquitetural com um conjunto explícito de invariantes ( \mathcal{I} ). Para cada componente ( c \in C ), define-se uma probabilidade ( p(c) ) de violação de ao menos um invariante estrutural quando esse componente é criado ou modificado sem restrições arquiteturais explícitas.
-
-A entropia arquitetural induzida por IA é então definida como:
-
-$$H_{AI} = - \sum_{c \in C} p(c) \log_2 p(c)$$
-
-Essa definição não pretende medir complexidade algorítmica nem qualidade funcional, mas sim o **grau de incerteza estrutural** introduzido no sistema ao longo de sua evolução.
-
-Um sistema com baixa entropia arquitetural apresenta:
-
-* fronteiras nítidas,
-* dependências previsíveis,
-* reconstrução de intenção local possível a partir da posição estrutural.
-
-Um sistema com alta entropia arquitetural mantém funcionalidade observável, mas perde:
-
-* legibilidade global,
-* capacidade de análise estática,
-* potencial de otimização agressiva.
-
-É importante notar que, na ausência de restrições, a redução local de entropia — por exemplo, refatorações pontuais ou reorganizações cosméticas — **não implica redução da entropia global**. Pelo contrário, tais intervenções podem redistribuir a desordem estrutural sem eliminá-la.
-
-A Arquitetura Cristalina parte do princípio de que **a entropia arquitetural não é combatida por heurísticas locais**, mas por **restrições globais explícitas**. O papel da arquitetura não é organizar o código após sua geração, mas **limitar o espaço de estados possíveis** antes que a geração ocorra.
-
-Assim, o lattice arquitetural atua como um **operador de contenção**: ele reduz a probabilidade ( p(c) ) de violações estruturais não por correção posterior, mas por exclusão prévia de configurações ilegítimas do espaço de solução.
-
-Neste enquadramento, a arquitetura não é um subproduto do código, mas um **campo estrutural** no qual o código pode ou não existir. A estabilidade do sistema não decorre da inteligência do agente gerador — humano ou artificial —, mas da rigidez dos invariantes que definem o lattice.
-
-## Axiomas Estruturais
-
-#### Axioma I — Lei da Nucleação
-
-A ordem estrutural de um sistema não emerge espontaneamente.
-Toda arquitetura válida deve possuir um **ponto de nucleação explícito**, a partir do qual sua estrutura se propaga.
-
-O sistema deve conter um conjunto mínimo e fechado de especificações iniciais que definem:
-
-* os conceitos fundamentais,
-* os limites semânticos,
-* e os invariantes arquiteturais primários.
-
-Qualquer componente cuja existência não possa ser rastreada até esse ponto de nucleação é **estruturalmente ilegítimo**, ainda que funcional.
-
-A ausência de nucleação resulta em crescimento não orientado e geração de defeitos estruturais distribuídos.
+**Contexto**: Desenvolvimento Sustentável com Agentes de IA
 
 ---
 
-#### Axioma II — Topologia de Contenção
+## O Problema Observado
 
-A arquitetura deve impor **fronteiras físicas explícitas** que limitem a propagação de dependências.
+Ao empregar modelos de linguagem para desenvolver e refatorar sistemas reais, observa-se um padrão recorrente e reproduzível: o código gerado tende a preservar a funcionalidade local enquanto degrada progressivamente a estrutura global.
 
-O sistema de diretórios, módulos ou unidades de composição não é decorativo: ele define uma **topologia de contenção** que restringe o espaço de estados estruturais possíveis.
+Essa degradação não se manifesta como erro imediato. Ela se manifesta como perda de definição: acoplamento implícito que cresce silenciosamente, fronteiras que se dissolvem, dependências que se multiplicam sem justificativa. O sistema continua a funcionar, mas torna-se progressivamente mais difícil de entender, modificar e raciocinar sobre.
 
-Dependências que atravessem fronteiras não autorizadas constituem violações arquiteturais, independentemente de sua correção funcional.
+Esse comportamento não é um defeito acidental dos modelos de linguagem. É uma consequência direta de como eles operam: gerando a próxima peça mais plausível dado o contexto imediato, sem nenhum mecanismo interno que preserve a coerência global do sistema ao longo do tempo.
 
-Sem contenção explícita, a entropia estrutural se propaga livremente e torna-se impossível distinguir organização de coincidência.
+O problema central não é a qualidade do código gerado numa única sessão. É o que acontece ao sistema depois de centenas de sessões, cada uma localmente razoável, cada uma erodindo um pouco mais a estrutura.
 
----
+Chamamos esse fenômeno de **crescimento amorfo**: expansão funcional sem preservação estrutural.
 
-#### Axioma III — Direcionalidade dos Morfismos
-
-As dependências entre componentes devem obedecer a uma **relação de ordem parcial estrita**.
-
-Existe uma direção privilegiada de dependência, definida pela estabilidade estrutural: componentes mais estáveis não podem depender de componentes menos estáveis.
-
-Qualquer dependência que viole essa direção constitui uma **quebra de simetria estrutural** e compromete a integridade global do sistema.
-
-Ciclos de dependência são considerados degenerações topológicas e são proibidos.
+A Arquitetura Cristalina parte da hipótese de que crescimento amorfo não é inevitável. Ele é o resultado previsível de operar agentes estatísticos sem restrições estruturais explícitas e sem registro do contexto que originou cada decisão. A solução não é melhorar o agente — é redefinir o espaço no qual ele opera e tornar sua origem rastreável.
 
 ---
 
-#### Axioma IV — Transições de Fase Controladas
+## A Hipótese Central
+
+Um modelo de linguagem gera código a partir de contexto. A qualidade estrutural do código gerado é, em grande parte, função da qualidade e da organização do contexto fornecido.
+
+Contexto ad-hoc — fragmentos colados numa janela de chat, instruções verbais imprecisas, documentação desatualizada separada do código — produz crescimento ad-hoc. Cada geração é plausível localmente. Nenhuma delas é orientada por uma estrutura global. E quando é necessário modificar o código semanas depois, o contexto original foi perdido.
+
+A hipótese central desta arquitetura é:
+
+> **Se o contexto que o agente recebe é estruturalmente controlado e versionado dentro do próprio projeto, o crescimento que ele produz é estruturalmente orientado e auditável.**
+
+O mecanismo concreto é o prompt estruturado em `00_nucleo`. Não como documentação que descreve o código — mas como a **origem causal** do código. O prompt é o artefato de primeira classe. O código é sua materialização.
+
+*Esta hipótese ainda não foi verificada empiricamente de forma sistemática. Este manifesto é a proposição. Os experimentos virão depois.*
+
+---
+
+## A Metáfora Estrutural
+
+A cristalografia oferece uma metáfora precisa para o problema e para a solução proposta.
+
+Numa solução supersaturada, moléculas em excesso buscam um estado de menor energia. Sem um ponto de referência, elas se organizam aleatoriamente, produzindo um sólido amorfo: funcional como barreira física, mas sem estrutura interna previsível, sem planos de clivagem claros, sem propriedades definidas.
+
+Introduza um cristal semente (*seed crystal*) — um fragmento mínimo com estrutura cristalina definida — e o comportamento muda completamente. As moléculas não se organizam mais aleatoriamente. Elas aderem à geometria da semente. O crescimento que se segue é orientado, reproduzível e estruturalmente coerente com o ponto de origem.
+
+**O seed crystal não contém o cristal final. Ele determina a forma que o cristal pode tomar.**
+
+Esta é a função do prompt estruturado em `00_nucleo`: não conter o sistema, mas determinar a geometria segundo a qual o sistema pode crescer. Um sistema desenvolvido sem semente — com agentes gerando código diretamente a partir de instruções verbais descartadas após cada sessão — é um sistema amorfo. Pode solidificar em algo funcional. Mas não terá estrutura interna previsível, e não resistirá à pressão de evolução prolongada.
+
+---
+
+## O Prompt como Contrato
+
+Em arquiteturas tradicionais, três artefatos são mantidos separados: a especificação (o que deve ser feito), o contrato de interface (como os componentes se comunicam) e o código (a implementação).
+
+Na Arquitetura Cristalina, esses três colapsam em dois: o prompt e o código.
+
+O prompt em `00_nucleo` contém o contexto, as restrições estruturais e a instrução de geração. O código gerado a partir dele — incluindo as interfaces que expõe — **é** o contrato. Não existe documento separado descrevendo o contrato: o código gerado pelo prompt é a realização direta da intenção registrada nele.
+
+A arquitetura **busca** isomorfismo entre prompt e código — que a forma do código reflita fielmente a intenção do prompt. Mas não pode garantir esse isomorfismo: modelos de linguagem são agentes probabilísticos, e duas execuções do mesmo prompt produzem resultados estruturalmente equivalentes mas não idênticos. A verificação de correspondência entre prompt e código depende de julgamento humano, não de análise mecânica.
+
+O que pode ser verificado mecanicamente é a estrutura: se `@prompt` existe, se imports respeitam as regras da camada, se L₁ está livre de I/O. A fidelidade de conteúdo — se o código faz o que o prompt pretendia — é responsabilidade do desenvolvedor que escreve o prompt e revisa o output.
+
+Quando um componente precisa mudar, o prompt muda junto. A revisão é registrada no histórico. O código permanece rastreável à sua origem em qualquer ponto do tempo.
+
+---
+
+## Um Novo Paradigma de Verificação
+
+O desenvolvimento tradicional separou sempre dois momentos: escrever o código e verificar que ele funciona. TDD aproximou esses momentos ao exigir que o teste fosse escrito antes da implementação — mas para humanos esse processo tem custo cognitivo real. Manter a especificação do teste e a implementação na cabeça simultaneamente é difícil. Por isso TDD exige disciplina e treinamento, e na prática é frequentemente abandonado sob pressão.
+
+Com agentes de IA, esse custo não existe.
+
+Gerar código e testes simultaneamente a partir do mesmo prompt é tão fácil quanto gerar só o código. O agente não tem o problema cognitivo que torna TDD difícil para humanos. Isso abre um paradigma que não é TDD, não é code-first — é um terceiro modo:
+
+> **O prompt é a especificação. O código e os testes são materializações simultâneas dessa especificação.**
+
+O prompt em L₀ descreve o comportamento esperado nos critérios de verificação. O agente gera a implementação e os testes num único ciclo. A intenção do TDD — especificar antes de implementar — é preservada. O mecanismo que tornava isso difícil para humanos é eliminado.
+
+Uma nucleação está incompleta se não produziu testes junto com o código. O linter verifica a presença de arquivo de teste correspondente para cada componente gerado — não o conteúdo dos testes, mas sua existência como evidência de que o ciclo foi completado.
+
+---
+
+## Os Princípios
+
+### I — Nucleação
+
+A ordem estrutural não emerge espontaneamente.
+
+Todo sistema válido deve possuir um ponto de nucleação explícito: um conjunto de prompts estruturados que estabelecem a origem causal de cada componente.
+
+Qualquer componente cuja existência não possa ser rastreada até um prompt em `00_nucleo` é estruturalmente ilegítimo, ainda que funcionalmente correto. Sem nucleação, o crescimento é amorfo e irrastreável.
+
+### II — Contenção
+
+Fronteiras físicas são restrições estruturais, não organização cosmética.
+
+A estrutura de diretórios define os limites dentro dos quais o crescimento pode ocorrer. Uma dependência que atravessa uma fronteira não autorizada é uma violação estrutural, independentemente de sua correção funcional.
+
+### III — Gravidade
+
+As dependências têm uma direção natural: do mais variável para o mais estável.
+
+Componentes de alto nível dependem de componentes de baixo nível. A inversão dessa direção é uma fratura estrutural. Ciclos de dependência são degenerações que comprometem a auditabilidade e a modificabilidade do sistema.
+
+### IV — Isolamento de Fases
 
 Nem todo código pertence ao mesmo regime estrutural.
 
-Componentes experimentais, instáveis ou exploratórios devem existir em **estratos isolados ($L_{20}$) **, separados do sistema principal por fronteiras explícitas.
+Código experimental deve existir em estratos isolados. Para que um componente cruze essa fronteira, ele deve ser normalizado: reescrito de forma a satisfazer os invariantes do regime estável, com prompt correspondente criado em `00_nucleo`.
 
+### V — Primazia dos Invariantes
 
-Para que um componente atravesse essa fronteira, ele deve ser **normalizado**: reescrito de modo a satisfazer integralmente os invariantes do regime estável.
+Invariantes arquiteturais têm precedência sobre conveniência local.
 
-A promoção direta de código experimental para o sistema principal, sem normalização, é uma violação estrutural grave.
-
----
-
-#### Axioma V — Primazia dos Invariantes
-
-Os invariantes arquiteturais têm precedência absoluta sobre:
-
-* conveniência local,
-* otimizações prematuras,
-* ou preferências de implementação.
-
-Qualquer modificação que preserve funcionalidade mas viole invariantes é considerada **regressão estrutural**, ainda que reduza linhas de código ou melhore métricas locais.
-
-A estabilidade do sistema é determinada pela preservação contínua de seus invariantes, não pela ausência momentânea de falhas observáveis.
+Uma modificação que preserva funcionalidade mas viola invariantes é uma regressão estrutural. A estabilidade do sistema é determinada pela preservação contínua de sua estrutura, não pela ausência momentânea de erros observáveis.
 
 ---
 
-#### Axioma VI — Transparência Sintática
+## A Estrutura Canônica
 
-A arquitetura deve ser auditável por máquinas. Um sistema cuja estrutura só pode ser compreendida através de documentação externa ou diagramas manuais é opaco e propenso à entropia oculta.
-
-Na Arquitetura Cristalina, exigimos **Transparência Sintática**: um agente cego ao contexto humano, armado apenas com um analisador de sintaxe (parser), deve ser capaz de reconstruir o diagrama exato das camadas e validar todos os invariantes apenas lendo os arquivos fonte.
-
-Se a estrutura precisa ser explicada, ela falhou. A estrutura deve ser computável.
-
-
-A Arquitetura Cristalina pode ser descrita de forma consistente através de uma estrutura categórica mínima, utilizada aqui como **ferramenta de organização formal**, não como aparato matemático completo.
-
-Considera-se uma categoria ( \mathcal{A} ) na qual:
-
-* os **objetos** representam estratos arquiteturais,
-* os **morfismos** representam o fluxo de autoridade arquitetural (ou provisão de contrato) entre esses estratos.
-
-A relação entre objetos induz uma **ordem parcial**, formando um conjunto parcialmente ordenado (poset). Essa ordem não é arbitrária: ela expressa a assimetria estrutural entre estabilidade e variabilidade no sistema.
-
-Existe em ( \mathcal{A} ):
-
-* um **objeto inicial**, correspondente ao estrato de especificação e nucleação, do qual emanam as definições fundamentais;
-* um **objeto terminal**, correspondente ao estrato de composição final, onde a materialização sistêmica é consolidada.
-
-A existência desses objetos não é uma exigência abstrata, mas uma condição prática:
-sem um ponto inicial explícito, a estrutura perde orientação;
-sem um ponto terminal bem definido, a composição torna-se difusa e não auditável.
-
-Os morfismos em ( \mathcal{A} ) obedecem estritamente à ordem parcial definida. Não se assume invertibilidade geral, nem equivalência estrutural entre estratos distintos. A existência de um morfismo de ( A \rightarrow B ) não implica, nem autoriza, a existência de um morfismo de ( B \rightarrow A ).
-
-Dependências que violem essa ordem — seja por inversão direta, seja por ciclos — são consideradas **configurações inválidas** no espaço estrutural do sistema.
-
-Este uso da teoria das categorias é **deliberadamente restrito**. Não se fazem suposições sobre limites, colimites, funtores ou adjunções, salvo quando esses conceitos possam ser definidos operacionalmente no contexto da arquitetura.
-
-O objetivo deste enquadramento não é matematizar o software, mas fornecer uma linguagem formal mínima para expressar:
-
-* direcionalidade estrutural,
-* composição controlada,
-* e impossibilidade de certas configurações.
-
-Assim, a estrutura categórica funciona como um **invariante conceitual**: ela delimita o conjunto de arquiteturas possíveis e exclui, por construção, estados estruturalmente degenerados.
-
-Perfeito.
-Agora entramos no **núcleo operativo** do manifesto: onde tudo o que veio antes **se materializa em estrutura**.
-
-Vou reescrever a **Parte V — Estrutura Canônica (Lattice)** com quatro critérios duros:
-
-1. **Cada estrato existe por necessidade estrutural**
-2. **Cada estrato tem função única**
-3. **Cada fronteira é inequívoca**
-4. **Um agente sem contexto humano consegue classificar código**
-
-Nada de convenção histórica, nada de “boas práticas”. Só estrutura.
-
----
-
-### Estrutura Canônica (Lattice) — versão reescrita
-
-A Arquitetura Cristalina define um **lattice arquitetural canônico** composto por estratos discretos e parcialmente ordenados. Esse lattice delimita o espaço legítimo de crescimento do sistema e impõe restrições explícitas à composição de dependências.
-
-### Diagrama de Hasse do Lattice
-
-O diagrama abaixo representa a **ordem parcial**  do sistema, onde os morfismos (setas) indicam o fluxo de autoridade arquitetural e provisão de contrato:
-
-```text
-        L₄ (Fiação) ⊤
+```
+        L₄ (Fiação)
        /  \
       /    \
-     L₂     L₃
- (Casca)   (Infra)
+    L₂     L₃
+ (Casca)  (Infra)
       \    /
        \  /
         L₁ (Núcleo)
          |
-        L₀ (Semente) ⊥
-
+        L₀ (Semente)
 ```
 
-* ** $\bot$ (Objeto Inicial)**: A **Semente ($L_0$)** é a origem de toda a definição e o ponto de nucleação do sistema.
-* ** $\top$ (Objeto Terminal)**: A **Fiação ($L_4$)** é o ponto de materialização total, onde todas as definições encontram sua realização concreta.
-* **Incomparabilidade**: **$L_2$ (Casca)** e **$L_3$ (Infra)** são ramos independentes; eles nunca dependem um do outro, garantindo o plano de clivagem.
-* **Gravidade**: Todas as dependências físicas (como *imports* de código) devem fluir obrigatoriamente para baixo ($L_n \rightarrow L_{n-1}$), respeitando a estabilidade dos estratos inferiores.
+A posição de um componente no lattice determina o que ele pode conhecer, de quem pode depender e como pode evoluir.
 
 ---
 
-Cada estrato representa um **regime estrutural distinto**, caracterizado por nível de estabilidade, permissividade e entropia aceitável. A posição de um componente no lattice não é estética nem organizacional: ela determina **o que o componente pode conhecer, de quem pode depender e como pode evoluir**.
+### L₀ — Semente
 
-A estrutura canônica é definida pelos seguintes estratos, ordenados do mais estável ao mais variável, culminando na Arena Experimental ($L_{20}$).
+Contém os prompts estruturados que originaram cada componente do sistema, e os ADRs que documentam decisões arquiteturais globais.
 
+**Nenhum código executável é permitido neste estrato.**
 
----
-
-#### ( L_0 ) — Semente (Nucleus) — Objeto Inicial
-
-Este estrato contém exclusivamente a **definição formal do sistema**.
-
-Inclui:
-
-* especificações funcionais,
-* contratos de interface,
-* glossário canônico,
-* invariantes arquiteturais.
-
-Nenhum código executável é permitido neste estrato.
-
-A Semente é o ponto de nucleação do sistema.
-Um requisito, conceito ou dependência que não exista explicitamente em ( L_0 ) **não possui existência estrutural válida** nos estratos superiores.
+O prompt é o artefato de primeira classe. O código e os testes gerados a partir dele são sua materialização. Um componente sem prompt correspondente em L₀ é irrastreável — não é possível reproduzir, auditar ou evoluir com consistência o que não tem origem registrada.
 
 ---
 
-#### ( L_1 ) — Núcleo (Core) — Estrato de Máxima Estabilidade
+### L₁ — Núcleo
 
-Este estrato contém apenas **lógica determinística essencial**.
+Contém apenas lógica determinística essencial: entidades de domínio, regras fundamentais, algoritmos puros.
 
-Inclui:
+Restrições absolutas: nenhuma dependência externa, nenhuma operação de I/O, nenhum acesso a estado mutável fora do próprio escopo.
 
-* entidades de domínio,
-* regras fundamentais,
-* algoritmos puros.
-
-Restrições absolutas:
-
-* nenhuma dependência externa,
-* nenhuma operação de entrada/saída,
-* nenhum acesso a estado mutável fora do próprio escopo.
-
-As operações internas de ( L_1 ) devem ser estritamente funções puras. Este estrato define a fase estrutural mais ordenada do sistema, onde a lógica existe independentemente do tempo e do estado externo.
-Este estrato define a **fase estrutural mais ordenada** do sistema.
+O Núcleo é a fase estrutural mais estável do sistema. A lógica aqui existe independentemente do tempo, do estado externo e das tecnologias de infraestrutura. É também o estrato de maior testabilidade: funções puras não precisam de mocks, não precisam de banco em memória, não precisam de setup complexo.
 
 ---
 
-#### ( L_2 ) — Casca (Shell) — Adaptadores Primários
+### L₂ — Casca
 
-Este estrato realiza a **tradução entre contextos externos e o Núcleo**.
+Realiza a tradução entre contextos externos e o Núcleo: validação de entrada, orquestração, adaptação de formatos.
 
-Inclui:
+Dependências permitidas: L₂ → L₁, L₂ → L₀. Acoplamento direto com L₃ é proibido.
 
-* validação,
-* orquestração,
-* adaptação de formatos,
-* coordenação de fluxos.
-
-Dependências permitidas:
-
-* ( L_2 \rightarrow L_1 )
-* ( L_2 \rightarrow L_0 )
-
-É proibido qualquer acoplamento direto com ( L_3 ).
-A Casca atua como **plano de clivagem**: separa estabilidade conceitual de variabilidade contextual.
+A Casca é o plano de clivagem primário: separa estabilidade conceitual de variabilidade contextual.
 
 ---
 
-#### ( L_3 ) — Infraestrutura (Infra) — Adaptadores Secundários
+### L₃ — Infraestrutura
 
-Este estrato implementa **detalhes físicos e tecnológicos**.
+Implementa detalhes físicos e tecnológicos: persistência, redes, sistemas de arquivos, frameworks externos.
 
-Inclui:
+É o estrato de maior variabilidade permitida, contida pelas interfaces definidas em L₁ e originadas pelos prompts de L₀.
 
-* persistência,
-* sistemas de ficheiros,
-* redes,
-* dispositivos,
-* frameworks e bibliotecas externas.
-
-Este é o estrato de **maior entropia permitida**, mas essa entropia é rigidamente contida por interfaces definidas em ( L_1 ) ou ( L_0 ).
-
-Dependências permitidas:
-
-* ( L_3 \rightarrow L_1 )
-* ( L_3 \rightarrow L_0 )
-
-Nenhum estrato pode depender de ( L_3 ).
+Dependências permitidas: L₃ → L₁, L₃ → L₀. Nenhum outro estrato pode depender de L₃.
 
 ---
 
-#### ( L_4 ) — Fiação (Wiring) — Objeto Terminal
+### L₄ — Fiação
 
-Este estrato representa o estado totalmente materializado do sistema. É o Objeto Terminal da categoria de materialização, onde todas as definições abstratas de $L_0$ encontram sua realização concreta e final.
+O sistema totalmente materializado. Instancia componentes, injeta dependências, configura a execução.
 
-Inclui:
-
-* instanciamento de componentes,
-* injeção de dependências,
-* configuração de execução.
-
-Propriedade: A Fiação é o ponto de convergência de toda a autoridade estrutural; ela consome todas as interfaces para produzir o binário executável.
+É o único ponto onde as definições de L₀ encontram suas implementações concretas de L₃. Absorve complexidade — não a redistribui para os estratos inferiores. Lógica de negócio encontrada aqui é um defeito estrutural.
 
 ---
 
-#### ( L_{10+} ) — Lattice Orbital (Suporte)
+### L_lab — Arena
 
-Para além do cristal do produto ($L_0-L_4$), existe o ecossistema que o sustenta. Estas camadas orbitam o núcleo, fornecendo o ambiente de fabricação e validação.
+Estrato isolado para experimentos e protótipos. Código aqui não possui linhagem obrigatória e não pode ser referenciado pelo sistema principal.
 
-*   **($L_{10}$) — Bedrock (Alicerce)**: Infraestrutura de projeto (Docker, Nix, CI/CD).
-*   **($L_{11}$) — Tools (Ferramentas)**: Agentes de automação, linters e analisadores (ex: `ai-coders-context`).
-*   **($L_{12}$) — Docs**: Artefatos de documentação gerados ou externos.
-*   **($L_{13}$) — Assets (Armazém)**: Arquivos estáticos, binários grandes e mídia bruta.
-
-
-**Axioma da Gravidade Orbital**:
-As camadas orbitais ($L_{10+}$) **podem** depender do produto ($L_{0-4}$) para análise e execução.
-O produto ($L_{0-4}$) **JAMAIS** pode depender das camadas orbitais. O software deve ser compilável e executável sem a presença de suas ferramentas de análise.
-
-
-### Propriedades Globais do Lattice
-
-* O lattice é **finito, discreto e acíclico**
-* Cada componente pertence a **um único estrato**
-* Toda dependência válida respeita a ordem parcial
-* Toda violação é estruturalmente detectável
-
-A posição de um componente no lattice determina sua **função, estabilidade e custo cognitivo**. Componentes mal posicionados introduzem defeitos estruturais, mesmo quando corretos funcionalmente.
+Migração da Arena para o sistema exige reescrita completa com prompt correspondente criado em L₀ e testes gerados junto com o código.
 
 ---
 
-### Consequência Operacional
+## Agentes de IA na Arquitetura Cristalina
 
-Dado um artefato qualquer, humano ou gerado por IA, deve ser possível determinar sua posição no lattice **sem inferência contextual externa**.
-Se isso não for possível, o artefato é estruturalmente ambíguo e deve ser rejeitado ou reclassificado.
+Agentes de IA são tratados como **agentes de crescimento** operando sob restrições físicas explícitas. Sua função é explorar o espaço de soluções permitido pelo lattice — não expandi-lo arbitrariamente.
 
----
+O desenvolvedor não modifica o código diretamente. Ele modifica o prompt em L₀ e o agente reconstrói o código a partir dele. L₀ é a interface de controle do sistema — os estratos abaixo são output, não workspace.
 
-Uma vez estabelecida a estrutura canônica do lattice, o sistema deixa de ser estático. A arquitetura cristalina não assume imutabilidade; assume **evolução controlada**. A questão central deixa de ser *se* o sistema muda, e passa a ser *como* essa mudança ocorre sem violar os invariantes estruturais definidos pelo núcleo.
+O protocolo de operação é:
 
-A evolução arquitetural é modelada como um processo físico, não como uma acumulação histórica arbitrária. Alterações legítimas manifestam-se como transformações internas do cristal, preservando a topologia do lattice e a direcionalidade dos morfismos.
+1. Verificar se existe prompt em `00_nucleo/prompts/` para o componente
+2. Se não existe — parar e solicitar ao desenvolvedor
+3. Se existe — ler o prompt completo, incluindo restrições, critérios de verificação e histórico
+4. Gerar código **e testes** dentro das restrições declaradas
+5. Registrar a revisão no histórico do prompt
 
-Mudanças estruturais podem ocorrer por **nucleação**, quando novos conceitos fundamentais são introduzidos no estrato de semente. Esse processo é raro, energeticamente custoso e explicitamente deliberado. Uma nova nucleação redefine o espaço de soluções possíveis e exige reavaliação dos estratos superiores, pois altera o conjunto de invariantes válidos. Sem nucleação explícita, não há legitimidade para a introdução de novos eixos conceituais no sistema.
-
-A maior parte da evolução ocorre por **epitaxia**: crescimento orientado a partir do núcleo existente. Novos componentes aderem à estrutura respeitando as simetrias e restrições já estabelecidas. Esse crescimento não cria novas direções estruturais; ele apenas expande a realização concreta das direções já permitidas pelo lattice.
-
-Transformações mais profundas caracterizam-se como **metamorfismo estrutural**. Sob pressão acumulada — seja por requisitos não previstos, limitações de desempenho ou mudanças no ambiente de execução — partes do sistema podem ser reconfiguradas internamente sem alteração da sua composição fundamental. O metamorfismo não cria novos estratos, nem altera a ordem parcial; ele reorganiza a forma interna de um estrato para alcançar um estado de menor energia estrutural.
-
-Ao longo do tempo, o sistema também sofre **sedimentação**. Decisões consolidadas tornam-se camadas estáveis, reduzindo graus de liberdade futuros. A sedimentação não é um defeito; é um mecanismo de estabilização. Contudo, quando ocorre fora do núcleo, ela deve ser passível de clivagem. Estratos superiores acumulam sedimentos por definição, mas esses depósitos não devem propagar rigidez para os níveis fundamentais.
-
-Defeitos estruturais surgem quando componentes não respeitam o lattice: dependências inversas, acoplamentos transversais ou código sem linhagem de especificação. Esses defeitos não são tratados como exceções locais, mas como tensões internas. Se não corrigidos, concentram pressão até provocar fraturas arquiteturais, manifestadas como degradação sistêmica, complexidade explosiva ou perda de auditabilidade.
-
-A arquitetura cristalina não promete evitar defeitos, mas fornece **planos de clivagem** claros. Quando uma fratura ocorre, ela deve seguir superfícies estruturais bem definidas, permitindo remoção ou reorganização localizada sem colapso global do sistema.
-
-Dessa forma, a evolução do software é compreendida como um processo físico governado por energia, pressão e simetria. O lattice não impede a mudança; ele impede a degeneração. O sistema permanece vivo precisamente porque sua estrutura restringe os modos pelos quais ele pode mudar.
-
-Dentro da arquitetura cristalina, agentes de IA não são tratados como autores, nem como arquitetos. Eles são tratados como **agentes de crescimento** operando sob restrições físicas explícitas. Sua função é explorar o espaço de soluções permitido pelo lattice, não expandi-lo arbitrariamente.
-
-A arquitetura existe precisamente para tornar esse espaço **finito, orientado e auditável**.
-
-Antes de qualquer geração de código executável, o sistema deve estar completamente nucleado. Especificações, contratos e invariantes definidos no estrato de semente constituem a única fonte legítima de materialização. Enquanto essa nucleação não estiver completa, a atuação da IA restringe-se à análise, refinamento semântico e detecção de inconsistências formais. Qualquer tentativa de gerar implementação sem nucleação explícita é considerada crescimento amorfo.
-
-Uma vez estabelecida a semente, a IA pode atuar por **epitaxia controlada**. Isso significa que todo artefato gerado deve possuir uma linhagem estrutural clara, traçável até um elemento definido nos estratos inferiores. Código sem correspondência direta com uma especificação é estruturalmente inválido, ainda que funcionalmente correto.
-
-A atuação da IA está, portanto, subordinada a um regime de **isomorfismo estrutural**. A implementação deve preservar a forma lógica definida pela semente e pelo núcleo. Divergências entre especificação e materialização não são tratadas como variações aceitáveis, mas como defeitos cristalinos. A correção ocorre por remoção ou reescrita, nunca por acomodação silenciosa.
-
-Como agentes estatísticos, modelos de linguagem tendem a minimizar custo local, não energia estrutural global. Por isso, a arquitetura impõe verificações sistemáticas de gravidade: dependências devem respeitar a ordem parcial do lattice, e qualquer indício de inversão, acoplamento transversal ou ciclo é rejeitado automaticamente. A IA não recebe autoridade para justificar exceções.
-
-A camada de fiação desempenha um papel crítico nesse regime. Ela funciona como o único ponto onde morfismos abstratos são instanciados concretamente. A IA pode auxiliar nessa composição, mas não redefinir seus termos. O objeto terminal existe para absorver complexidade, não para redistribuí-la para o núcleo.
-
-Importante notar que a arquitetura cristalina não busca alinhar a IA por heurísticas comportamentais ou filtros semânticos. O alinhamento ocorre **por geometria estrutural**. O agente só consegue operar com eficiência quando suas ações estão confinadas a um espaço onde estados inválidos simplesmente não existem.
-
-Dessa forma, o controle da entropia não é um processo reativo, mas uma propriedade emergente da forma do sistema. A IA acelera o crescimento, mas a arquitetura define os eixos possíveis desse crescimento. O resultado não é código “assistido por IA”, mas software estruturalmente estável em um ambiente onde a geração automática é inevitável.
+O alinhamento do agente não ocorre por instrução verbal nem por filtros externos. Ocorre porque o contexto que ele recebe já está estruturalmente delimitado — o prompt define o que pode ser gerado, e a posição no lattice define o que pode ser importado.
 
 ---
 
-## Mapeamento de Padrões da Indústria
+## Evolução do Sistema
 
-| Estrato Cristalino | Arquitetura Limpa (Clean) | Arquitetura Hexagonal | DDD |
-| --- | --- | --- | --- |
-| ** (Semente)** | — | — | Linguagem Ubíqua |
-| ** (Núcleo)** | Entidades | Core da Aplicação | Camada de Domínio |
-| ** (Casca)** | Adaptadores de Interface | Adaptadores Primários | Camada de Aplicação |
-| ** (Infra)** | Frameworks e Drivers | Adaptadores Secundários | Infraestrutura |
-| ** (Fiação)** | Main | — | Raiz de Composição (Composition Root) |
-| **($L_{20}$) (Arena)** | — | — | Spikes / POCs |
+A maior parte da evolução ocorre por **epitaxia**: novos componentes aderem à estrutura existente com novos prompts em L₀ e código correspondente nos estratos apropriados.
 
+Mudanças mais profundas ocorrem por **nucleação**: novos conceitos fundamentais exigem novos prompts que redefinem o espaço de soluções possíveis. Este processo é deliberado — uma nova nucleação pode exigir revisão de prompts existentes.
+
+Transformações internas sem alteração da estrutura fundamental são **metamorfismo**: o prompt é revisado, o código é regenerado, o histórico registra a pressão que forçou a mudança.
+
+Quando fraturas ocorrem, a arquitetura fornece **planos de clivagem** claros: a estrutura de estratos define superfícies ao longo das quais o sistema pode ser reorganizado localmente sem colapso global.
+
+---
+
+## Limitações Declaradas
+
+Esta arquitetura não resolve o problema do prompt incorreto. Se L₀ contém um prompt mal formulado, o crescimento que dele deriva será estruturalmente coerente e funcionalmente incorreto. A semente determina a forma — não a verdade.
+
+A verificação de correspondência entre prompt e código não é mecanizável: modelos de linguagem são probabilísticos, e duas execuções do mesmo prompt produzem resultados equivalentes mas não idênticos. O linter verifica estrutura — existência de `@prompt`, regras de importação, pureza de L₁, presença de testes. A fidelidade de conteúdo depende de revisão humana.
+
+A premissa de que o desenvolvedor não toca o código diretamente é a condição mais frágil da arquitetura. Sob pressão, a tendência é modificar o código diretamente e "atualizar o prompt depois". Se isso ocorre sistematicamente, L₀ diverge do sistema real e perde sua função de origem causal. A arquitetura é tão forte quanto a disciplina de manter L₀ como único ponto de entrada.
+
+---
+
+## O Que Esta Arquitetura Não É
+
+Esta arquitetura não é uma variação de Clean Architecture, Hexagonal Architecture ou DDD. Essas foram concebidas para o ciclo humano → código.
+
+A Arquitetura Cristalina é concebida para o ciclo **humano → prompt → agente → código + testes**. A distinção fundamental está em L₀: não como camada de documentação, mas como registro causal versionado que torna o contexto da geração parte permanente do projeto.
+
+---
+
+## Estado Atual
+
+Esta é uma proposição, não uma prática validada.
+
+As observações que a motivam são reais e reproduzíveis. A hipótese central — que prompts estruturados e versionados em L₀ reduzem crescimento amorfo em sistemas desenvolvidos com agentes de IA — é plausível, mas ainda não foi testada sistematicamente.
+
+O experimento que vai provar ou refutar a hipótese é comparar a velocidade e consistência de modificação de um sistema desenvolvido com esta arquitetura versus um desenvolvido sem ela, depois de meses de evolução. É nesse ponto que a degradação estrutural se torna visível.
+
+O manifesto é a proposição. Os experimentos dirão se ela se sustenta.
+
+---
+
+## Mapeamento com Padrões da Indústria
+
+| Estrato Cristalino | Clean Architecture | Hexagonal | DDD |
+|---|---|---|---|
+| L₀ (Semente) | — | — | Linguagem Ubíqua |
+| L₁ (Núcleo) | Entidades | Core da Aplicação | Camada de Domínio |
+| L₂ (Casca) | Adaptadores de Interface | Adaptadores Primários | Camada de Aplicação |
+| L₃ (Infra) | Frameworks & Drivers | Adaptadores Secundários | Infraestrutura |
+| L₄ (Fiação) | Main | — | Composition Root |
+| L_lab (Arena) | — | — | Spikes / POCs |
 
 ---
 
 ## Referências
 
-### Fundamentos Teóricos
-- **Clean Architecture** (Arquitetura Limpa) — Robert C. Martin, 2012
-- **Hexagonal Architecture** (Arquitetura Hexagonal) — Alistair Cockburn, 2005
-- **Domain-Driven Design** (Design Orientado ao Domínio) — Eric Evans, 2003
-- **Category Theory for Programmers** (Teoria das Categorias para Programadores) — Bartosz Milewski, 2018
-- **Order Theory** (Teoria da Ordem) — Davey & Priestley, 2002
-
-### Conceitos Relacionados
-
+- **Clean Architecture** — Robert C. Martin, 2012
+- **Hexagonal Architecture** — Alistair Cockburn, 2005
+- **Domain-Driven Design** — Eric Evans, 2003
 - **Functional Core, Imperative Shell** — Gary Bernhardt
-- **Padrão de Portas e Adaptadores (Ports and Adapters)**
-- **Onion Architecture** (Arquitetura Cebola) — Jeffrey Palermo
-
----
+- **Ports and Adapters Pattern**
+- **Onion Architecture** — Jeffrey Palermo

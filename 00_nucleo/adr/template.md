@@ -1,76 +1,58 @@
-# ⚖️ ADR Template: Architectural Decision Record
+# ADR-NNNN: [Título]
 
-> **State Transformation Log**: This document records a significant mutation in the project's topology, providing the rationale for the evolution of the Crystal.
-
----
-
-## 💎 Formalism ($\mathcal{L}_{adr}$)
-
-* **State Mutation**: Let $S_t$ be the current state of the architecture. An ADR defines the transition $\Delta$ such that:
-$$S_{t+1} = S_t + \Delta$$
-* **Axiomatic Consistency**: The decision must not violate the core invariants defined in `00_nucleo/README.md`.
-* **Causality**: Every decision must be traceable to a specific context or constraint $C$.
+**Status**: `PROPOSTO` | `ACEITO` | `DEPRECIADO` | `SUBSTITUÍDO POR ADR-XXXX`
+**Data**: YYYY-MM-DD
 
 ---
 
-## ADR-NNNN: [Title]
+## Contexto
 
-### Status
+Qual pressão acumulada, requisito imprevisto ou limitação motiva esta decisão.
+ADRs existem para decisões que transcendem um único componente — mudanças no
+lattice, adoção de tecnologia em L₃, redefinição de fronteiras entre estratos,
+alterações em restrições globais.
 
-`PROPOSED` | `ACCEPTED` | `DEPRECATED` | `SUPERSEDED BY ADR-XXXX`
-
-### Date
-
-YYYY-MM-DD
-
----
-
-## Context
-
-> What is the specific issue or constraint motivating this change? Describe the high-entropy state we are trying to crystallize.
-
-[Describe the context here]
+Se a mudança afeta apenas um componente, ela pertence ao histórico de revisões
+do prompt correspondente, não a um ADR.
 
 ---
 
-## Decision
+## Decisão
 
-> What is the proposed change? Describe how this decision modifies the system's topology or rules.
-
-[Describe the decision here]
+O que muda. Preciso o suficiente para que a implementação seja inequívoca.
 
 ---
 
-## Consequences
+## Prompts Afetados
 
-> How does this mutation affect the project's gravity and technical debt?
+Lista dos arquivos em `00_nucleo/prompts/` que precisam ser revisados
+como consequência desta decisão.
 
-### ✅ Positive (Entropy Reduction)
-
-* [e.g., Simplifies  logic $L_1$]
-* [e.g., Hardens  isolation $L_3$]
-
-### ❌ Negative (Added Complexity)
-
-* [e.g., Increases boilerplate in $L_4$]
-
-### ⚙️ Neutral
-
-* [List any trade-offs that don't directly impact structural integrity]
+| Prompt | Natureza da mudança |
+|--------|---------------------|
+| [prompts/nome.md] | [o que muda nele] |
 
 ---
 
-## Alternatives Considered
+## Consequências
 
-| Alternative | Pros | Cons |
-| --- | --- | --- |
-| **Option A** | [Brief Benefit] | [Major Drawback] |
-| **Option B** | [Brief Benefit] | [Major Drawback] |
+**Positivas**: o que melhora estruturalmente.
+
+**Negativas**: custos ou complexidades introduzidos.
+
+**Neutras**: trade-offs sem impacto direto na integridade estrutural.
 
 ---
 
-## References
+## Alternativas Consideradas
 
-* **Specification**: [Link to 00_nucleo/specs/file.md]
-* **Discussion**: [Link to Issue/PR]
-* **External**: [Relevant blog posts or papers]
+| Alternativa | Prós | Contras |
+|-------------|------|---------|
+| Opção A | — | — |
+| Opção B | — | — |
+
+---
+
+## Referências
+
+- [links para issues, PRs, ou documentação externa relevante]
