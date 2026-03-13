@@ -1,75 +1,75 @@
-### 1. README.md (English Version)
+# /01_core — The Core
 
-# /01_core — Pure Crystal
+> Pure logic. The deterministic heart of the system.
 
-> **Platonic Logic.** The heart of pure business rules.
+---
 
 ## Purpose
 
-This directory contains **pure domain logic**: entities, algorithms, mathematical functions, and business rules with **absolutely no I/O**.
+This stratum contains only essential domain logic: entities, business rules, pure algorithms. Nothing here depends on databases, network, file system, or any external state.
+
+The Core is the most stable structural phase of the system. Code here exists independently of time, infrastructure technologies, and input channels.
 
 ---
 
-## 💎 Mathematical Formalism ($\mathcal{L}_1$)
+## Absolute Constraint: Zero I/O
 
-To ensure a deterministic core, this layer is defined as a collection of **Pure Morphisms**:
+> Code in this directory **must not**:
+> - Access databases or make network requests
+> - Read or write files
+> - Access the system clock or mutable global state
+> - Import external libraries (only the language's standard library)
 
-* **Purity ($\mathcal{P}$)**: Every function $f$ in $L_1$ must be a pure function.
-$$\forall x \in X, \forall t \in T : f(x, t) = f(x)$$
-(The output depends solely on the input, independent of the system time  or external state).
-* **Side-Effect Isolation**: The set of side effects $\mathcal{E}$ for any operation in this layer must be empty.
-$$\text{SideEffects}(L_1) = \emptyset$$
-* **Stateless Determinism**: For any state $S$ and input $I$, the transition function $\delta$ must be a deterministic mapping: $\delta: S \times I \to S'$.
+Any need for I/O must be expressed as an interface in `00_nucleo/contracts/` and implemented in `03_infra/`.
 
 ---
 
-## The Zero I/O Rule
+## What belongs here
 
-> [!CAUTION]
-> **ABSOLUTE RESTRICTION**
-> Code in this directory **MUST NOT**:
-> * Access databases or network requests.
-> * Read/write files or access the system clock.
-> * Import external libraries (except the language standard library).
-> 
-> 
+- Domain entities and Value Objects
+- Business rules validation
+- Pure algorithms and transformations
+- Interface definitions (not implementations)
+- Domain errors
 
-## Allowed
+---
 
-✅ **Pure functions** and immutable data structures.
-✅ **Domain Entities** and Business Rule validation.
-✅ **Interfaces** (Abstract definitions) for external dependencies.
-✅ **Mathematical algorithms** and stateless computations.
-
-## Directory Structure
+## Structure
 
 ```
 01_core/
-├── entities/        # Domain entities (Models, Value Objects)
-├── algorithms/      # Pure algorithms (Math, Sorting, Transforms)
-└── domain/          # Business rules (Validators, Pure Services)
-
+├── entities/     # Domain entities and Value Objects
+├── domain/       # Business rules and pure services
+└── algorithms/   # Algorithms and transformations
 ```
-
-## Dependency Rule
-
-* **Can Import**: `00_nucleo` (to implement contracts and specs).
-* **Forbidden**: `02_shell`, `03_infra`, `04_wiring`, `_lab`.
 
 ---
 
+## Dependency Rule
+
+- **Can import**: `00_nucleo` (to implement contracts and satisfy specs)
+- **Forbidden**: `02_shell`, `03_infra`, `04_wiring`, `_lab`
+
+---
+
+## Example
+
+```typescript
 /**
  * Crystalline Lineage
  * @spec 00_nucleo/specs/user-validation.md
+ * @layer L1
  */
 
-// ✅ CORRECT - Pure Morphism f: string -> boolean
+// ✅ Correct — pure function, no external dependencies
 export function validateEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
 
-// ❌ WRONG - Side Effect Violation (External I/O)
-// import { db } from '../03_infra/db';
-
----
+// ❌ Wrong — external I/O violates stratum purity
+// import axios from 'axios';
+// export async function verifyEmail(email: string) {
+//   return await axios.get(`/api/verify?email=${email}`);
+// }
+```
