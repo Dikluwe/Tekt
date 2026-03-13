@@ -1,75 +1,64 @@
-# 🧬 Spec Template: Feature Specification
+# Spec: [Nome da Feature]
 
-> **Genetic Blueprint**: This document defines the set of axioms and requirements for a specific feature. It is the primary source of truth for the **Nucleation Lock**.
-
----
-
-## 💎 Formalism ($\mathcal{L}_{spec}$)
-
-* **Axiomatic Set**: Let $S$ be the set of requirements $r \in \{R_{func}, R_{non-func}\}$.
-* **The Implementation Predicate**: For any code implementation $c$, the predicate $P(c, S)$ is true if and only if $c$ satisfies all axioms in $S$.
-* **Isomorphism Goal**: The resulting code structure across layers ($L_1, L_2, L_3$) must be an isomorphic projection of this specification.
+> **Linhagem**: Este documento é a semente desta feature. Todo código derivado deve referenciar este arquivo.
 
 ---
 
-## Overview
+## Visão Geral
 
-> **Vision**: Brief description of the feature's intent.
-> **Value**: Why does this feature exist in the domain? What entropy does it reduce?
+**O que é**: Descrição concisa da feature e seu propósito no domínio.
 
-[Describe the vision here]
-
----
-
-## Requirements
-
-### ✅ Functional Requirements (Axioms)
-
-* **[REQ-01]**: [Describe the behavior clearly]
-* **[REQ-02]**: [Describe the behavior clearly]
-
-### ⚙️ Non-Functional Requirements (Constraints)
-
-* **Performance**: [e.g., Latency < 100ms]
-* **Security**: [e.g., Must follow ADR-0005 for encryption]
-* **Reliability**: [e.g., Idempotency requirements]
+**Por que existe**: Qual problema resolve. Qual valor entrega.
 
 ---
 
-## Acceptance Criteria
+## Requisitos Funcionais
 
-> **Verification Morphisms**: Scenarios that prove the implementation matches the specification.
+- **[REQ-01]**: Descrever o comportamento esperado com precisão.
+- **[REQ-02]**: Cada requisito deve ser verificável.
+- **[REQ-03]**: Evitar ambiguidade — "rápido" não é requisito, "< 200ms" é.
+
+## Requisitos Não-Funcionais
+
+- **Performance**: ex. Latência < 100ms para 95% das requisições
+- **Segurança**: ex. Seguir ADR-0005 para criptografia
+- **Confiabilidade**: ex. Operação deve ser idempotente
+
+---
+
+## Critérios de Aceitação
+
+Cenários que provam que a implementação satisfaz a spec.
 
 ```gherkin
-Scenario: [Scenario Name]
-  Given [Precise precondition]
-  When [Deterministic action]
-  Then [Expected state transition]
-
+Scenario: [Nome do cenário]
+  Given [Pré-condição precisa]
+  When [Ação determinística]
+  Then [Estado resultante esperado]
 ```
 
 ---
 
-## Layer Placement (Structural Audit)
+## Posicionamento no Lattice
 
-> Define how this feature propagates through the **Lattice**.
+Como esta feature se distribui pelos estratos:
 
-| Layer | Component/Module | Responsibility |
-| --- | --- | --- |
-| `01_core` | `[DomainLogic]` | Pure business rules and validation |
-| `02_shell` | `[Controller/UI]` | Input translation and projection |
-| `03_infra` | `[Persistence/Service]` | Controlled side-effects (DB/API) |
-
----
-
-## Traceability & Dependencies
-
-* **Contract**: [[link-to-00_nucleo/contracts/interface.md]]
-* **ADR**: [[link-to-00_nucleo/adr/ADR-NNNN.md]]
-* **External Deps**: [List any third-party tools permitted in $L_3$ or $L_{lab}$]
+| Camada | Componente | Responsabilidade |
+|--------|------------|------------------|
+| `01_core` | `[NomeDaLógica]` | Regras puras de negócio |
+| `02_shell` | `[NomeDoController]` | Tradução de entrada e projeção de saída |
+| `03_infra` | `[NomeDoRepositório]` | Persistência e efeitos colaterais |
 
 ---
 
-## Notes
+## Rastreabilidade
 
-* [Edge cases, logic traps, or "Crystal-breaking" risks to avoid]
+- **Contrato**: [link para 00_nucleo/contracts/interface.md]
+- **ADR relacionado**: [link para 00_nucleo/adr/NNNN.md] (se aplicável)
+- **Dependências externas**: Listar ferramentas de terceiros permitidas em L₃
+
+---
+
+## Notas
+
+Casos de borda, armadilhas conhecidas, ou riscos estruturais a evitar.

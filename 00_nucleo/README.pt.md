@@ -1,59 +1,71 @@
-### 2. README.pt.md (Versão em Português)
-
 # /00_nucleo — A Semente
 
-> **A Fonte da Verdade.** Ponto zero da cristalização.
+> O registro causal do sistema. Todo código gerado por IA deve poder ser rastreado até um prompt aqui.
+
+---
 
 ## Propósito
 
-Este diretório contém o **material genético** do projeto: especificações, regras de negócio, decisões de arquitetura e contratos de interface.
+Este diretório contém os **prompts estruturados** que originaram cada componente do sistema, e os **ADRs** que documentam decisões que afetam múltiplos componentes ou a estrutura global.
+
+O prompt não descreve o código — ele é a origem do código. A interface que um componente implementa, a forma que ele tem, as restrições que respeita: tudo isso é consequência direta do prompt que o gerou.
+
+Um componente sem prompt correspondente em `00_nucleo` é estruturalmente ilegítimo — não porque falta documentação, mas porque sua origem é irrastreável. Não é possível reproduzir, auditar ou evoluir com consistência o que não tem origem registrada.
 
 ---
 
-## 💎 Formalismo Matemático ($\mathcal{L}_0$)
+## Trava de Nucleação
 
-Para garantir a integridade estrutural e minimizar a entropia, o Núcleo segue estas restrições formais:
+> **Sem prompt aqui → nenhum código pode ser gerado.**
 
-* **Axiomatização**: Seja $S$ o conjunto de Especificações $s \in \{specs, contracts, adr\}$.
-* **Invariante de Nucleação**: A existência de qualquer arquivo de implementação $c \in \{01, 02, 03, 04\}$ exige um mapeamento prévio para uma especificação .
-$$\forall c \in C, \exists s \in S : P(c, s)$$
+Antes de qualquer geração de código em `01_core`, `02_shell`, `03_infra` ou `04_wiring`, um prompt correspondente deve existir neste diretório.
 
-* **Propriedade do Ínfimo**: $00\_nucleo$ é o ínfimo do conjunto parcialmente ordenado de dependências $(X, \le)$. Nenhuma camada pode existir abaixo dela.
-* **Isomorfismo Estrutural**: A implementação deve ser uma representação isomórfica da estrutura definida nos contratos $s$.
+Quando um agente de IA recebe uma tarefa, sua primeira ação é verificar se existe um prompt em `00_nucleo/prompts/` para o componente em questão:
+- **Existe** → ler o prompt, usar como contexto, gerar ou modificar o código
+- **Não existe** → parar e solicitar ao desenvolvedor que o prompt seja criado primeiro
 
 ---
 
-## A Trava de Nucleação
-
-> [!CAUTION]
-> **Sem especificação aqui = Nenhum código pode ser escrito.**
-
-Antes de QUALQUER funcionalidade ser implementada de `01_core` até `04_wiring`, um documento correspondente DEVE existir neste diretório.
-
-## Estrutura de Diretórios
+## Estrutura
 
 ```
 00_nucleo/
-├── specs/           # Especificações do recurso
-├── contracts/       # Contratos e tipos de interface
-└── adr/             # Registros de decisões de arquitetura
+├── prompts/    # Um arquivo por componente ou feature
+└── adr/        # Decisões que afetam múltiplos prompts ou o lattice
 ```
 
-* **specs/**: Especificações de funcionalidades, regras de negócio e histórias de usuário.
-* **contracts/**: Contratos de interface, tipos TypeScript e schemas de API.
-* **adr/**: Registro de Decisões de Arquitetura (Formato: `NNNN-titulo-com-hifens.md`).
+**`prompts/`** — Cada arquivo é o prompt estruturado que gerou um componente. Inclui contexto, restrições, a instrução em si, o resultado esperado e o histórico de revisões.
+
+**`adr/`** — Registra decisões arquiteturais que transcendem um único componente: mudanças no lattice, adoção de nova tecnologia em L₃, redefinição de fronteiras entre estratos, alterações em restrições globais.
+
+---
+
+## O Prompt como Contrato
+
+O contrato de interface de um componente não é um documento separado — é o output do prompt que o gerou. O arquivo de interface em `01_core` gerado pelo prompt **é** o contrato. `00_nucleo` guarda a origem, não uma descrição prévia do resultado.
+
+Isso colapsa três artefatos que arquiteturas tradicionais mantêm separados — spec, contrato e código — em dois: prompt e código. A relação entre eles é causal e direta.
+
+---
+
+## Evolução
+
+Quando um componente precisa mudar, o prompt muda junto. A revisão é registrada no histórico do arquivo de prompt com data, motivo e arquivos afetados. O código modificado continua rastreável à sua origem.
+
+ADRs são criados apenas quando a mudança afeta decisões que transcendem o componente — não para cada modificação de código.
+
+---
 
 ## Regras
 
-1. **Leitura Prévia**: A IA deve ler este diretório antes de qualquer geração de código para alinhar-se ao "material genético".
-2. **Aprovação Humana**: Todas as especificações exigem validação manual para evitar requisitos "alucinados".
-3. **Rastreabilidade**: Cada arquivo de código deve rastrear até um documento específico neste diretório.
-4. **Imutabilidade**: Especificações aprovadas são imutáveis; mudanças exigem um novo ADR ($$\Delta s \iff \exists adr_{new}$$).
-
-## Links de Templates
-
-* [Template de ADR](./adr/template.md)
-* [Template de Spec](./specs/.template.md)
-* [Template de Contrato](./contracts/.template.md)
+1. **Sem código executável** — apenas prompts `.md` e ADRs.
+2. **Um prompt por componente** — granularidade suficiente para rastreabilidade, sem fragmentação excessiva.
+3. **Aprovação humana** — prompts requerem revisão antes de orientar geração.
+4. **Histórico obrigatório** — toda revisão de prompt registra data, motivo e arquivos afetados.
 
 ---
+
+## Templates
+
+- [Template de Prompt](./prompts/template.md)
+- [Template de ADR](./adr/template.md)

@@ -1,72 +1,73 @@
-### 2. README.pt.md (Versão em Português)
+# /04_wiring — A Fiação
 
-# /03_infra — A Fundação
+> O único ponto onde tudo se conecta.
 
-> **O Suporte do Cristal.** Efeitos colaterais controlados e persistência externa.
+---
 
 ## Propósito
 
-Este diretório contém **Adaptadores Secundários**: implementações das interfaces definidas no Core. Ele lida com o trabalho "sujo" de interagir com o mundo físico (Bancos de Dados, APIs Externas, Sistemas de Arquivos).
+Este estrato é a raiz de composição: o único lugar que conhece todos os estratos e os conecta. Aqui vivem o `main()`, a configuração de injeção de dependência e a inicialização do ambiente.
+
+A Fiação é o ponto de materialização total — onde as definições abstratas de `00_nucleo` encontram suas implementações concretas de `03_infra`.
 
 ---
 
-## 💎 Formalismo Matemático ($\mathcal{L}_3$)
+## Propriedade Fundamental
 
-Diferente do Core, a camada de Infraestrutura admite a existência de estado e efeitos colaterais, mas os sujeita à **Realização de Interface**:
-
-* **Realização de Efeito**: Seja $I \subset L_1$ um conjunto de interfaces abstratas. A Infraestrutura fornece um conjunto de implementações concretas $M$ tal que existe um morfismo de realização $r: M \to I$.
-* **Encapsulamento de Efeito**: Seja $\mathcal{E}$ o conjunto de efeitos colaterais. Embora $\text{SideEffects}(L_3) \neq \emptyset$, esses efeitos devem ser contidos nos limites da implementação, nunca vazando seus tipos internos para $L_1$.
-* **Inversão de Dependência**: $L_3$  depende de $L_1$ para saber *o que* implementar, mas $L_1$ nunca sabe *como* $L_3$ funciona.
-$$L_3 \implies L_1$$
+A Fiação tem lógica próxima de zero. Ela orquestra — não cria. Qualquer `if/else` relacionado a regras de negócio encontrado aqui é um defeito estrutural e pertence a `01_core`.
 
 ---
 
-## O Que Vive Aqui
+## O que pertence aqui
 
-* 🗄️ **Repositórios**: Implementações de banco de dados SQL/NoSQL.
-* ☁️ **Clientes Externos**: SDKs para AWS, Stripe, SendGrid, etc.
-* 📂 **Storage**: Drivers de sistema de arquivos.
-* 📡 **Gateways**: Wrappers para microserviços externos.
-
----
-
-## Regras de Dependência
-
-> [!IMPORTANT]
-> **PODE importar**: `01_core` (para implementar suas interfaces).
-> **NÃO PODE importar**: `02_shell`, `04_wiring`.
-
-* ✅ `03_infra`  `01_core` (Implementando Interfaces de Domínio)
-* ❌ `03_infra`  `02_shell` (Infraestrutura nunca conversa com a UI)
-
-## Protocolo de IA (Auditoria de Isomorfismo)
-
-1. **Aderência ao Contrato**: A IA deve verificar se cada classe em $L_3$ segue estritamente uma interface de $L_1$ ou $L_0$.
-2. **Apenas Implementação**: Esta camada deve conter a lógica de "como falar com a ferramenta", não a "lógica de negócio".
-3. **Tradução de Erros**: A IA deve mapear erros de infraestrutura (HTTP 500, SQL Timeout) para Erros de Domínio definidos em $L_1$.
+- Ponto de entrada da aplicação (`main()`, `index.ts`, `app.py`)
+- Configuração de injeção de dependência
+- Carregamento de variáveis de ambiente
+- Inicialização do servidor
 
 ---
 
-### Example
+## Regra de Dependência
+
+Este é o único estrato que pode importar de todas as camadas numeradas.
+
+- ✅ `04_wiring` → `00_nucleo`
+- ✅ `04_wiring` → `01_core`
+- ✅ `04_wiring` → `02_shell`
+- ✅ `04_wiring` → `03_infra`
+- ❌ `04_wiring` → `_lab`
+
+---
+
+## Exemplo
 
 ```typescript
 /**
  * Crystalline Lineage
- * @spec 00_nucleo/contracts/user-repository.md
+ * @spec 00_nucleo/specs/bootstrap-aplicacao.md
+ * @layer L4
  */
+import { IRepositorioUsuario } from '../01_core/domain/usuario';
+import { ControllerUsuario } from '../02_shell/api/controller-usuario';
+import { RepositorioUsuarioPostgres } from '../03_infra/database/repositorio-usuario-postgres';
 
-// ✅ CORRECT - Implements an interface from Core
-import { UserRepository } from '../../01_core/domain/interfaces';
-import { Database } from './db-client';
+// Injeção de dependência — o único lugar onde implementações são atribuídas a interfaces
+const repositorio: IRepositorioUsuario = new RepositorioUsuarioPostgres(config.database);
+const controller = new ControllerUsuario(repositorio);
 
-export class SqlUserRepository implements UserRepository {
-  // Logic restricted to data persistence
-  async save(user) {
-    return await Database.insert('users', user);
-  }
+export function main() {
+  const app = criarServidor();
+  app.use('/usuarios', controller.rotas);
+  app.listen(3000);
 }
 
-// ❌ WRONG - Business logic leaked into infra
-// if (user.age < 18) throw Error(); // THIS BELONGS IN 01_CORE!
-
+main();
 ```
+
+---
+
+## Protocolo para Agentes de IA
+
+- Não gerar lógica de negócio neste estrato
+- Verificar que implementações de `03_infra` satisfazem as interfaces exigidas por `02_shell` e definidas em `01_core`
+- Garantir que variáveis de ambiente obrigatórias são validadas no bootstrap

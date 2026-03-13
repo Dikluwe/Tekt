@@ -1,89 +1,73 @@
-### 2. README.pt.md (Versão em Português)
+# /04_wiring — A Fiação
 
-# /04_wiring — A Energia
+> O único ponto onde tudo se conecta.
 
-> **A Conexão.** Onde todas as partes se unem.
+---
 
 ## Propósito
 
-Este diretório é o **Composition Root**: o único lugar que conhece TODAS as camadas e as conecta. Contém o `main()`, configuração de injeção de dependência e setup de ambiente.
+Este estrato é a raiz de composição: o único lugar que conhece todos os estratos e os conecta. Aqui vivem o `main()`, a configuração de injeção de dependência e a inicialização do ambiente.
+
+A Fiação é o ponto de materialização total — onde as definições abstratas de `00_nucleo` encontram suas implementações concretas de `03_infra`.
 
 ---
 
-## 💎 Formalismo Matemático ($\mathcal{L}_4$)
+## Propriedade Fundamental
 
-No Padrão Cristalino, a camada de Wiring é o **Objeto Inicial** ($I$) da categoria de dependências:
-
-* **Mapeamento Universal**: Para cada camada $L_i \in \{L_0, L_1, L_2, L_3\}$, existe um morfismo único $L_4 \to L_i$.
-* **O Operador de Composição ($\circ$)**: $L_4$ é responsável pela composição de morfismos. Se $L_1$ define uma interface $f$ e $L_3$ fornece uma implementação $g$, o $L_4$ realiza a atribuição $f := g$.
-* **Restrição de Lógica Fina**: $L_4$ deve ter uma complexidade lógica próxima de zero ($O(1)$). Ele é um orquestrador, não um criador.
-$$\text{Lógica}(L_4) \to \min$$
+A Fiação tem lógica próxima de zero. Ela orquestra — não cria. Qualquer `if/else` relacionado a regras de negócio encontrado aqui é um defeito estrutural e pertence a `01_core`.
 
 ---
 
-## O Que Vive Aqui
+## O que pertence aqui
 
-* ⚡ **Entry Points**: `main()`, `index.ts`, ou `app.py`.
-* 💉 **Injeção de Dependência**: Configuração de containers e montagem manual.
-* ⚙️ **Configuração de Ambiente**: Carregadores de `.env` e objetos de config.
-* 🚀 **Lógica de Bootstrap**: Inicialização de servidores e da aplicação.
-
----
-
-## Regras de Dependência
-
-> [!NOTE]
-> Este é o ÚNICO diretório que pode importar de TODAS as camadas numeradas ($L_0$ a $L_3$).
-
-* ✅ `04_wiring`  `00_nucleo` (leitura de specs).
-* ✅ `04_wiring`  `01_core` (importação do domínio).
-* ✅ `04_wiring`  `02_shell` (importação de UI/API).
-* ✅ `04_wiring`  `03_infra` (importação de implementações).
-
-## Protocolo de IA (Auditoria de Isomorfismo)
-
-1. **Sem Lógica Oculta**: A IA não deve gerar regras de negócio nesta camada. Qualquer `if/else` de negócio pertence ao $L_1$.
-2. **Mapeamento de Implementação**: A IA deve verificar se as implementações do $L_3$ satisfazem corretamente as interfaces exigidas pela $L_2$ e definidas no $L_1$.
-3. **Segurança de Ambiente**: A IA deve garantir que todas as variáveis de ambiente necessárias sejam validadas durante o bootstrap.
+- Ponto de entrada da aplicação (`main()`, `index.ts`, `app.py`)
+- Configuração de injeção de dependência
+- Carregamento de variáveis de ambiente
+- Inicialização do servidor
 
 ---
 
+## Regra de Dependência
+
+Este é o único estrato que pode importar de todas as camadas numeradas.
+
+- ✅ `04_wiring` → `00_nucleo`
+- ✅ `04_wiring` → `01_core`
+- ✅ `04_wiring` → `02_shell`
+- ✅ `04_wiring` → `03_infra`
+- ❌ `04_wiring` → `_lab`
+
+---
+
+## Exemplo
+
+```typescript
 /**
- * Crystalline Lineage / Linhagem Cristalina
- * @spec 00_nucleo/specs/application-bootstrap.md
+ * Crystalline Lineage
+ * @spec 00_nucleo/specs/bootstrap-aplicacao.md
+ * @layer L4
  */
+import { IRepositorioUsuario } from '../01_core/domain/usuario';
+import { ControllerUsuario } from '../02_shell/api/controller-usuario';
+import { RepositorioUsuarioPostgres } from '../03_infra/database/repositorio-usuario-postgres';
 
-// Importar de TODAS as camadas
-import { IUserRepository } from '../01_core/domain/user';
-import { UserController } from '../02_shell/api/user-controller';
-import { PostgresUserRepository } from '../03_infra/database/postgres-user-repository';
+// Injeção de dependência — o único lugar onde implementações são atribuídas a interfaces
+const repositorio: IRepositorioUsuario = new RepositorioUsuarioPostgres(config.database);
+const controller = new ControllerUsuario(repositorio);
 
-// Configuração de ambiente
-const config = {
-  database: {
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT || '5432'),
-  },
-};
-
-// Injeção de Dependência (O Morfismo de Atribuição)
-const userRepository: IUserRepository = new PostgresUserRepository(config.database);
-const userController = new UserController(userRepository);
-
-// Inicialização
 export function main() {
-  const app = createServer();
-  app.use('/users', userController.routes);
+  const app = criarServidor();
+  app.use('/usuarios', controller.rotas);
   app.listen(3000);
 }
 
 main();
+```
 
 ---
 
-### Anti-Padrão
+## Protocolo para Agentes de IA
 
-> [!WARNING]
-> Código de wiring deve ser FINO. Se você está escrevendo lógica de negócio aqui, ela pertence ao `01_core`.
-
----
+- Não gerar lógica de negócio neste estrato
+- Verificar que implementações de `03_infra` satisfazem as interfaces exigidas por `02_shell` e definidas em `01_core`
+- Garantir que variáveis de ambiente obrigatórias são validadas no bootstrap
