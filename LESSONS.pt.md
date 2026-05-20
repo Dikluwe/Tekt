@@ -114,6 +114,21 @@ O laudo é **prospectivo**: escrito agora para ser lido por quem chegar depois. 
 
 ---
 
+## L6 — Geração isolada: combate ao vazamento de contexto
+
+**v1.3 assumia**: O mesmo agente pode gerar o código e os testes simultaneamente no mesmo ciclo a partir da especificação, sem viés estrutural ou de informação.
+
+**Descoberta empírica**: O mesmo agente gerando ambos sofre de **vazamento de contexto** (*context leakage*). O agente de IA gera testes enviesados pela implementação que ele próprio acabou de escrever, testando a "coincidência" e os atalhos de sua própria implementação e não a especificação estrita da Spec L₀ de forma agnóstica.
+
+**Forma candidata para v1.4**: Designar **dois agentes autônomos e isolados** para a fase de materialização:
+
+- **Agente A (Implementador)**: Recebe a Spec L₀ e gera exclusivamente o código nos estratos correspondentes.
+- **Agente B (Testador)**: Recebe exclusivamente a Spec L₀ e gera os testes independentemente, sem enxergar de forma alguma o código gerado pelo Agente A.
+
+O sucesso da clivagem é validado quando a união das materializações dos dois agentes compila e passa na suite de testes sob isolamento de caixa-preta.
+
+---
+
 ## Inversões secundárias — candidatas a Mecânica, não a Princípio
 
 As lições acima reformulam Tekt no nível de Princípios. Há também observações mais finas, candidatas a Mecânica auxiliar:
