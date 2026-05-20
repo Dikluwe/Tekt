@@ -272,5 +272,4 @@ The manifesto is the proposition. The experiments will tell if it holds.
 - **Hexagonal Architecture** — Alistair Cockburn, 2005
 - **Domain-Driven Design** — Eric Evans, 2003
 - **Functional Core, Imperative Shell** — Gary Bernhardt
-- **Ports and Adapters Pattern**
 - **Onion Architecture** — Jeffrey Palermo

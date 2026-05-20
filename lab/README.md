@@ -6,33 +6,35 @@
 
 ## Purpose
 
-This stratum exists for exploratory code, prototypes, and experiments that do not yet satisfy the main system's invariants. It is a deliberately isolated high-entropy space.
+This stratum plays two key roles in code science and system exploration:
+
+1. **The Arena (v1.3 Role)**: A high-entropy space for exploratory code, prototypes, and short-term disposable spikes that do not yet satisfy the main system's invariants.
+2. **The Workbench (v1.4 Role)**: A platform for controlled experiments involving hypotheses, controls, and measurements. It yields data and empirical evidence to support architectural decisions recorded in ADRs (e.g., measuring functional parity or performance comparison).
 
 ---
 
-## Rules
+## Rules and Cost Regimes (v1.4)
 
-**Inside the Arena:**
-- Code doesn't need full lineage
-- Purity and isolation rules are relaxed
-- Experiments can reference `00_nucleo` specs for guidance
-- No constraints on I/O or external dependencies
+Tekt v1.4 formalizes the **Lab regime** (low cost, high flexibility, and scientific focus) in contrast to the **System regime** (high cost, mandatory lineage, strict linting):
 
-**Outside the Arena:**
-- No main system stratum can import from `_lab`
-- Arena code is not directly promoted to the main system
+**Inside the Lab (`_lab/`):**
+- **Cheap code**: Free development without the burden of maintaining full lineage through every phase of experimentation.
+- **Optional prompt**: No rigid nucleation in L₀ is required for volatile experiments.
+- **Free hypotheses**: Purity and isolation rules are relaxed for quick prototyping.
+- **Mandatory measurement**: Required only when the experiment is used as architectural evidence within an ADR.
+
+**Outside the Lab:**
+- No main system stratum (`L₁` through `L₄`) can import from `_lab`.
 
 ---
 
-## Migration to Main System
+## The Promotion Act (Lab → System)
 
-For Arena code to migrate to `01_core`, `02_shell`, or `03_infra`, it must be **entirely rewritten** satisfying:
+Migrating a component from the Lab to the main system requires a formal **Promotion Act** (never a simple copy-paste):
 
-1. Traceable lineage to `00_nucleo`
-2. All dependency rules of the target stratum
-3. `@spec` header pointing to an existing document
-
-Copying and pasting from the Arena to the main system is a structural violation. Rewriting is mandatory.
+1. **Guided Rewrite**: The component is rewritten from scratch starting from a complete prompt in `00_nucleo/` (Nucleation).
+2. **Normalization**: Structural adaptation of the code to satisfy all invariants of the target stratum (`L₁` through `L₄`).
+3. **Lineage and Tests**: Inclusion of simultaneously generated tests and the mandatory `@prompt` lineage header.
 
 ---
 

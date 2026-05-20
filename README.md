@@ -289,6 +289,7 @@ Task received
 | Document | Description |
 |-----------|-----------|
 | [MANIFESTO.md](./MANIFESTO.md) | The proposition and the principles |
+| [LESSONS.md](./LESSONS.md) | Lessons learned for v1.4 |
 | [00_nucleo/README.md](./00_nucleo/README.md) | Prompts and ADRs |
 | [01_core/README.md](./01_core/README.md) | Pure logic |
 | [02_shell/README.md](./02_shell/README.md) | Primary adapters |

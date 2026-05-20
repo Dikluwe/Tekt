@@ -56,6 +56,7 @@ Every generated file in L₁–L₄ must begin with:
 
 - `README.md` — Complete architecture reference with dependency table and quick start
 - `MANIFESTO.md` — Problem statement, hypothesis, and evolution modes (Epitaxy, Nucleation, Metamorphism)
+- `LESSONS.md` — Lessons learned for v1.4 (living document of architectural discoveries)
 - `00_nucleo/prompt/template.md` — Template for creating new component prompts
 - `00_nucleo/adr/template.md` — Template for architectural decisions
 
