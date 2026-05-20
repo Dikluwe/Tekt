@@ -6,33 +6,35 @@
 
 ## Propósito
 
-Este estrato existe para código exploratório, protótipos e experimentos que ainda não satisfazem os invariantes do sistema principal. É um espaço de alta entropia deliberadamente isolado.
+Este estrato desempenha dois papéis fundamentais na ciência do código e na exploração do sistema:
+
+1. **A Arena (Papel v1.3)**: Espaço de alta entropia para código exploratório, protótipos e spikes descartáveis que ainda não satisfazem os invariantes do sistema principal.
+2. **A Bancada (Papel v1.4)**: Plataforma para experimentos controlados com hipótese, controle e medição. Produz dados e evidências empíricas para fundamentar decisões arquiteturais registradas em ADRs (ex.: medir paridade ou performance comparativa).
 
 ---
 
-## Regras
+## Regras e Regimes de Custo (v1.4)
 
-**Dentro da Arena:**
-- Código não precisa de linhagem completa
-- Regras de pureza e isolamento são relaxadas
-- Experimentos podem referenciar specs de `00_nucleo` para orientação
-- Nenhuma restrição de I/O ou dependências externas
+A Tekt v1.4 formaliza o **Regime do lab** (baixo custo, flexibilidade e foco científico) em oposição ao **Regime do sistema** (alto custo, linhagem obrigatória, linter estrito):
 
-**Fora da Arena:**
-- Nenhum estrato do sistema principal pode importar de `_lab`
-- Código da Arena não é promovido diretamente ao sistema principal
+**Dentro do Lab (`_lab/`):**
+- **Código barato**: Desenvolvimento livre, sem obrigatoriedade de linhagem completa em todas as etapas de desenvolvimento.
+- **Prompt opcional**: Não há necessidade de nucleação rígida em L₀ para experimentos voláteis.
+- **Hipóteses livres**: Relaxamento de regras de pureza e isolamento para prototipagem rápida.
+- **Medição obrigatória**: Apenas quando o experimento for utilizado como evidência para uma decisão arquitetural em ADR.
+
+**Fora do Lab:**
+- Nenhum estrato do sistema principal (`L₁` a `L₄`) pode importar de `_lab`.
 
 ---
 
-## Migração para o Sistema Principal
+## O Ato de Promoção (Lab → Sistema)
 
-Para que código da Arena migre para `01_core`, `02_shell` ou `03_infra`, ele deve ser **inteiramente reescrito** satisfazendo:
+A migração de um componente do Lab para o sistema principal requer um **Ato de Promoção** formal (e não mera cópia):
 
-1. Linhagem rastreável até `00_nucleo`
-2. Todas as regras de dependência do estrato de destino
-3. Cabeçalho `@spec` apontando para documento existente
-
-Copiar e colar da Arena para o sistema principal é uma violação estrutural. A reescrita é obrigatória.
+1. **Reescrita Orientada**: O componente é reescrito a partir de um prompt completo em `00_nucleo/` (Nucleação).
+2. **Normalização**: Adaptação estrutural do código para respeitar todos os invariantes do estrato de destino (`L₁` a `L₄`).
+3. **Linhagem e Testes**: Inclusão de testes gerados simultaneamente e do cabeçalho de linhagem obrigatório `@prompt`.
 
 ---
 

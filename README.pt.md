@@ -289,6 +289,7 @@ Tarefa recebida
 | Documento | Descrição |
 |-----------|-----------|
 | [MANIFESTO.pt.md](./MANIFESTO.pt.md) | A proposição e os princípios |
+| [LESSONS.pt.md](./LESSONS.pt.md) | Lições aprendidas para a v1.4 |
 | [00_nucleo/README.pt.md](./00_nucleo/README.pt.md) | Prompts e ADRs |
 | [01_core/README.pt.md](./01_core/README.pt.md) | Lógica pura |
 | [02_shell/README.pt.md](./02_shell/README.pt.md) | Adaptadores primários |

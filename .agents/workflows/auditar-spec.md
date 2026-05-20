@@ -4,9 +4,9 @@ description: Passo 2.5 da Refatoração Tekt - Auto-Revisão e Auditoria do L0
 
 # /auditar-spec
 
-Este comando obriga a IA a realizar uma **Auditoria Estrita** na Especificação L0 que acabou de ser gerada, garantindo que nenhum detalhe do código legado tenha sido perdido antes da clivagem.
+Este comando obriga a IA a realizar uma **Auditoria Estrita** na Especificação L0 que acabou de ser gerada, garantindo que nenhum detalhe do código legado tenha sido perdido e que os oráculos de teste e paridade estejam preparados antes da clivagem.
 
-## 👁 O Prompt de Auto-Revisão
+## 👁 O Prompt de Auto-Revisão (v1.4)
 
 Após a execução do `/gerar-spec`, envie:
 
@@ -15,6 +15,8 @@ Após a execução do `/gerar-spec`, envie:
 > 1. Você ignorou alguma tratativa de erro original? 
 > 2. Você esqueceu de mapear alguma variável de ambiente oculta, leitura de args, chamadas de sistema ou instâncias de I/O na lista de Colaterais (L3)? 
 > 3. A Lógica Pura (L1) elencada engloba 100% dos algoritmos subjacentes do arquivo velho?
+> 4. As bases do **Oráculo de Fidelidade** (L2) estão claras? Está definido como medir a paridade observacional com o sistema original (ex.: testes diferenciais ou de regressão contra a referência executável)?
+> 5. A seção para o **Laudo de Execução** (L5) prospectivo está pronta para ser preenchida após a clivagem?
 > 
 > Se encontrar QUALQUER omissão, reescreva/atualize o arquivo Markdown e os Contratos L0 agora cobrindo essa falha. 
 > Se você tiver certeza absoluta que o L0 mapeia toda a intenção do código legado sem perdas, responda apenas: 'Spec Auditada e Completa'."
