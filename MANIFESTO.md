@@ -159,7 +159,11 @@ The Core is the most stable structural phase of the system. The logic here exist
 
 ### L₂ — Shell
 
-Performs translation between external contexts and the Core: input validation, orchestration, format adaptation.
+Performs translation between external contexts and the Core in two directions: input (validation, orchestration, input format adaptation) and output (presentation of the Core's result on external channels — CLI, GUI, HTTP response, LSP messages, structured logs intended for human consumption).
+
+Presentation artifacts — user-visible text, colors, output formats — belong exclusively to this stratum. They must be externalized from orchestration logic: handlers, controllers, and resolvers reference a presentation catalog rather than encoding strings, colors, or formats directly into the execution flow.
+
+The catalog is L₂ data, not I/O. Operational rule: if the definition does not require runtime I/O, it lives in L₂. If it requires external loading (file, environment variable, remote fetch), the loading is L₃'s job, but the content remains L₂'s domain.
 
 Allowed dependencies: L₂ → L₁, L₂ → L₀. Direct coupling with L₃ is prohibited.
 

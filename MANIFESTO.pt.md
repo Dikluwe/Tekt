@@ -159,7 +159,11 @@ O Núcleo é a fase estrutural mais estável do sistema. A lógica aqui existe i
 
 ### L₂ — Casca
 
-Realiza a tradução entre contextos externos e o Núcleo: validação de entrada, orquestração, adaptação de formatos.
+Realiza a tradução entre contextos externos e o Núcleo em duas direções: entrada (validação, orquestração, adaptação de formato de input) e saída (apresentação do resultado do Núcleo em canais externos — CLI, GUI, resposta HTTP, mensagens LSP, logs estruturados destinados a consumo humano).
+
+Os artefatos de apresentação — textos visíveis ao usuário, cores, formatos de saída — pertencem exclusivamente a este estrato. Eles devem ser externalizados da lógica de orquestração: handlers, controllers e resolvers referenciam um catálogo de apresentação, não codificam strings, cores ou formatos diretamente no fluxo de execução.
+
+O catálogo é dado de L₂, não I/O. Regra operacional: se a definição não exige I/O em tempo de execução, mora em L₂. Se exigir carregamento externo (arquivo, variável de ambiente, fetch remoto), o carregamento é tarefa de L₃, mas o conteúdo permanece domínio de L₂.
 
 Dependências permitidas: L₂ → L₁, L₂ → L₀. Acoplamento direto com L₃ é proibido.
 
