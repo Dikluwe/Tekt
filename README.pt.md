@@ -1,6 +1,6 @@
-# Arquitetura Cristalina
+# Tekt	<sub>_Arquitetura Cristalina: Sabor Determinístico*._</sub> 
 
-<div align="center">
+A Tekt é um padrão arquitetural projetado para o desenvolvimento de software assistido por Inteligência Artificial (LLMs). Ela aplica uma física de restrições rígidas sobre o comportamento estatístico e probabilístico das IAs, garantindo a manutenibilidade, a linhagem do código e o controle de entropia.
 
 **Um framework estrutural para desenvolvimento sustentável com agentes de IA**
 
@@ -336,6 +336,12 @@ jobs:
 | `_lab` | — | — | Spikes / POCs |
 
 ---
+¨*¨ O que significa "Sabor Determinístico"?
+IAs operam em espaços vetoriais geométricos e probabilísticos — elas não são determinísticas. A Tekt não tenta forçar o determinismo no código gerado, mas sim na topologia do sistema.
+
+A IA tem liberdade criativa dentro das funções, mas é contida por barreiras estruturais invioláveis de diretórios, regras de acoplamento físico e fluxo unidirecional. O resultado é um ambiente de desenvolvimento flexível (IA), mas com o contorno, a firmeza e a previsibilidade de um software tradicional de engenharia estrita.
+<div align="center">
+
 
 ## Licença
 
