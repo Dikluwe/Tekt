@@ -1,4 +1,6 @@
-# Crystalline Architecture
+# Tekt <sub>_Crystalline Architecture: Deterministic-flavored*._</sub>
+
+Tekt is an architectural pattern designed for AI-assisted software development (LLMs). It applies a physics of rigid constraints over the statistical and probabilistic behavior of AIs, ensuring maintainability, code lineage, and entropy control.
 
 <div align="center">
 
@@ -334,6 +336,9 @@ jobs:
 | `03_infra` | Frameworks & Drivers | Secondary Adapters | Infrastructure |
 | `04_wiring` | Main | — | Composition Root |
 | `_lab` | — | — | Spikes / POCs |
+
+---
+\* **Note:** Since AI is probabilistic, determinism here is not a mathematical guarantee, but a containment topology. The system has only the "flavor" of determinism — the structure, predictability, and order — even though the essence of the generation remains stochastic.
 
 ---
 
