@@ -2,7 +2,7 @@
 
 **State**: ALIVE — grows in parallel with the steps of typst-crystalline.
 
-**Origin**: distillation of methodological inversions discovered during the refactoring of typst (typst-crystalline) based on the Tekt Manifesto v1.3.
+**Origin**: distillation of methodological inversions discovered during the refactoring of typst (typst-crystalline) based on the Tekt Manifesto v1.3. From L7 onwards, also from sibling projects (crystalline-lint, lente/tekt-cargo-dsm).
 
 **Function**: to gather, in pure form and independent of typst, lessons that should enter the Manifesto v1.4. Each entry is a candidate for a Principle, Mechanics, or Pattern.
 
@@ -127,6 +127,69 @@ The report is **prospective**: written now to be read by whoever comes later. It
 
 The success of the cleavage is validated when the union of both agents' materializations compiles and passes the test suite under black-box isolation.
 
+**Note (2026-07)**: the A/B protocol has an additional property discovered later — it is also a **spec-completeness oracle**. If Agent B cannot generate tests from L₀ alone, the prompt is underspecified. The nucleation lock gains an audit mechanism.
+
+---
+
+## L7 — Compression: the scarce resource is context, not code
+
+**v1.3 assumed**: the problem is amorphous growth; structure is the answer. Structure appears as an end — preserved because it is the invariant.
+
+**Empirical discovery**: in three independent projects (typst-crystalline, crystalline-lint, lente), structure revealed itself as a means to a more precise end: making the right context fit the agent's decision. The lente distills the sentence the Manifesto lacks: *compress the program into a form that fits the decision*. The prompt is the loadable unit addressed by component; the minimum report is compression of the execution; the ADR is compression of the decision; the DSM is compression of form; step granularity (M1) is compression of work.
+
+**Candidate form for v1.4**: the **Compression** (or Addressing) principle — the lattice is a context-addressing scheme for statistical agents. Structure exists so that, at each decision, exactly the relevant context is loadable — no more, no less. M1, L5, and agent readability derive from this principle; they do not precede it.
+
+**Living evidence**: lente README ("compress the program into a form that fits the decision"; "For AI agents" section — JSON as compressed, verifiable context); minimum report hypothesis (L5). External corroboration: ICM (arXiv:2603.16021) applies the same principle to runtime context delivery, with per-layer token budgets.
+
+---
+
+## L8 — Verification stack: four layers, four failure classes
+
+**v1.3 said**: two verifiers — the linter (structure) and the human (fidelity). L2 introduced the executable oracle in brownfield; the complete verification architecture remained unformalized.
+
+**Empirical discovery**: actual verification operates in four layers with distinct costs and cadences, each catching a failure class the others miss:
+
+| Layer | What it verifies | Failure class | Cadence |
+|-------|------------------|---------------|---------|
+| lint | legal form | structural violation | continuous (CI) |
+| tests | declared spec | divergence from prompt | per nucleation |
+| oracle | fidelity to substrate | divergence from original | per milestone |
+| human | judgment | what none of the three reach | per ADR |
+
+And the oracle has two habitats that practice used without distinguishing: the **legacy substrate** (the entire original system, read-only) and the **oracle corpus** (curated, minimal fixtures for differential measurement).
+
+**Candidate form for v1.4**: explicitly declare the stack, with cadence and failure class per layer. The executable oracle becomes a lattice citizen — not a brownfield addendum — with both habitats named: **legacy substrate** (L₂₀) and **oracle corpus** (lab/ or fixtures).
+
+**Living evidence**: `lab/parity/` (typst-crystalline); `oraculo/biteproof/` and fixtures v01–v14 (crystalline-lint); `init-legado.md` workflow (read-only L₂₀).
+
+---
+
+## L9 — Fine gravity: the total order within strata
+
+**v1.3 said**: gravity between strata (L₄ → L₀). About intra-stratum dependencies, silence.
+
+**Empirical discovery**: practice numbered slices within L1 — the lente has `05_investiga`, `06_resolve`, `07_filtro`, `08_ranking`, `09_estrutura`, all L1, with gravity among them (investiga → resolve). Strata are coarse equivalence classes of a finer stability order. And intra-layer cycles emerge when semantics requires iteration: typst's eval↔layout introspection would be a cycle between phases if the `engine` container did not own the loop.
+
+**Candidate form for v1.4**: **fine gravity** — directory numbering expresses stability order also within the stratum, verifiable by upper-triangular DSM. Intra-stratum vocabulary:
+
+- **phase** — unit of transformation (parse, eval, layout)
+- **container** — module that owns its children's orchestration and transforms nothing; **cycle-breaker**: the parent iterates so that children need not import each other
+- **facade** — the container seen from outside: a single name for the closure, entry point for consumers
+
+**Living evidence**: lente structure (`01_core` + `05`–`09`, all L1); engine/export separation in typst-crystalline (the container as closure of the introspection fixpoint).
+
+---
+
+## L10 — Vocabulary drift: three concepts, three resolutions, no name
+
+**v1.3 assumed**: the lattice vocabulary (L₀–L₄, lab) suffices to name what practice encounters.
+
+**Empirical discovery**: each project resolved unnamed concepts its own way: reports ("L5" in the lente README vs. `00_nucleo/lessons/` in practice), oracle (`lab/typst-original/` vs. the workflows' L₂₀ vs. the linter's `oraculo/`), intra-layer structure (engine phases in typst vs. numbered slices in the lente). Three projects, three independent resolutions — a vocabulary-gap pattern, not indiscipline. An unnamed concept gets resolved locally, and each resolution diverges.
+
+**Candidate form for v1.4**: vocabulary consolidation — (a) L₀ has **three artifact classes by causal position**: prompt (ex-ante), report (ex-post), ADR (transversal); the "L5" label dies; (b) legacy substrate ≠ oracle corpus (see L8); (c) phase/container/facade as intra-stratum grammar (see L9).
+
+**Living evidence**: lente README ("L5 reports" vs. reports in `00_nucleo/lessons/`); Tekt CLAUDE.md (`init-legado` → L₂₀); crystalline-lint structure (`oraculo/` at repo root).
+
 ---
 
 ## Secondary inversions — candidates for Mechanics, not Principle
@@ -155,6 +218,16 @@ v1.4 needs to formalize this lifecycle.
 
 Some architectural decisions are not about layers, but about **phases within a layer** — mutable reading during walk vs. immutable reading post-walk, trackable sub-stores, sealing points. v1.4 can catalog patterns of "distinct phases within the same stratum" without promoting them to new strata.
 
+**Note (2026-07)**: M4 gained vocabulary in L9 (phase / container / facade) and mechanism (fine gravity). The migration to v1.4 should merge the two entries.
+
+### M5 — Typed steps
+
+M1 asked for the division law; M2 observed diagnostic-first. The mature form: **the step has a type**. Diagnostic, archeology, nucleation, reconciliation, and epitaxy have different minimum reports and different verifications. The division law M1 asked for emerges from type: divide when the type changes, consolidate when the type repeats. Each type declares its minimum report and its verification — diagnostic verifies by inventory, nucleation by tests, reconciliation by isomorphism, epitaxy by diff containment.
+
+### M6 — Onomastic drift
+
+In brownfield, the agent renames during regeneration (tacit name "improvements"), cutting the join key with the oracle: coverage starts marking false-absent where a port exists, and phantom-new where a rename exists. Candidate rule: **in brownfield, names are inheritance, not decision** — the substrate's name is the default; any other name is a divergence and requires an ADR. Reconciliation mechanics: resolved inventory by graph (not text), structural matching (seed of exact matches + propagation by edge neighborhood), and rename verification by graph isomorphism modulo renamed ids. Evidence: ongoing name corrections in typst-crystalline; lente/tekt-cargo-dsm as the inventory and verification instrument.
+
 ---
 
 ## Room to grow
@@ -172,3 +245,6 @@ When an entry matures enough, it migrates to the next Manifesto. The document em
 - Diagnostic-first — series P154A, P156B, P185A, P192A, P200A, P204A, P205A
 - ADR lifecycle — ADR-0066 (superseded), ADR-0073 (retroactive acceptance), ADR-0074 (final acceptance)
 - Observational parity — `lab/parity/`, consolidated report P206D
+- Fine gravity and container — lente README (L1 slices `05`–`09`); engine/export separation (typst-crystalline)
+- Verification stack — `oraculo/biteproof/` and fixtures v01–v14 (crystalline-lint); `init-legado.md` workflow (L₂₀)
+- Onomastic drift — name corrections in typst-crystalline; reconciliation map (to be produced with lente)
