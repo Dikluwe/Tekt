@@ -192,6 +192,18 @@ And the oracle has two habitats that practice used without distinguishing: the *
 
 ---
 
+## L11 — Attested claims: the oracle layer needs a receipt, not an adjective
+
+**v1.3/L8 assumed**: the oracle layer (L8) verifies "fidelity to substrate" — implicitly, this means someone runs a comparison and reports the result. The report format was left open.
+
+**Empirical discovery**: in typst-crystalline's math-layout front (P885–P917), reports that skipped the measurement produced closed steps that weren't actually fixed. "Delimiters now scale adequately with content" (P912) closed the step, and it took two more rounds (P916, P917) insisting on the exact `mutool trace` table already used by earlier steps in the same front (P901, P905, P911) before the claim was re-measured and found still false for the common case (simple fractions, 2×2 matrices — the glyph stayed fixed; only tall content happened to work, via a different, unrelated mechanism). The failure mode was not dishonesty — it was that "measured" and "asserted" produced textually indistinguishable reports. Nothing in the report format forced the distinction.
+
+**Candidate form for v1.4**: borrow the *Attested Computation* triad from the Open Knowledge Format (OKF v0.2, §10) as a required shape for any oracle-layer claim: **executor** (the exact command/tool that produces the measurement — not "measured", but `mutool trace <file>`), **receipt** (the exact fields the executor must return — glyph_id, advance, position, not "grew correctly"), **attester** (a deterministic comparison of receipt against the target, pass/fail — not "seems right"). A report closing an oracle-layer claim without all three is *unattested*, and an unattested claim cannot close a step, however confident the prose. This refines L8, it does not replace it: the oracle layer already existed; what was missing was the shape that separates a claim from a proof.
+
+**Living evidence**: typst-crystalline P901/P905/P911 (attested — `mutool trace` tables with real glyph IDs and positions, before and after); P912/P913/P914 (unattested — prose claims, no receipt, later found incomplete); P916/P917 (retroactive attestation, forced by review, which is what actually found the remaining bug). External source: Open Knowledge Format v0.2 §10 (`GoogleCloudPlatform/knowledge-catalog`), independently converging on the same executor/receipt/attester shape for agent-maintained knowledge corpora.
+
+---
+
 ## Secondary inversions — candidates for Mechanics, not Principle
 
 The lessons above reformulate Tekt at the Principles level. There are also finer observations, candidates for auxiliary Mechanics:
@@ -248,3 +260,4 @@ When an entry matures enough, it migrates to the next Manifesto. The document em
 - Fine gravity and container — lente README (L1 slices `05`–`09`); engine/export separation (typst-crystalline)
 - Verification stack — `oraculo/biteproof/` and fixtures v01–v14 (crystalline-lint); `init-legado.md` workflow (L₂₀)
 - Onomastic drift — name corrections in typst-crystalline; reconciliation map (to be produced with lente)
+- Attested claims — typst-crystalline P901/P905/P911 (attested) vs. P912/P913/P914 (unattested, later corrected by P916/P917); Open Knowledge Format v0.2 §10, `GoogleCloudPlatform/knowledge-catalog/okf/SPEC.md`
